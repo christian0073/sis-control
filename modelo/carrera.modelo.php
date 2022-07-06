@@ -23,7 +23,9 @@
 		}
 		/* metodo que muestra todas las carreras registradas */
 		public function mdlMostrarCarreras(){
-			$sql = "SELECT * FROM carreras ORDER BY nombreCarrera ASC";
+			$sql = "SELECT carreras.* FROM carreras 
+					INNER JOIN plan_lectivo ON idPlanCarrera = idPlan WHERE estadoPlan = TRUE 
+					ORDER BY nombreCarrera ASC";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;	
 		}
@@ -83,7 +85,8 @@
 		public function mdlMostrarCarrerasLocalActivo($idLocal){
 			$sql = "SELECT local_carrera.*, nombreCarrera FROM local_carrera
 				INNER JOIN carreras ON local_carrera.idCarrera = carreras.idCarrera
-				WHERE local_carrera.idLocal = $idLocal AND estado  = TRUE";
+                INNER JOIN plan_lectivo ON idPlanCarrera = idPlan
+				WHERE local_carrera.idLocal = $idLocal AND local_carrera.estado  = TRUE AND plan_lectivo.estadoPlan = TRUE";
 			$respuesta = $this->consulta->selectAll($sql);
 			return $respuesta;
 		}

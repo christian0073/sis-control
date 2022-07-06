@@ -1,5 +1,6 @@
 <?php 
-  //$periodoActivo = ControladorPeriodo::ctrMostrarPeriodoActivo();
+  $periodoActivo = ControladorPeriodo::ctrMostrarPeriodoActivo();
+  $planLectivo = ControladorPlan::ctrVerPlanACtivo();
  ?>
 <head>
   <meta charset="utf-8">
@@ -33,6 +34,9 @@
     <li class="nav-item d-none d-sm-inline-block">
       <a href="index3.html" class="nav-link"></a>
     </li>
+    <li class="nav-item d-none d-sm-inline-block">
+      <a href="index3.html" class="nav-link"><?php echo $periodoActivo['nombrePeriodo'] ." / ".$planLectivo['nombrePlan']; ?></a>
+    </li>    
     <li class="nav-item d-none d-sm-inline-block">
       <a href="index3.html" class="nav-link">INSTITUTO FIBONACCI</a>
     </li>

@@ -23,6 +23,6 @@
 	} 
 	/* condición par elimar un local */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'eliminarLocal') {
-		$respuesta = ControladorLocal::ctrEditarLocalCampo('estado', FALSE, $_POST['idLocal']);
+		$respuesta = ControladorLocal::ctrEditarLocalCampo('estadoLocal', FALSE, $_POST['idLocal']);
 		echo $respuesta;	
 	}

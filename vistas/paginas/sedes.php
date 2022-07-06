@@ -190,7 +190,7 @@
       <form method="POST" id="formCarrera">
         <!-- Modal Header -->
         <div class="modal-header bg-light">
-          <h4 class="modal-title" id="titulo-carrera"></h4>
+          <h4 class="modal-title"><?php echo $periodoActivo['nombrePeriodo'] ." / ".$planLectivo['nombrePlan']; ?></h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->

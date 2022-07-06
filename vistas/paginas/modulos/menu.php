@@ -62,26 +62,26 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="aulas" class="nav-link">
+                <a href="secciones" class="nav-link">
                   <i class="fa-solid fa-chalkboard-user nav-icon"></i>
-                  <p>Aulas</p>
+                  <p>Secciones</p>
                 </a>
               </li>
             </ul>
           </li>       
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" id="registrar" class="nav-link">
               <i class="nav-icon fa-solid fa-user-gear"></i>
               <p>
-                Usuarios
+                Personal
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
+                <a href="registrar" class="nav-link">
+                  <i class="fa-solid fa-user-plus nav-icon"></i>
+                  <p>Registrar</p>
                 </a>
               </li>
               <li class="nav-item">
