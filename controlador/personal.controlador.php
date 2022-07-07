@@ -22,11 +22,12 @@
 				$nombresPersona = trim($_POST['txtNombres']);
 				$idCargoPersonal = intval($_POST['cmbCargoPersonal']);
 				$fechaIngresoPersonal = $_POST['txtFechaIngreso'];
-				if (preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/", $apellidoPaterno) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $apellidoMaterno) &&
+				$profesion = trim($_POST['txtProfesion']);
+				if (preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚÜ' ]+$/", $apellidoPaterno) && preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚÜ' ]+$/", $apellidoMaterno) &&
 					preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚÜ' ]+$/", $nombresPersona) && preg_match('/^[0-9]+$/', $dniUsuario) &&
-					(preg_match('/^[\/\=\\;\\_\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\$\\|\\-\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST['txtDireccionPersonal']) || empty($_POST['txtDireccionPersonal'])) &&
-					(preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)[.][a-zA-Z]{2,4}$/', $_POST['txtCorreoPersonal']) || empty($_POST['txtCorreoPersonal'])) &&
-					validarFecha($fechaIngresoPersonal)
+					(preg_match('/^[\'\/\=\\;\\_\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\$\\|\\-\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST['txtDireccionPersonal']) || empty($_POST['txtDireccionPersonal'])) &&
+					(preg_match("/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/", $_POST['txtCorreoPersonal']) || empty($_POST['txtCorreoPersonal'])) &&
+					validarFecha($fechaIngresoPersonal) && (preg_match("/^[\/\.\\,\\-\\a-zA-ZñÑáéíóúÁÉÍÓÚ' ]+$/", $profesion) || empty($profesion))
 				) {
 					$arrCel = [];
 					for ($i=1; $i <5 ; $i++) { 
@@ -38,7 +39,7 @@
 					$idPersona = $modeloPersona->mdlRegistrarPersona($dniUsuario, $nombresPersona, $apellidoPaterno, $apellidoMaterno);
 					if ($idPersona > 0) {
 						$modeloUsuario = new ModeloPersonal();
-						$respuesta = $modeloUsuario->mdlRegistrarPersonal($idPersona, $idCargoPersonal, $_POST['txtCorreoPersonal'], json_encode($arrCel), $_POST['txtDireccionPersonal'], $fechaIngresoPersonal);
+						$respuesta = $modeloUsuario->mdlRegistrarPersonal($idPersona, $idCargoPersonal, $profesion, $_POST['txtCorreoPersonal'], json_encode($arrCel), $_POST['txtDireccionPersonal'], $fechaIngresoPersonal);
 						if ($respuesta > 0) {
 							return 'ok';
 						}
@@ -51,13 +52,13 @@
 			}
 		}
 
-		static public function ctrMostrarPersonal(){
+		static public function ctrMostrarPersonales(){
 			$ModeloPersonal = new ModeloPersonal();
 			$personal = '';
 			if (isset($_POST['idCargo']) && !empty($_POST['idCargo'])) {
-				$personal = $ModeloPersonal->mdlMostrarPersonal($_POST['idCargo']);
+				$personal = $ModeloPersonal->mdlMostrarPersonales($_POST['idCargo']);
 			}else{
-				$personal = $ModeloPersonal->mdlMostrarPersonal('');
+				$personal = $ModeloPersonal->mdlMostrarPersonales('');
 			}
 			if (count($personal) == 0) {
 				$datosJson = '{"data":[]}';
@@ -67,32 +68,38 @@
 				$datosJson = '{
 				"data":[';
 				foreach ($personal as $key => $value) {
-					$datoUsuario = $value['apellidoPaternoPersona'].' '.$value['apellidoMaternoPersona'].', '.$value['nombresPersona'];
+					$datoPersonal = $value['apellidoPaternoPersona'].' '.$value['apellidoMaternoPersona'].', '.$value['nombresPersona'];
 					$acciones = "<div class='btn-group'>";
 					if ($value['estadoPersonal'] == 1) {
-						$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datoUsuario."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEditarPersonal'><i class='fa-solid fa-user-pen'></i></button></div>"; 
+						$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEditarPersonal'><i class='fa-solid fa-user-pen'></i></button><a href='persona?idPersonal=".$value['idPersonal']."' class='btn btn-info btn-sm btnVerPersonal' title='Ver datos de  ".$datoPersonal."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-eye'></i></a></div>"; 
 					}else{
-						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5>"; 
+						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}
 					$turno = '';
-					$celularUsuario = '';
+					$celularPersonal = '';
 					$celulares = '';
-					if ($value['celularUsuario'] != '[]' ) {
-						$celularUsuario = json_decode($value['celularUsuario'], true);
-						for ($i=0; $i < count($celularUsuario) ; $i++) { 
-							$celulares .= $celularUsuario[$i].', ';
+					$fechaCese = $value['fechaSalidaPersonal'];
+					if ($value['celularPersonal'] != '[]' ) {
+						$celularPersonal = json_decode($value['celularPersonal'], true);
+						for ($i=0; $i < count($celularPersonal) ; $i++) { 
+							$celulares .= $celularPersonal[$i].', ';
 						}
 						$celulares = substr($celulares, 0, -2);		
 					}
+					if (empty($fechaCese)) {
+						$fechaCese = "<h5><span class='badge badge-info'>Vigente</span></h5>";
+					}
 					$datosJson .='[
 							"'.($key+1).'",
-							"'.$value['nombreSede'].'",
-							"'.$datoUsuario.'",
+							"'.$value['nombreCargo'].'",
+							"'.$datoPersonal.'",
 							"'.$value['dniPersona'].'",
-							"'.$value['nombreUsuario'].'",
-							"'.$value['nombreRol'].'",
+							"'.$value['profesionPersonal'].'",
+							"'.$value['correoPersonal'].'",
 							"'.$celulares.'",
-							"'.$estado.'",
+							"'.$value['direccionPersonal'].'",
+							"'.$value['fechaIngresoPersonal'].'",
+							"'.$fechaCese.'",
 							"'.$acciones.'"
 					],';
 				}
@@ -101,3 +108,42 @@
 				return $datosJson;
 		}
 	}
+	static public function ctrMostrarPersonalId($idPersonal){
+		$item = 'idPersonal';
+		$ModeloPersonal = new ModeloPersonal();
+		$respuesta = $ModeloPersonal->mdlMostrarPersonalCampo($item, $idPersonal);
+		$respuesta['celularPersonal'] = json_decode($respuesta['celularPersonal']);
+		return $respuesta;
+	}
+	/* metodo para editar los datos de un personal */
+	static public function ctrEditarPersonal(){
+		if (isset($_POST['idPersonal']) && !empty($_POST['idPersonal']) &&
+			isset($_POST['cmbCargoPersonalEditar']) && !empty($_POST['cmbCargoPersonalEditar']) &&
+			isset($_POST['txtFechaIngresoEditar']) && !empty($_POST['txtFechaIngresoEditar'])
+		) {
+			$idPersonal = intval($_POST['idPersonal']);
+			$idCargoPersonal = intval($_POST['cmbCargoPersonalEditar']);
+			$fechaIngresoPersonal = $_POST['txtFechaIngresoEditar'];
+			$profesion = trim($_POST['txtProfesionEditar']);
+			if ((preg_match('/^[\'\/\=\\;\\_\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\$\\|\\-\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST['txtDireccionPersonalEditar']) || empty($_POST['txtDireccionPersonalEditar']))
+				&& validarFecha($fechaIngresoPersonal) && (preg_match("/^[\/\.\\,\\-\\a-zA-ZñÑáéíóúÁÉÍÓÚ' ]+$/", $profesion) || empty($profesion)) &&
+				(preg_match("/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/", $_POST['txtCorreoPersonalEditar']) || empty($_POST['txtCorreoPersonalEditar']))
+			) {
+				$arrCel = [];
+				for ($i=1; $i <5 ; $i++) { 
+					if (isset($_POST['txtCelularEdit'.$i]) && !empty($_POST['txtCelularEdit'.$i])) {
+						array_push($arrCel, $_POST['txtCelularEdit'.$i]);
+					}
+				}
+				$modeloPersonal = new ModeloPersonal();
+				$respuesta = $modeloPersonal->mdlEditarPersonal($idPersonal, $idCargoPersonal, $profesion, $_POST['txtCorreoPersonalEditar'], json_encode($arrCel), $_POST['txtDireccionPersonalEditar'], $fechaIngresoPersonal);
+				if ($respuesta) {
+					return 'ok';
+				}
+				return $respuesta;
+			}else{
+				return 'no';
+			}
+		}
+	}
+}

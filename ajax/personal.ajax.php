@@ -31,4 +31,19 @@
 		$respuesta = ControladorPersonal::ctrRegistrarPersonal();
 		echo $respuesta;
 	}
+
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarPersonales') {
+		$respuesta = ControladorPersonal::ctrMostrarPersonales();
+		echo $respuesta;
+	}
+	/* condición para mostrar datos de un personal*/
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarPersonal'){
+		$respuesta = ControladorPersonal::ctrMostrarPersonalId($_POST['idPersonal']);
+		echo json_encode($respuesta);
+	}
+	/* condición para editar los datos de una persona */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarPersonal') {
+		$respuesta = ControladorPersonal::ctrEditarPersonal();
+		echo $respuesta;	
+	}
 ?>
