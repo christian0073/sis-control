@@ -146,4 +146,27 @@
 			}
 		}
 	}
+	/* metodo para editar los detalles de un personal */
+	static public function ctrEditarDetallesPersonal(){
+		if (isset($_POST['idPersonal']) && !empty($_POST['idPersonal']) &&
+			isset($_POST['txtBancoPersonal']) && !empty($_POST['txtBancoPersonal']) &&
+			isset($_POST['txtNumCuenta']) && !empty($_POST['txtNumCuenta']) &&
+			isset($_POST['cmbTipoPago']) && !empty($_POST['cmbTipoPago']) &&
+			isset($_POST['txtMontoPersonal']) && !empty($_POST['txtMontoPersonal'])
+		) {
+			$idPersonal = intval($_POST['idPersonal']);
+			$bancoPersonal = trim($_POST['txtBancoPersonal']);
+			$numCuenta = trim($_POST['txtNumCuenta']);
+			$tipoPago = trim($_POST['cmbTipoPago']);
+			$monto = trim($_POST['txtMontoPersonal']);
+			$modeloPersonal = new ModeloPersonal();
+			$respuesta = $modeloPersonal->mdlEditarDetallesPersonal($idPersonal, $bancoPersonal, $numCuenta, $tipoPago, $monto);
+			if ($respuesta) {
+				return 'ok';
+			}
+			return $respuesta;
+		}else{
+			return 'no';
+		}
+	}
 }

@@ -96,4 +96,16 @@
 			$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
 		}
+		public function mdlMostrarCiclo($idLocalAula){
+			$sql = "SELECT cicloSeccion FROM seccion WHERE idSeccionLocal = $idLocalAula GROUP BY cicloSeccion ORDER BY cicloSeccion ASC;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;				
+		}
+		public function mdlMostrarSecciones($idLocalAula, $idCiclo){
+			$sql = "SELECT * FROM seccion
+				INNER JOIN local_carrera ON idSeccionLocal = idLocalCarrera
+				WHERE idSeccionLocal = $idLocalAula AND cicloSeccion = $idCiclo ORDER BY nombreSeccion ASC";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;					
+		}
 	}

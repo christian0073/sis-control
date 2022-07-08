@@ -22,4 +22,25 @@
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;	
 		}
+		public function mdlEditarCampoCursoSeccion($idCursoSeccion, $item, $valor){
+			$sql = "UPDATE horario_curso  SET  idPersonalHor = ?
+					WHERE idHorarioCurso = $idCursoSeccion";
+			$arrData = array($valor); 
+			$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;
+		}
+		public function mdlMostrarCurosDocente($idPeriodoLectivo, $idPersonal){
+			$consulta = '';
+			if (!empty($idPeriodoLectivo)) {
+				$consulta = "WHERE personal.idCargo = $idCargo";
+			}
+			$sql = "SELECT horario_curso.*, cursos.nombreCurso, cursos.codigo, cursos.creditosCurso, carreras.nombreCarrera, seccion.nombreSeccion, seccion.turno, seccion.cicloSeccion FROM horario_curso 
+				INNER JOIN cursos ON horario_curso.idCursoHor = cursos.idCurso
+				INNER JOIN carreras ON cursos.idCarreraCurso = carreras.idCarrera
+				INNER JOIN seccion ON idSeccionHor = idSeccion
+				INNER JOIN periodos ON seccion.idPeriodoSeccion = periodos.idPeriodo
+				WHERE horario_curso.idPersonalHor= $idPersonal AND periodos.estadoPeriodo= TRUE ORDER BY nombreSeccion ASC;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
 	}

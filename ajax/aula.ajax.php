@@ -25,3 +25,11 @@
 		$respuesta = ControladorAula::ctrEditarAulaCampo("estado", 0, $_POST['idAula']);
 		echo $respuesta;
 	}	
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarCiclos') {
+		$respuesta = ControladorAula::ctrMostrarCiclo($_POST['idLocalCarrera']);
+		echo json_encode($respuesta);
+	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarSecciones') {
+		$respuesta = ControladorAula::ctrMostrarSecciones($_POST['idLocalCarrera'], $_POST['idCiclo']);
+		echo json_encode($respuesta);
+	}

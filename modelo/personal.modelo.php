@@ -9,6 +9,10 @@
 		private $direccionPersonal;
 		private $fechaIngresoPersonal;
 		private $fechaSalidaPersonal;
+		private $bancoPersonal;
+		private $cuentaPersonal;
+		private $tipoPago;
+		private $montoPago;
 		/* constructor para realizar las consultas */
 		public function __construct(){
 			$this->consulta = new Consultas();
@@ -69,6 +73,18 @@
 			$arrData = array($this->idCargoPersonal, $this->profesion, $this->correoPersonal, $this->celularPersonal, $this->direccionPersonal, $this->fechaIngresoPersonal); 
 			$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
-
+		}
+		/* consulta para editar los datos de pago de una persona */
+		public function mdlEditarDetallesPersonal($idPersonal, $bancoPersonal, $numCuenta, $tipoPago, $monto){
+			$this->idPersonal = $idPersonal;
+			$this->bancoPersonal = $bancoPersonal;
+			$this->cuentaPersonal = $numCuenta;
+			$this->tipoPago = $tipoPago;
+			$this->montoPago = $monto;
+			$sql = "UPDATE personal  SET  bancoPersonal = ?, numCuentaPersonal = ?, tipoPago = ?, montoPago = ?
+					WHERE idPersonal = $this->idPersonal";
+			$arrData = array($this->bancoPersonal, $this->cuentaPersonal, $this->tipoPago, $this->montoPago); 
+			$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;
 		}
 	}

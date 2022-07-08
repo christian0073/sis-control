@@ -16,6 +16,9 @@
 
 	require_once "controlador/cargo.controlador.php";
 	require_once "modelo/cargo.modelo.php";
+
+	require_once "controlador/personal.controlador.php";
+	require_once "modelo/personal.modelo.php";
 	
 	$plantilla = new ControladorPlantilla();
 	$plantilla->ctrPlantilla();

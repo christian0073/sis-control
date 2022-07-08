@@ -90,4 +90,14 @@
 				return 'error';
 			}
 		}
+		static public function ctrMostrarCiclo($idLocalAula){
+			$modeloAula = new ModeloAula();
+			$respuesta = $modeloAula->mdlMostrarCiclo($idLocalAula);
+			return $respuesta;				
+		}
+		static public function ctrMostrarSecciones($idLocalAula, $idCiclo){
+			$modeloAula = new ModeloAula();
+			$respuesta = $modeloAula->mdlMostrarSecciones($idLocalAula, $idCiclo);
+			return $respuesta;				
+		}
 	}

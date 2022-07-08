@@ -22,7 +22,6 @@
 				}
 			}
 		}
-		
 		echo json_encode($respuesta);
 	}
 
@@ -45,5 +44,10 @@
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarPersonal') {
 		$respuesta = ControladorPersonal::ctrEditarPersonal();
 		echo $respuesta;	
+	}
+	/* condición para editar los detalles de pago de un personal */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarDetalles') {
+		$respuesta = ControladorPersonal::ctrEditarDetallesPersonal();
+		echo $respuesta;
 	}
 ?>

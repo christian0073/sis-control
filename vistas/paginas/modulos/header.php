@@ -16,6 +16,8 @@
   <!-- DataTable -->
   <link rel="stylesheet" href="vistas/css/plugins/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="vistas/css/plugins/responsive.bootstrap4.min.css">
+    <!-- icheck-bootstrap -->
+  <link rel="stylesheet" href="vistas/css/plugins/icheck-bootstrap.min.css">
   <!-- jQuery -->
   <script src="vistas/js/plugins/jquery.min.js"></script>
     <!-- select2 -->

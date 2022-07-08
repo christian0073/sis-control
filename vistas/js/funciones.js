@@ -212,3 +212,99 @@ function alertaMensaje1(posicion, tipo, mensaje){
       title: mensaje
    });
 }
+
+function mostrarLocalesAulas(datos, cmbLocal, cmbEspecialidad){
+   let template = '';
+   $.ajax({
+      url:"ajax/local.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         response.forEach(valor =>{
+            template +=`
+               <option value="${valor.idLocal}">${valor.direccion}</option>
+            `;
+         });
+         $('#'+cmbLocal).html(template);
+         mostrarSelectCmb(cmbLocal, "Seleccione un local");
+         $('#'+cmbEspecialidad).html('');
+         $('#'+cmbEspecialidad).prepend($("<option>", {value: "",text: "Seleccionar especialidad", selected: "selected"}));
+      }
+   });     
+}
+
+function mostrarCarrerasAulas(datos, cmbCarrera){
+   let template = '';
+   $.ajax({
+      url:"ajax/carrera.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         response.forEach(valor =>{
+            template +=`
+               <option value="${valor.idLocalCarrera}">${valor.nombreCarrera}</option>
+            `;
+         });
+         $('#'+cmbCarrera).html(template);
+         mostrarSelectCmb(cmbCarrera, "Seleccionar una especialidad");
+      }
+   });  
+}
+
+function mostrarCiclo(datos, cmb){
+   let template = '';
+   $.ajax({
+      url:"ajax/aula.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         response.forEach(valor =>{
+            template +=`
+               <option value="${valor.cicloSeccion}">${valor.cicloSeccion}</option>
+            `;
+         });
+         $('#'+cmb).html(template);
+         mostrarSelectCmb(cmb, "Seleccionar un ciclo");
+      }
+   });  
+}
+
+function mostrarSecciones(datos, cmb){
+   let template = '';
+   $.ajax({
+      url:"ajax/aula.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         let turno = '';
+         response.forEach(valor =>{
+            if (valor.turno == 'M') {
+               turno = 'MAÑANA';
+            }else{
+               turno = 'TARDE';
+            }
+            template +=`
+               <option value="${valor.idSeccion}">${valor.nombreSeccion} (${turno})</option>
+            `;
+         });
+         $('#'+cmb).html(template);
+         mostrarSelectCmb(cmb, "Seleccionar sección");
+      }
+   });  
+}
