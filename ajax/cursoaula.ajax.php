@@ -16,3 +16,8 @@
 		$respuesta = ControladorCursoAula::ctrMostrarCursosDocente();
 		echo $respuesta;
 	}
+	/* condicoón para mostrar el detalle del horario de las secciones */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarHoras') {
+		$respuesta = ControladorCursoAula::ctrMostrarDetalleCurso($_POST['idhorariocurso']);
+		echo json_encode($respuesta);	
+	}

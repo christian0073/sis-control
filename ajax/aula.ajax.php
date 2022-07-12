@@ -33,3 +33,9 @@
 		$respuesta = ControladorAula::ctrMostrarSecciones($_POST['idLocalCarrera'], $_POST['idCiclo']);
 		echo json_encode($respuesta);
 	}
+	/* condición que muestra los detalles de la sección */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == "mostrarDetallesCurso") {
+		$respuesta = ControladorAula::ctrDetallesSeccion($_POST['idSeccion']);
+		echo json_encode($respuesta);
+	}
+	

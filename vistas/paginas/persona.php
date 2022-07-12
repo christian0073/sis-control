@@ -12,9 +12,11 @@
         $celulares .= $personal['celularPersonal'][$i].', ';
       }
       $celulares = substr($celulares, 0, -2); 
-      $tipoPago = 'HORAS';
+      $tipoPago = '';
       if ($personal['tipoPago'] == 1) {
         $tipoPago = 'MENSUAL';
+      }else if($personal['tipoPago'] == 2){
+        $tipoPago = 'HORAS';
       }
     }else{
       echo '<script>
@@ -109,10 +111,8 @@
                     <div class="card">
                       <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                          <?php if ($personal['nombreCargo'] == 'DOCENTE'): ?>
                             <li class="nav-item"><a class="nav-link active" href="#cursos" data-toggle="tab">Cursos</a></li>
-                          <?php endif ?>
-                          <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Horario</a></li>
                           <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                         </ul>
                       </div><!-- /.card-header -->
@@ -301,3 +301,166 @@
     </div>
   </div>
 </div>
+
+<div class="modal" id="modalDetalleCurso">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Detalles</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>        
+      </div>
+      <div class="modal-body">
+        <ul class="list-group" id="detalleCurso">
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="agregarHorario">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="tituloCurso"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>        
+      </div>
+      <input type="hidden" name="turno">
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Día</th>
+                <th class="text-left">Periodo</th>
+                <th class="text-right" style="width: 25px;">Horas</th>
+              </tr>
+            </thead>
+            <tbody id="tablaCarreras">
+              <tr>
+                <th>Lunes</th>
+                <th>
+                  <form class="formRegistrarHora" method="POST">
+                    <div class="d-flex">  
+                      <div class="btn-group">
+                        <button type="button" dia="1" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div> 
+                  </form>
+                </th>
+                <th class="text-center">-</th>
+              </tr>
+              <tr>
+                <th>Martes</th>
+                <th>
+                  <form class="formRegistrarHora" method="POST">
+                    <div class="d-flex">  
+                      <div class="btn-group">
+                        <button type="button" dia="2" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>  
+                  </form>
+                </th>
+                <th class="text-center">-</th>
+              </tr>
+              <tr>
+                <th>Miercoles</th>
+                <th>
+                  <form class="formRegistrarHora" method="POST">
+                    <div class="d-flex">  
+                      <div class="btn-group">
+                        <button type="button" dia="3" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>  
+                  </form>
+                </th>
+                <th class="text-center">-</th>
+              </tr>
+              <tr>
+                <th>Jueves</th>
+                <th>
+                  <form class="formRegistrarHora" method="POST">
+                    <div class="d-flex">  
+                      <div class="btn-group">
+                        <button type="button" dia="4" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>
+                  </form>
+                </th>
+                <th class="text-center">-</th>
+              </tr>
+              <tr>
+                <th>Viernes</th>
+                <th>
+                  <form class="formRegistrarHora" method="POST">
+                    <div class="d-flex">  
+                      <div class="btn-group">
+                        <button type="button" dia="5" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>
+                  </form>                
+                </th>
+                <th class="text-center">-</th>
+              </tr> 
+              <tr>
+                <th>Sábado</th>
+                <th>
+                  <form class="formRegistrarHora" method="POST">
+                    <div class="d-flex">  
+                      <div class="btn-group">
+                        <button type="button" dia="6" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>
+                  </form>                
+                </th>
+                <th class="text-center">-</th>
+              </tr>                
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div

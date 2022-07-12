@@ -43,4 +43,11 @@
 			$respuesta = $this->consulta->selectAll($sql);
 			return $respuesta;
 		}
+		/* metodo que devuelve el horario de un determinado curso */
+		public function mdlMostrarDetalleCurso($idCursoHorario){
+			$sql = "SELECT * FROM detallehorario
+				WHERE idHorarioCurso = $idCursoHorario ORDER BY dia, horaEntrada ASC;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;		
+		}
 	}

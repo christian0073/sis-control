@@ -45,9 +45,13 @@
 				$datosJson = '{
 				"data":[';
 				foreach ($cursos as $key => $value) {
+					$cursoLink = "<button class='btn btn-danger btnAgregarLink btn-sm' idHorarioCurso='".$value['idHorarioCurso']."' title='Agregar link'><i class='fa-solid fa-link'></i></button>";
+					if (!empty($value['linkCurso'])) {
+						$cursoLink = "<a href='".$value['linkCurso']."' target='_blank' class='btn btn-danger btn-sm' title='Ir al enlace'><i class='fa-solid fa-caret-right'></i></a>";
+					}
 					$acciones = "<div class='btn-group'>";
 					if ($value['estadoCursoSeccion'] == 1) {
-						$acciones .= "<button class='btn btn-info btn-sm btnVerDetalles' title='ve detalles' idHorarioCurso='".$value['idHorarioCurso']."' data-toggle='modal' data-target='#verDetallesCurso'><i class='fa-solid fa-eye'></i></button></div>"; 
+						$acciones .= "<button class='btn btn-primary btn-sm agregarHorario' data-toggle='modal' data-target='#agregarHorario' idHorarioCurso='".$value['idHorarioCurso']."'  title='Agregar horario'><i class='fa-solid fa-calendar-plus'></i></button><button class='btn btn-info btn-sm btnVerDetalles' title='ve detalles' idSeccion='".$value['idSeccionHor']."' data-toggle='modal' data-target='#modalDetalleCurso'><i class='fa-solid fa-eye'></i></button>".$cursoLink."</div>"; 
 					}else{
 						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}
@@ -72,5 +76,10 @@
 				$datosJson .= ']}';
 				return $datosJson;			
 		}
+	}
+	static public function ctrMostrarDetalleCurso($idCursoDetalle){
+		$modeloCurso = new ModeloCursoAula();
+		$respuesta = $modeloCurso->mdlMostrarDetalleCurso($idCursoDetalle);
+		return $respuesta;
 	}
 }

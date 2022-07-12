@@ -100,4 +100,10 @@
 			$respuesta = $modeloAula->mdlMostrarSecciones($idLocalAula, $idCiclo);
 			return $respuesta;				
 		}
+		/* metodo para ver detalles de una sección */
+		static public function ctrDetallesSeccion($idSeccion){
+			$modeloAula = new ModeloAula();
+			$respuesta = $modeloAula->mdlDetallesSeccion($idSeccion);
+			return $respuesta;
+		}
 	}
