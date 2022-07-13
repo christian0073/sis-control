@@ -5,6 +5,9 @@
 	require_once "../controlador/persona.controlador.php";
 	require_once "../modelo/persona.modelo.php";
 
+	require_once "../controlador/cursohorario.controlador.php";
+	require_once "../modelo/cursohorario.modelo.php";
+
 	require_once "../helpers/funciones.php";
 	/* condición para buscar a una persona */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'buscarDni') {
@@ -49,5 +52,13 @@
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarDetalles') {
 		$respuesta = ControladorPersonal::ctrEditarDetallesPersonal();
 		echo $respuesta;
+	}
+	/* condición para mostrar horarios */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarHorario') {
+		
+		if ($_POST['nombreCargo'] == "DOCENTE") {
+			$horarioDocente = ControladorCursoHorario::ctrDocenteHorario($_POST['idPersonal']);
+			echo '<pre>'; print_r($horarioDocente); echo '</pre>';
+		}
 	}
 ?>

@@ -104,7 +104,7 @@
 		public function mdlMostrarSecciones($idLocalAula, $idCiclo){
 			$sql = "SELECT * FROM seccion
 				INNER JOIN local_carrera ON idSeccionLocal = idLocalCarrera
-				WHERE idSeccionLocal = $idLocalAula AND cicloSeccion = $idCiclo ORDER BY nombreSeccion ASC";
+				WHERE idSeccionLocal = $idLocalAula AND cicloSeccion = $idCiclo AND seccion.estado = TRUE ORDER BY nombreSeccion ASC";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;					
 		}
@@ -113,7 +113,7 @@
 				INNER JOIN periodos ON idPeriodoSeccion = idPeriodo
 				INNER JOIN local_carrera ON seccion.idSeccionLocal = local_carrera.idLocalCarrera
 				INNER JOIN locales ON local_carrera.idLocal = locales.idLocal
-				INNER JOIN sedes ON locales.idsedeLocal = sedes.idSede WHERE idSeccion = 5 LIMIT 1;";
+				INNER JOIN sedes ON locales.idsedeLocal = sedes.idSede WHERE idSeccion = $idSeccion LIMIT 1;";
 			$respuesta = $this->consulta->select($sql);
 			return $respuesta;
 		}

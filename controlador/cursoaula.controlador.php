@@ -51,15 +51,17 @@
 					}
 					$acciones = "<div class='btn-group'>";
 					if ($value['estadoCursoSeccion'] == 1) {
-						$acciones .= "<button class='btn btn-primary btn-sm agregarHorario' data-toggle='modal' data-target='#agregarHorario' idHorarioCurso='".$value['idHorarioCurso']."'  title='Agregar horario'><i class='fa-solid fa-calendar-plus'></i></button><button class='btn btn-info btn-sm btnVerDetalles' title='ve detalles' idSeccion='".$value['idSeccionHor']."' data-toggle='modal' data-target='#modalDetalleCurso'><i class='fa-solid fa-eye'></i></button>".$cursoLink."</div>"; 
+						$acciones .= "<button class='btn btn-primary btn-sm agregarHorario' data-toggle='modal' data-target='#agregarHorario' idHorarioCurso='".$value['idHorarioCurso']."' nombreCurso='".$value['nombreCurso']."' idSeccion='".$value['idSeccionHor']."' title='Agregar horario'><i class='fa-solid fa-calendar-plus'></i></button><button class='btn btn-info btn-sm btnVerDetalles' title='ve detalles' idSeccion='".$value['idSeccionHor']."' data-toggle='modal' data-target='#modalDetalleCurso'><i class='fa-solid fa-eye'></i></button>".$cursoLink."</div>"; 
 					}else{
 						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}
 					$turno = '';
 					if ($value['turno'] == 'M') {
 						$turno = 'MAÑANA';
-					}else{
+					}else if ($value['turno'] == 'T') {
 						$turno = 'TARDE';
+					}else if($value['turno'] == 'N'){
+						$turno = 'NOCHE';
 					}
 					$datosJson .='[
 							"'.($key+1).'",

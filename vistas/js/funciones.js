@@ -308,3 +308,17 @@ function mostrarSecciones(datos, cmb){
       }
    });  
 }
+
+function tiempo(minutos, hora) {
+  let tiempo;
+  tiempo = new Date("2000-01-01T" + hora + ":00Z");
+  /* Si es una fecha inválida restauramos a 00:00 */
+  if (isNaN(tiempo)) {
+    tiempo = new Date("2000-01-01T00:00:00Z");
+  }
+  /* Operamos con los minutos */
+  tiempo.setMinutes(tiempo.getMinutes() + minutos);
+  /* Nos quedamos solo con hora y minuto */
+  nuevahora = tiempo.toISOString().substr(11, 5);
+  return nuevahora; 
+}

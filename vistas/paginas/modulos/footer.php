@@ -24,7 +24,6 @@
 <script src="vistas/js/plugins/dataTables.responsive.min.js"></script>
 <script src="vistas/js/plugins/responsive.bootstrap4.min.js"></script>
 
-
 <!-- funciones generales -->
 <script src="vistas/js/funciones.js"></script>
 <!-- fontawesome -->

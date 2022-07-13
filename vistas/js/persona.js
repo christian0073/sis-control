@@ -9,6 +9,22 @@ $(document).ready(function(){
    mostrarCursos.append("funcion", "mostrarCursosDocente");
    mostrarCursos.append("idPersonal", idPersonal);
    buscarEnTabla('tablaCursos', 'cursoaula.ajax.php', mostrarCursos, 10);
+   let mostrarHorario = new FormData();
+   mostrarHorario.append("funcion", "mostrarHorario");
+   mostrarHorario.append("idPersonal", idPersonal);
+   mostrarHorario.append("nombreCargo", nombreCargo);
+   let template = '';
+   $.ajax({
+      url:"ajax/personal.ajax.php",
+      method: "POST",
+      data: mostrarHorario,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+      }
+   }); 
 });
 
 /* boton para traer los datos a editar */
@@ -235,7 +251,10 @@ $(document).on("click", ".btnVerDetalles", function(e){
       }
    }); 
 });
-
+var tipoTurno;
+var step;
+var minTime = '';
+var maxTime = '';
 $(document).on("click", ".agregarHorario", function(e){
    let idSeccion = $(this).attr('idSeccion');
    let datos = new FormData();
@@ -252,19 +271,43 @@ $(document).on("click", ".agregarHorario", function(e){
       dataType: "json",
       success:function(response){
          let turno = '';
+         tipoTurno = response['turno'];
          if (response['turno'] == 'M') {
+            step = 3000;
+            minTime = '08:00';
             turno = 'MAÑANA';
+            $('input[name="minutos"]').val(50);
          }else if(response['turno'] == 'T'){
-            turno = 'TARDE'
+            turno = 'TARDE';
+            step = 3000;
+            minTime = '13:30';
+            $('input[name="minutos"]').val(50);
+         }else if (response['turno'] == 'N') {
+            minTime = '16:00';
+            turno = 'NOCHE';
+            step = 2700;
+            $('input[name="minutos"]').val(45);
          }
          template = `${response['nombreSeccion']} (${turno}), ${response['nombreSede']}, ${response['direccion']}`;
          $("#tituloCurso").html(template);
       }
    }); 
+   for (var i = 1; i <= 7; i++) {
+      let elemento1 = $("#dia" + i).find(".d-flex");
+      let numElementos = $(elemento1).length;
+      if (numElementos > 0) {
+         $(elemento1).remove();
+      }
+   }
+   $("#nombreCurso").html($(this).attr('nombreCurso'));
    let idhorariocurso = $(this).attr('idhorariocurso');
+   $('input[name="idCursoHorario"]').val(idhorariocurso);
    let datos1 = new FormData();
    datos1.append('funcion', 'mostrarHoras');
    datos1.append('idhorariocurso', idhorariocurso);
+   $(".horasCurso1").html('-');
+   $("#totalHoras").html('0');
+   let horasAcumulada = 0;
    $.ajax({
       url:"ajax/cursoAula.ajax.php",
       method: "POST",
@@ -275,8 +318,34 @@ $(document).on("click", ".agregarHorario", function(e){
       dataType: "json",
       success:function(response){
          if (response.length > 0) {
-
+            response.forEach(function (valor) {
+               let diaId = valor['dia']
+               let elemento = $("#form" + diaId).find(".btn-group")[0];
+               let elemento1 = $("#dia" + diaId).find(".d-flex");
+               let cont = $(elemento1).length;
+               let template = `<div class="d-flex mr-2">
+                                 <div class="mr-1">
+                                    <input type="time" name="txtEntrada${cont+1}" class="form-control form-control-sm inputEntrada" value="${valor['horaEntrada']}"  min="${minTime}" step="${step}" required>
+                                 </div>
+                                 <div class="mr-1">
+                                    <input type="time" name="txtSalida${cont+1}" class="form-control form-control-sm inputSalida" value="${valor['horaSalida']}" step="${step}" required>
+                                 </div>
+                                 <div class="mr-1">
+                                    <button type="button" class="btn btn-light btn-sm btn-outline-danger btnQuitarForm">x</button>
+                                 </div>
+                                 <input type="hidden" class="inputTipo" name="tipo${cont+1}" value="${valor['tipo']}">
+                              </div> `;
+               elemento.insertAdjacentHTML("beforebegin", template);
+               horasAcumulada += + valor['horas'];
+               let horas = $("#horasCurso" + diaId).html();
+               if (horas == '-') {
+                  $("#horasCurso" + diaId).html(valor['horas']);
+               }else{
+                  $("#horasCurso" + diaId).html(horas+valor['horas']);
+               }
+            }); 
          }
+      $("#totalHoras").html(horasAcumulada);
       }
    }); 
 });
@@ -285,48 +354,77 @@ var dias = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
 $(document).on("click", ".btnTeoria", function(e){
    let padre = $(this).parent().parent().parent()[0];
    let padre1 = $(this).parent().parent().parent().parent()[0];
-   btnNuevoInput = $(padre).find('.btnNuevoInput');
-   let diaId = $(btnNuevoInput).attr('dia');
    let cont = $(padre1).find('.d-flex').length;
-   let template = `<div class="d-flex mr-2">
-                    <div class="mr-1">
-                      <input type="time" name="txtEntrada${cont+1}" class="form-control form-control-sm" step="300">
-                    </div>
-                    <div class="mr-1">
-                      <input type="time" name="txtEalida${cont+1}" class="form-control form-control-sm">
-                    </div>
-                    <div class="mr-1">
-                      <button type="button" class="btn btn-light btn-sm btn-outline-danger btnQuitarForm">x</button>
-                    </div>
-                    <input type="hidden" name="tipo${cont+1}" value="T">
-                  </div> `;
-   padre.insertAdjacentHTML("beforebegin", template);
+   mostrarInputTime(cont, padre, 'T');
 });
 
 $(document).on("click", ".btnPractica", function(e){
    let padre = $(this).parent().parent().parent()[0];
    let padre1 = $(this).parent().parent().parent().parent()[0];
-   btnNuevoInput = $(padre).find('.btnNuevoInput');
-   let diaId = $(btnNuevoInput).attr('dia');
    let cont = $(padre1).find('.d-flex').length;
-   let template = `<div class="d-flex mr-2">
-                    <div class="mr-1">
-                      <input type="time" name="txtEntrada${cont+1}" class="form-control form-control-sm">
-                    </div>
-                    <div class="mr-1">
-                      <input type="time" name="txtEalida${cont+1}" class="form-control form-control-sm">
-                    </div>
-                    <div class="mr-1">
-                      <button type="button" class="btn btn-light btn-sm btn-outline-danger btnQuitarForm">x</button>
-                    </div>
-                    <input type="hidden" name="tipo${cont+1}" value="P">
-                  </div> `;
-   padre.insertAdjacentHTML("beforebegin", template);
+   mostrarInputTime(cont, padre, 'P');
 });
 
 $(document).on("click", ".btnQuitarForm", function(e){
    let padre = $(this).parent().parent();
+   let padre1 = $(this).parent().parent().parent()[0];
+   let cont = $(padre1).find('.d-flex').length;
+   let i = 0;
    $(padre).remove();
+   /* bucle para renombrar los nombres de los inputs */
+   while(i < cont){
+      let nombreEntrada = "txtEntrada" + (i + 1);
+      let nombreSalida = "txtSalida" + (i + 1);
+      let nombreTipo = "tipo" + (i + 1);
+      let elemento = $(padre1).find('.d-flex')[i];
+      $(elemento).find('.inputEntrada').prop('name', nombreEntrada); 
+      $(elemento).find('.inputSalida').prop('name', nombreSalida);
+      $(elemento).find('.inputTipo').prop('name', nombreTipo);
+      i++;
+   }
+});
+
+$(document).on('keyup, change', '.inputEntrada', function(e){
+   let hora_escogida = $(this).val();
+   let elementoPadre = $(this).parent().parent();
+   let horaSalida= tiempo((step/60), hora_escogida);
+   let inputSalida = $(elementoPadre).find('.inputSalida');
+   $(inputSalida).prop('min', horaSalida);
+   $(inputSalida).prop('step', step);
+   $(inputSalida).prop('readonly', false);
+});
+
+
+$('#form1, #form2, #form3, #form4, #form5, #form6').submit(event=>{
+   let elemento = event.target;
+   let inputDia = $(elemento).find("input[name='diaId']");   
+   let dia = $(inputDia).val();
+   let totalHoras = $('#totalHoras').html();
+   $.ajax({
+      url:"ajax/cursohorario.ajax.php",
+      method: "POST",
+      data: $(elemento).serialize(),
+      cache: false,
+      success:function(response){
+         if (response > 0) {
+            $("#horasCurso"+dia).html(response);
+            $('#totalHoras').html(Number(totalHoras) + Number(response));
+            alertaMensaje1('top-right', 'success', '¡Se agrego con exito!');
+         }else if(response <= 0){
+            $("#horasCurso"+dia).html('-');
+            $('#totalHoras').html(Number(totalHoras) + Number(response));
+            alertaMensaje1('top-right', 'success', '¡Se elimnó el registro!');
+         }else if(response == 'novalido'){
+            alertaMensaje1('top-right', 'warning', '¡El horario ingresado ya se encuentra registrado!');
+         }else if (response == 'vacio') {
+            alertaMensaje1('top-right', 'warning', '¡No se registro datos!');
+         }else{
+            alertaMensaje1('top-right', 'error', '¡Ocurrio un error, comuniquese con el administrador!');
+         }
+      }
+   });
+   
+   event.preventDefault();
 });
 
 function mostrarDatosPersonal(datos){
@@ -360,4 +458,20 @@ function mostrarDatosPersonal(datos){
          $('#montoPago').html("S/. "+response['montoPago']);
       }
    }); 
+}
+
+function mostrarInputTime(cont, elemento, tipo){
+      let template = `<div class="d-flex mr-2">
+                        <div class="mr-1">
+                           <input type="time" name="txtEntrada${cont+1}" class="form-control form-control-sm inputEntrada" min="${minTime}" step="${step}" required>
+                        </div>
+                        <div class="mr-1">
+                           <input type="time" name="txtSalida${cont+1}" class="form-control form-control-sm inputSalida" required readonly>
+                        </div>
+                        <div class="mr-1">
+                           <button type="button" class="btn btn-light btn-sm btn-outline-danger btnQuitarForm">x</button>
+                        </div>
+                        <input type="hidden" class="inputTipo" name="tipo${cont+1}" value="${tipo}">
+                     </div> `;
+   elemento.insertAdjacentHTML("beforebegin", template);
 }
