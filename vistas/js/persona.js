@@ -23,6 +23,25 @@ $(document).ready(function(){
       processData: false,
       dataType: "json",
       success:function(response){
+         console.log("response", response);
+         let contador= 1;
+         let template = '';
+         response.forEach(valor => {
+
+            template +=  `<tr>
+                              <td>${valor['rangoHora']}</td>
+                              <td>${contador}</td>
+                              <td>${valor['dia1']}</td>
+                              <td>${valor['dia2']}</td>
+                              <td>${valor['dia3']}</td>
+                              <td>${valor['dia4']}</td>
+                              <td>${valor['dia5']}</td>
+                              <td>${valor['dia6']}</td>
+                           </tr>`;
+            contador++;
+         });
+            console.log("template", template);
+         $("#tableHorario").html(template);
       }
    }); 
 });
@@ -251,7 +270,7 @@ $(document).on("click", ".btnVerDetalles", function(e){
       }
    }); 
 });
-var tipoTurno;
+var turno;
 var step;
 var minTime = '';
 var maxTime = '';
@@ -271,21 +290,23 @@ $(document).on("click", ".agregarHorario", function(e){
       dataType: "json",
       success:function(response){
          let turno = '';
-         tipoTurno = response['turno'];
          if (response['turno'] == 'M') {
             step = 3000;
             minTime = '08:00';
+            maxTime = '13:00';
             turno = 'MAÑANA';
             $('input[name="minutos"]').val(50);
          }else if(response['turno'] == 'T'){
             turno = 'TARDE';
             step = 3000;
             minTime = '13:30';
+            maxTime = '18:30';
             $('input[name="minutos"]').val(50);
          }else if (response['turno'] == 'N') {
             minTime = '16:00';
+            maxTime = '23:00';
             turno = 'NOCHE';
-            step = 2700;
+            step = '';
             $('input[name="minutos"]').val(45);
          }
          template = `${response['nombreSeccion']} (${turno}), ${response['nombreSede']}, ${response['direccion']}`;
@@ -328,7 +349,7 @@ $(document).on("click", ".agregarHorario", function(e){
                                     <input type="time" name="txtEntrada${cont+1}" class="form-control form-control-sm inputEntrada" value="${valor['horaEntrada']}"  min="${minTime}" step="${step}" required>
                                  </div>
                                  <div class="mr-1">
-                                    <input type="time" name="txtSalida${cont+1}" class="form-control form-control-sm inputSalida" value="${valor['horaSalida']}" step="${step}" required>
+                                    <input type="time" name="txtSalida${cont+1}" class="form-control form-control-sm inputSalida" value="${valor['horaSalida']}" max="${maxTime}" step="${step}" required>
                                  </div>
                                  <div class="mr-1">
                                     <button type="button" class="btn btn-light btn-sm btn-outline-danger btnQuitarForm">x</button>
@@ -386,6 +407,13 @@ $(document).on("click", ".btnQuitarForm", function(e){
 
 $(document).on('keyup, change', '.inputEntrada', function(e){
    let hora_escogida = $(this).val();
+   if (hora_escogida < '18:30') {
+      step = 3000;
+   }else if(hora_escogida >= '18:30'){
+      step = 2700;
+      $(this).prop('min', '18:30');
+      $(this).prop('step', step);
+   }
    let elementoPadre = $(this).parent().parent();
    let horaSalida= tiempo((step/60), hora_escogida);
    let inputSalida = $(elementoPadre).find('.inputSalida');
@@ -466,7 +494,7 @@ function mostrarInputTime(cont, elemento, tipo){
                            <input type="time" name="txtEntrada${cont+1}" class="form-control form-control-sm inputEntrada" min="${minTime}" step="${step}" required>
                         </div>
                         <div class="mr-1">
-                           <input type="time" name="txtSalida${cont+1}" class="form-control form-control-sm inputSalida" required readonly>
+                           <input type="time" name="txtSalida${cont+1}" class="form-control form-control-sm inputSalida" max="${maxTime}" required readonly>
                         </div>
                         <div class="mr-1">
                            <button type="button" class="btn btn-light btn-sm btn-outline-danger btnQuitarForm">x</button>

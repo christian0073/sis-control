@@ -1,4 +1,5 @@
 <?php 
+	date_default_timezone_set("America/Lima");
 	require_once "../controlador/personal.controlador.php";
 	require_once "../modelo/personal.modelo.php";
 
@@ -55,10 +56,9 @@
 	}
 	/* condición para mostrar horarios */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarHorario') {
-		
 		if ($_POST['nombreCargo'] == "DOCENTE") {
-			$horarioDocente = ControladorCursoHorario::ctrDocenteHorario($_POST['idPersonal']);
-			echo '<pre>'; print_r($horarioDocente); echo '</pre>';
+			$respuesta = ControladorCursoHorario::ctrDocenteHorario($_POST['idPersonal']);
+			echo json_encode($respuesta);
 		}
 	}
 ?>

@@ -151,7 +151,7 @@
                               <button type="button" class="btn btn-primary">Registrar</button>
                             </div>
                             <div class="table-responsive">
-                              <table class="table table-hover">
+                              <table class="table text-center">
                                 <thead>
                                   <tr>
                                     <th colspan="2">Hora</th>
@@ -163,7 +163,7 @@
                                     <th>Sábado</th>
                                   </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tableHorario" class="table-bordered" style="font-size: 15px;">
                                 </tbody>
                               </table>
                             </div>

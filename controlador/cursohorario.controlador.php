@@ -97,9 +97,64 @@
 			$modeloDocenteHorario = new ModeloCursoHorario();
 			$horario = $modeloDocenteHorario->mdlDocenteHorario($idPersonal);
 			$arrData = [];
-			foreach(){
-
+			$horaInicio =	$horario[0]['horaEntrada'];
+			$horaTarde = strtotime('13:30');
+			$horaTemporal0 = strtotime($horaInicio);
+			if ($horaTemporal0 >= $horaTarde) {
+				$horaTemporal0 = $horaTarde0;
 			}
-			return $horario;
+			$horaFin = strtotime('08:50');
+			foreach ($horario as $key => $value) {
+				$horaSalida1 = strtotime($value['horaSalida']);
+				if ($horaSalida1 > $horaFin) {
+					$horaFin = $horaSalida1;
+				}
+			}
+			$horasAc = true;
+			$arrHoras = [];
+			$horaNoche = strtotime('18:30');
+			$horaTarde = strtotime('13:00');
+			while($horasAc){
+				if ($horaNoche > $horaTemporal0) {
+					$horaTemporal =  strtotime('+50 minute', $horaTemporal0);
+				}else{
+					$horaTemporal =  strtotime('+45 minute', $horaTemporal0);
+				}
+				if ($horaTemporal0 == $horaTarde) {
+					$horaTemporal =  strtotime('+30 minute', $horaTemporal0);
+				}
+				$rangoHora = array(
+									"rangoHora"=> date("H:i", $horaTemporal0).' - '.date("H:i", $horaTemporal), "horaEntrada" => $horaTemporal0, "horaSalida" => $horaTemporal, "dia1"=>"",
+									"dia2"=>"","dia3"=>"","dia4"=>"","dia5"=>"","dia6"=>""
+								);
+				if ($horaTemporal0 == $horaFin) {
+					$horasAc = false;
+					break;
+				}
+				$horaTemporal0 = $horaTemporal;
+				array_push($arrHoras, $rangoHora);
+				$horasAc++;
+			}
+			$dias = ["lunes", "martes", "miercoles", "viernes", "sabado"];
+			$arrHorasNuevo = [];
+			$tipoCurso = '';
+			foreach ($horario as $key => $value) {
+				foreach ($arrHoras as $key => $value1) {
+					$horaEntrada1 = strtotime($value['horaEntrada']);
+					$horaSalida1 = strtotime($value['horaSalida']);
+					if ($value1['horaEntrada'] >= $horaEntrada1 && $value1['horaSalida'] <= $horaSalida1) {
+						if($value['tipo'] == 'T'){
+							$tipoCurso = 'TEORICA';
+						}elseif ($value['tipo'] == 'P') {
+							$tipoCurso = 'PRACTICA';
+						}
+						$datos = '<div style="height: 100%; widht:100%;" class="bg-danger">'.$value['nombreCarrera'].'</div>';
+
+						$dia = $value['dia'];
+						$arrHoras[$key]['dia'.$dia]= $datos;
+					}
+				}
+			}
+			return $arrHoras;
 		}
 	}
