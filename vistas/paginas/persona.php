@@ -18,6 +18,7 @@
       }else if($personal['tipoPago'] == 2){
         $tipoPago = 'HORAS';
       }
+      $personalNombre = $personal['apellidoPaternoPersona'].' '.$personal['apellidoMaternoPersona'].', '.$personal['nombresPersona']; 
       echo '<script>
         var nombreCargo = "'.$personal['nombreCargo'].'"
       </script>';
@@ -39,14 +40,11 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Fixed Layout</h1>
-          </div>
-          <div class="col-sm-6">
+          <div class="col-sm-12">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              <li class="breadcrumb-item active">Fixed Layout</li>
+              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="#">Pesonal</a></li>
+              <li class="breadcrumb-item active"><?php echo $personalNombre; ?></li>
             </ol>
           </div>
         </div>
@@ -69,7 +67,7 @@
                         <img class="img-circle" style="width: 150px;" src="vistas/img/empleado.png" alt="User profile picture">
                       </div>
 
-                      <h3 class="profile-username text-center" id="nombrePersona"><?php echo $personal['apellidoPaternoPersona'].' '.$personal['apellidoMaternoPersona'].', '.$personal['nombresPersona']; ?></h3>
+                      <h3 class="profile-username text-center" id="nombrePersona"><?php echo $personalNombre;?></h3>
 
                       <p class="text-muted text-center" id="profesioPersona"><?php echo $personal['profesionPersonal']; ?></p>
 
@@ -114,14 +112,14 @@
                     <div class="card">
                       <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link" href="#cursos" data-toggle="tab">Cursos</a></li>
-                          <li class="nav-item"><a class="nav-link active" href="#horario" data-toggle="tab">Horario</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#cursos" data-toggle="tab">Cursos</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#horario" id="verHorario" data-toggle="tab">Horario</a></li>
                           <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                         </ul>
                       </div><!-- /.card-header -->
                       <div class="card-body">
                         <div class="tab-content">
-                          <div class="tab-pane" id="cursos">
+                          <div class="active tab-pane" id="cursos">
                             <div class="row">
                               <div class="mr-2">
                                 <button class="btn btn-primary" id="btnRegistrarCurso" data-toggle='modal' data-target='#modalRegistrarCurso'>Agregar Curso</button>
@@ -132,29 +130,28 @@
                               <table class="table table-striped table-hover dt-responsive" id="tablaCursos" style="width: 100%;">
                                 <thead>
                                   <tr>
-                                    <th>N°</th>
+                                    <th style="width: 20px;">N°</th>
                                     <th>Especialidad</th>
-                                    <th>Codigo</th>
+                                    <th style="width: 30px;">Codigo</th>
                                     <th>Nombre del curso</th>
-                                    <th>Creditos</th>
-                                    <th>Seccion - Turno</th>
-                                    <th>Ciclo</th>
-                                    <th>Acciones</th>
+                                    <th style="width: 130px;">Seccion - Turno</th>
+                                    <th style="width: 40px;">Ciclo</th>
+                                    <th style="width: 40px;">Acciones</th>
                                   </tr>
                                 </thead>
                               </table>
                             </div>
                           </div>
                           <!-- /.tab-pane -->
-                          <div class="active tab-pane" id="horario">
+                          <div class="tab-pane" id="horario">
                             <div class="mb-2">
                               <button type="button" class="btn btn-primary">Registrar</button>
                             </div>
                             <div class="table-responsive">
-                              <table class="table text-center">
+                              <table class="table text-center table-bordered" style="height:300px; min-width: 900px;">
                                 <thead>
                                   <tr>
-                                    <th colspan="2">Hora</th>
+                                    <th colspan="2" style="width: 40px;">Hora</th>
                                     <th>Lunes</th>
                                     <th>Martes</th>
                                     <th>Miercoles</th>
@@ -163,7 +160,7 @@
                                     <th>Sábado</th>
                                   </tr>
                                 </thead>
-                                <tbody id="tableHorario" class="table-bordered" style="font-size: 15px;">
+                                <tbody id="tableHorario" style="font-size: 12px;">
                                 </tbody>
                               </table>
                             </div>

@@ -1,49 +1,23 @@
 var icheck = 0;
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var idPersonalGlobal = urlParams.get('idPersonal');
 $(document).ready(function(){
-   var queryString = window.location.search;
-   var urlParams = new URLSearchParams(queryString);
    $('.select2').select2();
    activarLinkMenu("persona", "#registrar");
-   let idPersonal = urlParams.get('idPersonal');
    let mostrarCursos = new FormData();
    mostrarCursos.append("funcion", "mostrarCursosDocente");
-   mostrarCursos.append("idPersonal", idPersonal);
+   mostrarCursos.append("idPersonal", idPersonalGlobal);
    buscarEnTabla('tablaCursos', 'cursoaula.ajax.php', mostrarCursos, 10);
+});
+
+
+$(document).on("click", "#verHorario", function(e){
    let mostrarHorario = new FormData();
    mostrarHorario.append("funcion", "mostrarHorario");
-   mostrarHorario.append("idPersonal", idPersonal);
+   mostrarHorario.append("idPersonal", idPersonalGlobal);
    mostrarHorario.append("nombreCargo", nombreCargo);
-   let template = '';
-   $.ajax({
-      url:"ajax/personal.ajax.php",
-      method: "POST",
-      data: mostrarHorario,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success:function(response){
-         console.log("response", response);
-         let contador= 1;
-         let template = '';
-         response.forEach(valor => {
-
-            template +=  `<tr>
-                              <td>${valor['rangoHora']}</td>
-                              <td>${contador}</td>
-                              <td>${valor['dia1']}</td>
-                              <td>${valor['dia2']}</td>
-                              <td>${valor['dia3']}</td>
-                              <td>${valor['dia4']}</td>
-                              <td>${valor['dia5']}</td>
-                              <td>${valor['dia6']}</td>
-                           </tr>`;
-            contador++;
-         });
-            console.log("template", template);
-         $("#tableHorario").html(template);
-      }
-   }); 
+   mostrarHorarios("#tableHorario", mostrarHorario);
 });
 
 /* boton para traer los datos a editar */
@@ -228,7 +202,11 @@ $('#formReistrarCurso').submit(event=>{
       success:function(response){
          if (response == 'ok') {
             $("#modalRegistrarCurso").modal("hide");
-            mensaje('¡CORRECTO!', 'La acción se realizó con exito.' , 'success');
+               mensaje('¡CORRECTO!', 'La acción se realizó con exito.' , 'success');
+               let mostrarCursos = new FormData();
+               mostrarCursos.append("funcion", "mostrarCursosDocente");
+               mostrarCursos.append("idPersonal", idPersonalGlobal);
+               buscarEnTabla('tablaCursos', 'cursoaula.ajax.php', mostrarCursos, 10);
          }else{
             mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
          }
@@ -362,7 +340,7 @@ $(document).on("click", ".agregarHorario", function(e){
                if (horas == '-') {
                   $("#horasCurso" + diaId).html(valor['horas']);
                }else{
-                  $("#horasCurso" + diaId).html(horas+valor['horas']);
+                  $("#horasCurso" + diaId).html(horas+valor['horas'].Math.round());
                }
             }); 
          }
@@ -502,4 +480,37 @@ function mostrarInputTime(cont, elemento, tipo){
                         <input type="hidden" class="inputTipo" name="tipo${cont+1}" value="${tipo}">
                      </div> `;
    elemento.insertAdjacentHTML("beforebegin", template);
+}
+
+function mostrarHorarios(elemento, datos){
+   let template = '';
+   $.ajax({
+      url:"ajax/personal.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         console.log("response", response);
+         let contador= 1;
+         let template = '';
+         response.forEach(valor => {
+
+            template +=  `<tr>
+                              <td style="max-width:80px">${valor['rangoHora']}</td>
+                              <td style="max-width:20px">${contador}</td>
+                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia1']}</td>
+                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia2']}</td>
+                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia3']}</td>
+                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia4']}</td>
+                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia5']}</td>
+                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia6']}</td>
+                           </tr>`;
+            contador++;
+         });
+         $(elemento).html(template);
+      }
+   }); 
 }

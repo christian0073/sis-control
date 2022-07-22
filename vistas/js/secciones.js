@@ -1,5 +1,5 @@
 $(document).ready(function(){
-   activarLinkMenu("aulas", "#ajustes");
+   activarLinkMenu("secciones", "#ajustes");
    $('.select2').select2();
    mostrarDataTable('tablaAula', 'tabla-aulas.ajax.php');
 });

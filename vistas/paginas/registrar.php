@@ -51,7 +51,7 @@
                   <th style="width: 80px;">Celulares</th>
                   <th>Dirección</th>
                   <th style="width: 120px;">Fecha ingreso</th>
-                  <th style="width: 100px;">Fecha de cese</th>
+                  <th style="width: 120px;">Fecha de cese</th>
                   <th style="width: 100px;">Acciones</th>
                 </tr>
               </thead>
@@ -120,20 +120,12 @@
               </select>
             </div>
             <div class="form-group col-6">
-              <label for="txtFechaIngreso">Fecha ingreso:</label>
+              <label for="txtFechaNac">Fecha nacimiento:</label>
                <div class="input-group input-group-sm">
-                <input type="date" class="form-control" name="txtFechaIngreso" placeholder="Ingrese correo" required>
+                <input type="date" class="form-control" name="txtFechaNac">
               </div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12">
-              <label for="txtProfesion">Profesión:</label>
-              <div class="input-group input-group-sm">
-                <input type="text" class="form-control" name="txtProfesion" placeholder="Ingrese Profesión">
-              </div>
-            </div>
-          </div>           
+          </div>    
           <div class="form-row">
             <div class="form-group col-12">
               <label for="txtCorreoPersonal">Correo:</label>
@@ -150,6 +142,20 @@
               </div>
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="txtProfesion">Profesión:</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" name="txtProfesion" placeholder="Ingrese Profesión">
+              </div>
+            </div>
+            <div class="form-group col-6">
+              <label for="txtFechaIngreso">Fecha ingreso:</label>
+               <div class="input-group input-group-sm">
+                <input type="date" class="form-control" name="txtFechaIngreso">
+              </div>
+            </div>
+          </div>                 
           <div class="mb-2">
             <label>Celulares:</label>
             <button class="btn btn-light btn-sm" id="btnAgregarCelulares" type="button"><i class="fas fa-add"></i> Agregar</button>

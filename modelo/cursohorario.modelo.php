@@ -32,7 +32,7 @@
 			return $respuesta;	
 		}
 		public function mdlDocenteHorario($idPersonal){
-			$sql = "SELECT detallehorario.*, horario_curso.linkCurso, cursos.nombreCurso, cursos.periodo, seccion.nombreSeccion, carreras.nombreCarrera, sedes.nombreSede FROM detallehorario 
+			$sql = "SELECT detallehorario.*, horario_curso.linkCurso, cursos.nombreCurso, periodo, cursos.periodo, seccion.nombreSeccion, carreras.nombreCarrera, sedes.nombreSede FROM detallehorario 
 				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso 
                 INNER JOIN cursos ON horario_curso.idCursoHor = cursos.idCurso
                 INNER JOIN carreras ON cursos.idCarreraCurso = carreras.idCarrera

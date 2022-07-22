@@ -13,6 +13,7 @@
 		private $cuentaPersonal;
 		private $tipoPago;
 		private $montoPago;
+		private $fechaNac;
 		/* constructor para realizar las consultas */
 		public function __construct(){
 			$this->consulta = new Consultas();
@@ -26,7 +27,7 @@
 			return $respuesta;			
 		}
 		/* metodo para registar un nuevo personal */
-		public function mdlRegistrarPersonal($idPersona, $idCargoPersonal, $profesion, $correoPersonal, $celularPersonal, $direccionPersonal, $fechaIngresoPersonal){
+		public function mdlRegistrarPersonal($idPersona, $idCargoPersonal, $profesion, $correoPersonal, $celularPersonal, $direccionPersonal, $fechaNac, $fechaIngresoPersonal){
 			$this->idPersona = $idPersona;
 			$this->idCargoPersonal = $idCargoPersonal;
 			$this->profesion = $profesion;
@@ -34,13 +35,14 @@
 			$this->celularPersonal = $celularPersonal;
 			$this->direccionPersonal = $direccionPersonal;
 			$this->fechaIngresoPersonal = $fechaIngresoPersonal;
+			$this->fechaNac = $fechaNac;
 			$sql = "SELECT idPersonal FROM personal
 				INNER JOIN personas ON idPersonaPersonal = idPersona 
 				WHERE idPersona = $this->idPersona AND estadoPersonal = TRUE LIMIT 1;";
 			$respuesta = $this->consulta->select($sql);
 			if (empty($respuesta)) {
-				$sql = "INSERT INTO personal (idPersonaPersonal, idCargo, profesionPersonal, correoPersonal, celularPersonal, direccionPersonal, fechaIngresoPersonal) VALUES(?,?,?,?,?,?,?)";
-				$arrData = array($this->idPersona, $this->idCargoPersonal, $this->profesion, $this->correoPersonal, $this->celularPersonal, $this->direccionPersonal, $this->fechaIngresoPersonal); 
+				$sql = "INSERT INTO personal (idPersonaPersonal, idCargo, profesionPersonal, correoPersonal, celularPersonal, direccionPersonal, fechaNac, fechaIngresoPersonal) VALUES(?,?,?,?,?,?,?,?)";
+				$arrData = array($this->idPersona, $this->idCargoPersonal, $this->profesion, $this->correoPersonal, $this->celularPersonal, $this->direccionPersonal, $this->fechaNac, $this->fechaIngresoPersonal); 
 				$respuesta = $this->consulta->insert($sql, $arrData);
 				return $respuesta;
 			}else{

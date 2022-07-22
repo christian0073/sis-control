@@ -55,6 +55,7 @@
 					}else{
 						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}
+					$ciclo = "<h5><span class='badge badge-warning'>".$value['cicloSeccion']."° CICLO</span></h5></div>"; 
 					$turno = '';
 					if ($value['turno'] == 'M') {
 						$turno = 'MAÑANA';
@@ -68,9 +69,8 @@
 							"'.$value['nombreCarrera'].'",
 							"'.$value['codigo'].'",
 							"'.$value['nombreCurso'].'",
-							"'.$value['creditosCurso'].'",
 							"'.$value['nombreSeccion'].' ('.$turno.')",
-							"'.$value['cicloSeccion'].'° CICLO",
+							"'.$ciclo.'",
 							"'.$acciones.'"
 					],';
 				}

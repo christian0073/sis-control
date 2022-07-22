@@ -9,12 +9,15 @@
 		}
 		/* metodo para registrar a un nuevo personal */
 		static public function ctrRegistrarPersonal(){
+			//echo '<pre>'; print_r($_POST); echo '</pre>';
 			if (isset($_POST['txtDniUsuario']) && !empty($_POST['txtDniUsuario']) &&
 				isset($_POST['txtApellidoPaterno']) && !empty($_POST['txtApellidoPaterno']) &&
 				isset($_POST['txtApellidoMaterno']) && !empty($_POST['txtApellidoMaterno']) &&
 				isset($_POST['txtNombres']) && !empty($_POST['txtNombres']) &&
-				isset($_POST['cmbCargoPersonal']) && !empty($_POST['cmbCargoPersonal']) &&
-				isset($_POST['txtFechaIngreso']) && !empty($_POST['txtFechaIngreso'])
+				isset($_POST['cmbCargoPersonal']) && !empty($_POST['cmbCargoPersonal']) 
+				//&&
+				//isset($_POST['txtFechaIngreso']) && !empty($_POST['txtFechaIngreso']) &&
+				//isset($_POST['txtFechaNac']) && !empty($_POST['txtFechaNac'])
 			) {
 				$dniUsuario = trim($_POST['txtDniUsuario']);
 				$apellidoPaterno = trim($_POST['txtApellidoPaterno']);
@@ -22,12 +25,13 @@
 				$nombresPersona = trim($_POST['txtNombres']);
 				$idCargoPersonal = intval($_POST['cmbCargoPersonal']);
 				$fechaIngresoPersonal = $_POST['txtFechaIngreso'];
+				$fechaNac = $_POST['txtFechaNac'];
 				$profesion = trim($_POST['txtProfesion']);
 				if (preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚÜ' ]+$/", $apellidoPaterno) && preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚÜ' ]+$/", $apellidoMaterno) &&
 					preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚÜ' ]+$/", $nombresPersona) && preg_match('/^[0-9]+$/', $dniUsuario) &&
 					(preg_match('/^[\'\/\=\\;\\_\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\$\\|\\-\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST['txtDireccionPersonal']) || empty($_POST['txtDireccionPersonal'])) &&
 					(preg_match("/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/", $_POST['txtCorreoPersonal']) || empty($_POST['txtCorreoPersonal'])) &&
-					validarFecha($fechaIngresoPersonal) && (preg_match("/^[\/\.\\,\\-\\a-zA-ZñÑáéíóúÁÉÍÓÚ' ]+$/", $profesion) || empty($profesion))
+					(preg_match("/^[\/\.\\,\\-\\a-zA-ZñÑáéíóúÁÉÍÓÚ' ]+$/", $profesion) || empty($profesion))
 				) {
 					$arrCel = [];
 					for ($i=1; $i <5 ; $i++) { 
@@ -39,7 +43,7 @@
 					$idPersona = $modeloPersona->mdlRegistrarPersona($dniUsuario, $nombresPersona, $apellidoPaterno, $apellidoMaterno);
 					if ($idPersona > 0) {
 						$modeloUsuario = new ModeloPersonal();
-						$respuesta = $modeloUsuario->mdlRegistrarPersonal($idPersona, $idCargoPersonal, $profesion, $_POST['txtCorreoPersonal'], json_encode($arrCel), $_POST['txtDireccionPersonal'], $fechaIngresoPersonal);
+						$respuesta = $modeloUsuario->mdlRegistrarPersonal($idPersona, $idCargoPersonal, $profesion, $_POST['txtCorreoPersonal'], json_encode($arrCel), $_POST['txtDireccionPersonal'], $fechaNac, $fechaIngresoPersonal);
 						if ($respuesta > 0) {
 							return 'ok';
 						}

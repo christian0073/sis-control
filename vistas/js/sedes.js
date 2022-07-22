@@ -260,6 +260,7 @@ function mostrarSedes(){
 }
 
 function mostrarLocales(datos){
+   $('#locales').html('');
     let template = '';
    $.ajax({
       url:"ajax/local.ajax.php",

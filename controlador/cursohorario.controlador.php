@@ -99,6 +99,7 @@
 			$arrData = [];
 			$horaInicio =	$horario[0]['horaEntrada'];
 			$horaTarde = strtotime('13:30');
+			$horaTarde0 = strtotime($horaInicio);
 			$horaTemporal0 = strtotime($horaInicio);
 			if ($horaTemporal0 >= $horaTarde) {
 				$horaTemporal0 = $horaTarde0;
@@ -135,20 +136,30 @@
 				array_push($arrHoras, $rangoHora);
 				$horasAc++;
 			}
-			$dias = ["lunes", "martes", "miercoles", "viernes", "sabado"];
 			$arrHorasNuevo = [];
 			$tipoCurso = '';
+			$color = '';
 			foreach ($horario as $key => $value) {
 				foreach ($arrHoras as $key => $value1) {
 					$horaEntrada1 = strtotime($value['horaEntrada']);
 					$horaSalida1 = strtotime($value['horaSalida']);
 					if ($value1['horaEntrada'] >= $horaEntrada1 && $value1['horaSalida'] <= $horaSalida1) {
 						if($value['tipo'] == 'T'){
-							$tipoCurso = 'TEORICA';
+							$tipoCurso = 'TEÓRICA';
+							$color = 'bg-info';
 						}elseif ($value['tipo'] == 'P') {
-							$tipoCurso = 'PRACTICA';
+							$tipoCurso = 'PRÁCTICA';
+							$color = 'bg-success';
 						}
-						$datos = '<div style="height: 100%; widht:100%;" class="bg-danger">'.$value['nombreCarrera'].'</div>';
+						$trozos = explode(" ", $value['nombreCarrera']);
+						$contar = count($trozos);
+						$nombre = '';
+						for ($i=0; $i < $contar ; $i++) { 
+							$nombre .= substr($trozos[$i], 0, 3).". ";
+						}
+						//$nombre .= "- ".$value['periodo']." - ".mb_strtoupper($value['nombreSede'], 'UTF-8')."<br>".$value['nombreCurso']." SECCIÓN ".$value['nombreSeccion']." (".$tipoCurso.")";
+						$nombre .= " ".$value['nombreSeccion']." ".mb_strtoupper($value['nombreSede'], 'UTF-8')."<br>".$value['nombreCurso']." (".$tipoCurso.")";
+						$datos = '<div style="widht:100%; height:100%;" class="'.$color.'">'.$nombre.'</div>';
 
 						$dia = $value['dia'];
 						$arrHoras[$key]['dia'.$dia]= $datos;

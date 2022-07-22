@@ -73,23 +73,29 @@
             <a href="#" id="registrar" class="nav-link">
               <i class="nav-icon fa-solid fa-user-gear"></i>
               <p>
-                Personal
+                Colaboradores
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="registrar" class="nav-link">
-                  <i class="fa-solid fa-user-plus nav-icon"></i>
-                  <p>Registrar</p>
+                  <i class="fa-solid fa-users nav-icon"></i>
+                  <p>Personal</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
+                <a href="supervisar" class="nav-link">
+                  <i class="fa-solid fa-calendar-check nav-icon"></i>
+                  <p>Supervisar</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="cambios" class="nav-link">
+                  <i class="fa-solid fa-sort nav-icon"></i>
+                  <p>Cambios</p>
+                </a>
+              </li>              
             </ul>
           </li>
           <li class="nav-item ">
