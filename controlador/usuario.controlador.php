@@ -14,6 +14,8 @@
 					}else if ($respuesta['nombreUsuario'] == $usuario && $respuesta['contraUsuario'] == $contra) { 
 						$_SESSION['usuarioInciar'] = 'ok';
 						$_SESSION['idUsuarioSis'] = $respuesta['idUsuario'];
+						$periodoActivo = ControladorPeriodo::ctrMostrarPeriodoActivo();
+						$_SESSION['idPeriodo'] = $periodoActivo['idPeriodo'];
 						return "ok";
 					}else{
 						return "novalido";

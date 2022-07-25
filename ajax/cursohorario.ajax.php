@@ -7,3 +7,8 @@
 		$respuesta = ControladorCursoHorario::ctrRegistrarHorario();
 		echo $respuesta;
 	}	
+
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarDatosAsis'){
+		$respuesta = ControladorCursoHorario::ctrMostrarAsistenciaCurso($_POST['idHorarioCurso']);
+		echo json_encode($respuesta);
+	}

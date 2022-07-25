@@ -1,5 +1,5 @@
 <?php 
-	class ControladorCursoAula {
+	Class ControladorCursoAula {
 		/* metodo para mostrar todos loe cursos de un aula */
 		static public function ctrMostrarCursosAula($idAula){
 			$modeloCursoAula = new ModeloCursoAula();

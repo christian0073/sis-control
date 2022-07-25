@@ -168,4 +168,9 @@
 			}
 			return $arrHoras;
 		}
+		static public function ctrMostrarAsistenciaCurso($idHorarioCurso){
+			$modeloCurso = new ModeloCursoHorario();
+			$respuesta = $modeloCurso->mdlMostrarAsistenciaCurso($idHorarioCurso);
+			return $respuesta;
+		}
 	}

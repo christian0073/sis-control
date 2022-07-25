@@ -44,4 +44,14 @@
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;
 		}
+		public function mdlMostrarAsistenciaCurso($idHorarioCurso){
+			$sql = "SELECT horario_curso.* , personas.*, nombreCurso, nombreCarrera FROM horario_curso
+				INNER JOIN personal ON idPersonalHor = idPersonal
+				INNER JOIN personas ON personal.idPersonaPersonal = idPersona
+				INNER JOIN cursos ON idCursoHor = idCurso
+				INNER JOIN carreras ON cursos.idCarreraCurso = carreras.idCarrera
+				WHERE idHorarioCurso = $idHorarioCurso LIMIT 1;";
+		   	$respuesta = $this->consulta->select($sql);
+		   	return $respuesta;	
+		}
 	}

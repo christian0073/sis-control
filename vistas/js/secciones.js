@@ -227,7 +227,7 @@ $(document).on("click", ".btnVerCursos", function(e){
                </li>
             `;
          });
-         $("#listaCursos").html(template);
+         $("#listaAsistencia").html(template);
       }
    });  
 });

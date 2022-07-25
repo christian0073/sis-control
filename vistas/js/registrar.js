@@ -25,7 +25,6 @@ $(document).on("change", "#cmbCargo", function(e){
    mostrarPersonal.append("funcion", "mostrarPersonales")
    mostrarPersonal.append("idCargo", idCargo)
    buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
-
 });
 
 $(document).on("click", "#btnBuscarDni", function(e){

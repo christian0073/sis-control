@@ -322,3 +322,9 @@ function tiempo(minutos, hora) {
   nuevahora = tiempo.toISOString().substr(11, 5);
   return nuevahora; 
 }
+
+function fechaDescripcion(fecha){
+   let meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"];
+   let dias = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "viernes", "Sábado"];
+   return dias[fecha.getDay()] + " " + fecha.getDate() + " de " + meses[fecha.getMonth()] + " del " + fecha.getFullYear();
+}
