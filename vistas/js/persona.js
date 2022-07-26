@@ -349,7 +349,6 @@ $(document).on("click", ".agregarHorario", function(e){
    }); 
 });
 
-var dias = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
 $(document).on("click", ".btnTeoria", function(e){
    let padre = $(this).parent().parent().parent()[0];
    let padre1 = $(this).parent().parent().parent().parent()[0];

@@ -2,26 +2,17 @@ var fechaSuper = "";
 
 $(document).ready(function(){
 	$('.select2').select2();
-   	activarLinkMenu("supervisar", "#registrar");
-});
-
-$(document).on("change", "#cmbSedes", function(e){
-	let estado = $('input[name="txtFechaSupervision"]').prop("readonly");
-	if (estado) {
-		$('input[name="txtFechaSupervision"]').prop("readonly", false);
-	}
+   	activarLinkMenu("reprogramar", "#registrar");
 });
 
 $(document).on("click", "#btnBuscarSupervision", function(e){
-	let idSede = $("#cmbSedes").val();
 	let fecha = $("input[name='txtFechaSupervision']").val();
-	if (fecha != "" && idSede != "") {
+	if (fecha != "") {
 		let datos = new FormData();
-	   	datos.append("funcion", "mostrarSupervision");
-	   	datos.append("fecha", fecha);
-	   	datos.append("idSede", idSede);
-	   	buscarEnTabla('tablaSupervisar', 'supervision.ajax.php', datos, 25);
-	   	fechaSuper = fecha;
+   	datos.append("funcion", "mostrarReprogramacion");
+   	datos.append("fecha", fecha);
+   	buscarEnTabla('tablaReprogramar', 'supervision.ajax.php', datos, 25);
+   	fechaSuper = fecha;
 	}else{
 		alertaMensaje1('top-right', 'warning', '¡No se puede realizar la busqueda!');
 	}
@@ -41,9 +32,7 @@ $(document).on("click", ".mostrarAsistencia", function(e){
    datos.append('idPersonal', idPersonal);
    datos.append('idHorarioCurso', idHorarioCurso);
    let template = '';
-   $("input[name='txtFechaRep']").prop('disabled', true);
    $("input[name='idAsistenciaDocente']").val('');
-   $("input[name='idReprogramar']").val('');
    $("input[name='txtFechaRep']").prop('min', fechaSuper);
    $.ajax({
       url:"ajax/cursohorario.ajax.php",
@@ -54,7 +43,7 @@ $(document).on("click", ".mostrarAsistencia", function(e){
       processData: false,
       dataType: "json",
       success:function(response){
-      	$('#personafecha').html(response['apellidoPaternoPersona']+' '+response['apellidoMaternoPersona']+', '+ response['nombresPersona']+' ('+fechaSup.toLocaleDateString()+')');
+         $('#personafecha').html(response['apellidoPaternoPersona']+' '+response['apellidoMaternoPersona']+', '+ response['nombresPersona']+' ('+fechaSup.toLocaleDateString()+')');
          template = `
             <li class="list-group-item d-flex justify-content-between">
                Carrera:
@@ -71,7 +60,7 @@ $(document).on("click", ".mostrarAsistencia", function(e){
          `;         
          $("#listaAsistencia").html(template);
       }
-   }); 
+   });  
    let datos1 = new FormData();
    datos1.append('funcion', 'mostrarAsistencia');
    datos1.append('fecha', fechaSuper);
@@ -86,43 +75,21 @@ $(document).on("click", ".mostrarAsistencia", function(e){
       processData: false,
       dataType: "json",
       success:function(response){
-      	if (response != false) {
+         if (response != false) {
             $("#cmbTipoClase").val(response['tipo']);
             $("input[name='editar']").val(true);
             ocultarSelectCmb("cmbTipoClase");
-            if (response['tipo'] == 3) {
-               $("#cmbTipoClase option:not(:selected)").prop("disabled", true);
-               $("input[name='txtFechaRep']").prop('disabled', false);
-               $("input[name='txtFechaRep']").val(response['fechaRep']);
-               $("input[name='idReprogramar']").val(response['idReprogramar']);
-            }else{
-               $("#cmbTipoClase").prop('readonly', false);
-               $("input[name='txtFechaRep']").prop('disabled', true);
-               $("#cmbTipoClase option").prop("disabled", false);
-            }
             $("input[name='txtHoraEntrada']").val(response['horaEntrada']);
             $("input[name='txtHoraSalida']").val(response['horaSalida']);
             $("textarea[name='txtObservacion']").val(response['observacion']);
             $("input[name='idAsistenciaDocente']").val(response['idAsistenciaDocente']);
-      	}else{
-            $("#cmbTipoClase option").prop("disabled", false);
+         }else{
             mostrarSelectCmb('cmbTipoClase', 'selecione un opción');
             $("input[name='editar']").val(false);
          }
       }
-   });       
+   });      
 });
-
-$(document).on("change", "#cmbTipoClase", function(e){
-   ocultarSelectCmb("cmbTipoClase");
-   let tipoClase = $(this).val();
-   if (tipoClase == 3) {
-		$("input[name='txtFechaRep']").prop('disabled', false);
-   }else{
-   	$("input[name='txtFechaRep']").prop('disabled', true);
-   }
-});
-
 
 $('#formRegistrarAsistencia').submit(event=>{
    $.ajax({
@@ -142,4 +109,67 @@ $('#formRegistrarAsistencia').submit(event=>{
       }
    });
    event.preventDefault();
+});
+
+$(document).on("click", ".eliminarRep", function(e){
+   let idPersonal = $(this).attr('idPersonal');
+   let idHorarioCurso = $(this).attr('idHorarioCurso');
+   let idReprogramar = $(this).attr('idReprogramar');
+   let fecha = $(this).attr('fechaRep');
+   let idAsistenciaDocente = '';
+   let datos1 = new FormData();
+   datos1.append('funcion', 'mostrarAsistencia');
+   datos1.append('fecha', fecha);
+   datos1.append('idPersonal', idPersonal);
+   datos1.append('idHorarioCurso', idHorarioCurso);
+   $.ajax({
+      url:"ajax/supervision.ajax.php",
+      method: "POST",
+      data: datos1,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         if (response != false) {
+            idAsistenciaDocente = response['idAsistenciaDocente'];
+         }else{
+            idAsistenciaDocente = '';
+         }
+      }
+   }); 
+   swal({
+      title: "Advertencia",
+      text: "¿Está seguro de elimar el registro?",
+      type: "warning",
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar!",
+      showCancelButton: true,
+   }).then(function(result){
+      if (result.value) {
+         let datos2 = new FormData();
+         datos2.append('idAsistenciaDocente', idAsistenciaDocente);
+         datos2.append('idReprogramar', idReprogramar);
+         datos2.append('funcion', "elimarRep");
+         $.ajax({
+            url:"ajax/supervision.ajax.php",
+            method: "POST",
+            data: datos2,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(response){
+               if (response == 'ok') {
+                  let datos = new FormData();
+                  datos.append("funcion", "mostrarReprogramacion");
+                  datos.append("fecha", fechaSuper);
+                  buscarEnTabla('tablaReprogramar', 'supervision.ajax.php', datos, 25);
+                  alertaMensaje1('top-right', 'success', '¡Acción realizada con exito!');
+               }else{
+                  mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
+               }
+            }
+         });
+      }
+   });     
 });

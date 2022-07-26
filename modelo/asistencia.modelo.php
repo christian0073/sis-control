@@ -18,13 +18,13 @@
 			    INNER JOIN sedes on locales.idSedeLocal = sedes.idSede
 			    INNER JOIN personal on horario_curso.idPersonalHor = personal.idPersonal
 			    INNER JOIN personas on personal.idPersonaPersonal = personas.idPersona
-			    WHERE idCargo = 1 AND dia = '$dia' AND idSede = $idSede AND idPeriodoSeccion = $idPeriodo order by horaEntrada;";
+			    WHERE idCargo = 1 AND dia = '$dia' AND idSede = $idSede AND idPeriodoSeccion = $idPeriodo AND estadoPersonal = TRUE order by horaEntrada;";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;	
 		}
 		public function mdlMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso){
 			$sql = "SELECT * FROM asistencia_docente 
-				WHERE idPersonaAsistencia = $idPersonal AND idAsistenciaHor = $idHorarioCurso AND fechaAsistencia = '$fecha' LIMIT 1;";
+				WHERE idPersonaAsistencia = $idPersonal AND idAsistenciaHor = $idHorarioCurso AND fechaAsis = '$fecha' LIMIT 1;";
 		   	$respuesta = $this->consulta->select($sql);
 		   	return $respuesta;				
 		}
@@ -33,5 +33,53 @@
 			$arrData = array($idPersonal, $idHorarioCurso, $idUsuario, $fecha, $horaEntrada, $horaSalida, $tipoClase, $observacion, $estado); 
 			$respuesta = $this->consulta->insert($sql, $arrData);
 			return $respuesta;
+		}
+		public function mdlEditarAsistencia($tipoClase, $idUsuario, $horaEntrada, $horaSalida, $observacion, $estado, $idAsistenciaDocente){
+			$sql = "UPDATE asistencia_docente  SET  idUsuarioAsistencia = ?, horaEntrada=?, horaSalida = ?, tipo = ?, observacion = ?, estado = ?
+						WHERE idAsistenciaDocente = $idAsistenciaDocente";
+				$arrData = array($idUsuario, $horaEntrada, $horaSalida, $tipoClase, $observacion, $estado); 
+				$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;
+		}
+		public function mdlReprogramarAsistencia($idHorarioCurso, $fecha, $fechaRep, $horaEntrada, $horaSalida, $idReprogramar){
+			if (empty($idReprogramar)) {
+				$sql = "INSERT INTO reprogramacion (idHorCurso, fecha, fechaReprogramacion, horaIngreso, horaSalida) VALUES(?,?,?,?,?)";
+				$arrData = array($idHorarioCurso, $fecha, $fechaRep, $horaEntrada, $horaSalida,); 
+				$respuesta = $this->consulta->insert($sql, $arrData);
+			}else{
+				$sql = "UPDATE reprogramacion  SET  fechaReprogramacion = ?, horaIngreso=?, horaSalida = ?
+						WHERE idReprogramacion = $idReprogramar";
+				$arrData = array($fechaRep, $horaEntrada, $horaSalida); 
+				$respuesta = $this->consulta->update($sql, $arrData);
+			}
+			return $respuesta;	
+		}
+		public function mdlMostrarReprogramacion($fecha, $idHorarioCurso){
+			$sql = "SELECT * FROM reprogramacion 
+				WHERE idHorCurso = $idHorarioCurso AND fecha = '$fecha' LIMIT 1;";
+		   	$respuesta = $this->consulta->select($sql);
+		   	return $respuesta;
+		}
+		public function mdlMostrarReprogramaciones($fecha){
+			$sql = "SELECT reprogramacion.*, personal.idPersonal, nombreCurso, nombreCarrera, nombreSeccion, turno, cicloSeccion, concat(nombresPersona, ' ', apellidoPaternoPersona,' ', apellidoMaternoPersona) AS datos FROM reprogramacion
+				INNER JOIN horario_curso ON reprogramacion.idHorCurso = horario_curso.idHorarioCurso
+				INNER JOIN personal ON horario_curso.idPersonalHor = personal.idPersonal
+				INNER JOIN personas ON personal.idPersonaPersonal = personas.idPersona
+				INNER JOIN cursos ON horario_curso.idCursoHor = cursos.idCurso
+				INNER JOIN carreras ON cursos.idCarreraCurso = carreras.idCarrera
+				INNER JOIN seccion ON horario_curso.idSeccionHor = seccion.idSeccion
+				WHERE fechaReprogramacion = '$fecha' AND reprogramacion.estado = 1 ORDER BY horaIngreso;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;	
+		}
+		public function mdlEliminarReprogramacion($idReprogramar){
+			$sql = "DELETE FROM reprogramacion WHERE idReprogramacion = $idReprogramar;";
+		   	$respuesta = $this->consulta->delete($sql);
+		   	return $respuesta;
+		}
+		public function mdlEliminarAsistencia($idAsistenciaDocente){
+			$sql = "DELETE FROM asistencia_docente WHERE idAsistenciaDocente = $idAsistenciaDocente;";
+		   	$respuesta = $this->consulta->delete($sql);
+		   	return $respuesta;
 		}
 	}

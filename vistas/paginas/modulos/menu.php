@@ -91,6 +91,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="reprogramar" class="nav-link">
+                  <i class="fa-solid fa-calendar-day nav-icon"></i>
+                  <p>Reprogramación</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="cambios" class="nav-link">
                   <i class="fa-solid fa-sort nav-icon"></i>
                   <p>Cambios</p>

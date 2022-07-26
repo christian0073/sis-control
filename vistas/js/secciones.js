@@ -219,6 +219,7 @@ $(document).on("click", ".btnVerCursos", function(e){
       processData: false,
       dataType: "json",
       success:function(response){
+         console.log("response", response);
          response.forEach(valor => {
             template += `
                <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -227,7 +228,7 @@ $(document).on("click", ".btnVerCursos", function(e){
                </li>
             `;
          });
-         $("#listaAsistencia").html(template);
+         $("#listaCursos").html(template);
       }
    });  
 });

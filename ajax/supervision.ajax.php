@@ -16,4 +16,12 @@
 		$respuesta = ControladorAsistencia::ctrRegistrarAsistencia();
 		echo $respuesta;		
 	}
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarReprogramacion'){
+		$respuesta = ControladorAsistencia::ctrMostrarReprogramaciones();
+		echo $respuesta;
+	}
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'elimarRep'){
+		$respuesta = ControladorAsistencia::ctrEliminarReprogramacion();
+		echo $respuesta;
+	}
  ?>

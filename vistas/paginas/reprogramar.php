@@ -1,6 +1,3 @@
-<?php 
-  $sedes = ControladorSede::ctrMostrarSedes();
- ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -8,12 +5,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Supervisar</h1>
+            <h1 class="m-0">Reprogramación</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Supervisar</li>
+              <li class="breadcrumb-item active">Reprogramación</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -27,15 +24,7 @@
         <div class="card-header pb-0">
           <div class="row">
             <div class="form-group mr-1">
-              <select class="form-control-sm select2" id="cmbSedes">
-                <option value="">Seleccione una sede</option>
-                <?php foreach ($sedes as $key => $value): ?>
-                  <option value="<?php echo $value['idSede']; ?>"><?php echo $value['nombreSede']; ?></option>
-                <?php endforeach ?>
-              </select>
-            </div>
-            <div class="form-group mr-1">
-              <input type="date" class="form-control form-control-sm" name="txtFechaSupervision" readonly>
+              <input type="date" class="form-control form-control-sm" name="txtFechaSupervision">
             </div>
             <div>
               <button class="btn btn-info btn-sm" id="btnBuscarSupervision">Buscar <i class="fas fa-search"></i></button>
@@ -44,17 +33,17 @@
         </div>
         <div class="card-body">
           <div class="col-12">
-            <table class="table table-striped table-hover dt-responsive" id="tablaSupervisar" style="width: 100%; font-size: 13px;">
+            <table class="table table-striped table-hover dt-responsive" id="tablaReprogramar" style="width: 100%; font-size: 13px;">
               <thead>
                 <tr>
                   <th style="width: 20px;">N°</th>
                   <th>Docente</th>
                   <th>Especialidad</th>
                   <th>Curso</th>
-                  <th style="width: 40px;">Ciclo</th>
-                  <th style="width: 100px;">Sección - turno</th>
+                  <th style="width: 60px;">fecha</th>
+                  <th style="width: 50px;">Ciclo</th>
+                  <th style="width: 120px;">Sección - turno</th>
                   <th style="width: 100px;">Horario</th>
-                  <th style="width: 30px;">Horas</th>
                   <th style="width: 40px;">Acciones</th>
                 </tr>
               </thead>
@@ -68,7 +57,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
 
 <div class="modal" id="modalAsistencia">
   <div class="modal-dialog">
@@ -89,16 +77,8 @@
                     <select class="form-control" name="cmbTipoClase" id="cmbTipoClase" required>
                       <option value="">Seleccione una opción</option>
                       <option value="1">Virtual</option>
-                      <option value="2">Presencial</option>
-                      <option value="3">Reprogramar</option>
                       <option value="4">No se realizó</option>
                     </select>
-                </div>
-              </div>
-              <div class="form-group col-6">
-                <label for="txtFechaRep">Fecha reprogramación:</label>
-                <div class="input-group input-group-sm">
-                  <input type="date" class="form-control" name="txtFechaRep" disabled>
                 </div>
               </div>
             </div>
@@ -129,7 +109,6 @@
             <input type="hidden" name="idCursoHorario">
             <input type="hidden" name="fechaAsistencia">
             <input type="hidden" name="idAsistenciaDocente">
-            <input type="hidden" name="idReprogramar">
             <input type="hidden" name="editar">
         </div>
         <div class="modal-footer">
