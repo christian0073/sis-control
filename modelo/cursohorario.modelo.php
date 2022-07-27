@@ -2,7 +2,7 @@
 	require_once "consultas.php";
 	Class ModeloCursoHorario{
 		
-		public function __construct(){
+		public function __construct(){ 
 			$this->consulta = new Consultas();
 		}
 

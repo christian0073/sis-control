@@ -21,3 +21,17 @@
 		$respuesta = ControladorCursoAula::ctrMostrarDetalleCurso($_POST['idhorariocurso']);
 		echo json_encode($respuesta);	
 	}
+	/* condición para mostrar de una sección */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarCursosSeccion') {
+		$respuesta = ControladorCursoAula::ctrMostrarCursosSeccion();
+		echo $respuesta;
+	}
+	/* condición para registrar curso de un docente */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'registrarDocenteCurso') {
+		$respuesta = ControladorCursoAula::ctrRegistrarDocenteCurso();
+		echo $respuesta;
+	}
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'eliminarDocenteCurso'){
+		$respuesta = ControladorCursoAula::ctrEliminarCursoDocente();
+		echo $respuesta;
+	}

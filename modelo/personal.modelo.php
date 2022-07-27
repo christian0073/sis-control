@@ -89,4 +89,12 @@
 			$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
 		}
+		public function mdlEditarEstadoPersonal($idPersonal, $fechasalida, $estado){
+			$this->idPersonal = $idPersonal;
+			$sql = "UPDATE personal  SET  fechaSalidaPersonal = ?, estadoPersonal = ?
+					WHERE idPersonal = $this->idPersonal";
+			$arrData = array($fechasalida, $estado); 
+			$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;
+		}
 	}

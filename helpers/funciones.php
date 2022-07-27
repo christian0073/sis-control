@@ -33,4 +33,9 @@
 	    }
 		return false;
 	}	
+	function buscarPersona1($dni){
+		$persona = json_decode( file_get_contents('https://dniruc.apisperu.com/api/v1/dni/'.$dni.'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImNocmlzdGlhbi52aWxjYUBpbnN0aXR1dG9maWJvbmFjY2kuY29tIn0.ZX3D5fmBOwmq_SPjVseUC4JWygn1cTaOaN1iF-S1JfM'), true );
+		$respuesta = array("paterno" => $persona['apellidoPaterno'], "materno" => $persona['apellidoMaterno'], "nombres" => $persona['nombres']);
+		return $respuesta;
+	}
  ?>

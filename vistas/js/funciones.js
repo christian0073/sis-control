@@ -296,8 +296,10 @@ function mostrarSecciones(datos, cmb){
          response.forEach(valor =>{
             if (valor.turno == 'M') {
                turno = 'MAÑANA';
-            }else{
+            }else if(valor.turno == 'T'){
                turno = 'TARDE';
+            }else{
+               turno = 'NOCHE';
             }
             template +=`
                <option value="${valor.idSeccion}">${valor.nombreSeccion} (${turno})</option>

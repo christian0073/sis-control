@@ -19,6 +19,12 @@
 
 	require_once "controlador/personal.controlador.php";
 	require_once "modelo/personal.modelo.php";
+
+	require_once "controlador/aula.controlador.php";
+	require_once "modelo/aula.modelo.php";
+
+	require_once "controlador/local.controlador.php";
+	require_once "modelo/local.modelo.php";	
 	
 	$plantilla = new ControladorPlantilla();
 	$plantilla->ctrPlantilla();

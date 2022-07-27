@@ -39,19 +39,19 @@
         </div>
         <div class="card-body">
           <div class="col-12">
-            <table class="table table-striped table-hover dt-responsive" id="tablaPersonal" style="width: 100%;">
-              <thead>
+            <table class="table table-striped table-hover dt-responsive" id="tablaPersonal" style="width: 100%; font-size: 13px;">
+              <thead style="text-align: center;">
                 <tr>
                   <th style="width: 20px;">N°</th>
                   <th style="width: 80px;">Cargo</th>
                   <th style="width: 300px;">Apellidos y Nombres</th>
-                  <th style="width: 80px;">DNI</th>
-                  <th>Profesión</th>
+                  <th style="width: 60px;">DNI</th>
+                  <th style="width: 80px;">Profesión</th>
                   <th>Correo</th>
-                  <th style="width: 80px;">Celulares</th>
+                  <th style="width: 60px;">Celulares</th>
                   <th>Dirección</th>
-                  <th style="width: 120px;">Fecha ingreso</th>
-                  <th style="width: 120px;">Fecha de cese</th>
+                  <th style="width: 100px;">Fecha ingreso</th>
+                  <th style="width: 100px;">Fecha de cese</th>
                   <th style="width: 100px;">Acciones</th>
                 </tr>
               </thead>
@@ -202,7 +202,7 @@
             <div class="form-group col-6">
               <label for="txtFechaIngresoEditar">Fecha ingreso:</label>
                <div class="input-group input-group-sm">
-                <input type="date" class="form-control" name="txtFechaIngresoEditar" placeholder="Ingrese correo" required>
+                <input type="date" class="form-control" name="txtFechaIngresoEditar" required>
               </div>
             </div>
           </div>
@@ -239,6 +239,43 @@
         </div>
         <input type="hidden" name="funcion" value="editarPersonal">
         <input type="hidden" name="idPersonal">
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- modal para editar datos de un personañ -->
+<div class="modal" id="modalEliminarPersonal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" id="formEliminarPersonal">
+        <!-- Modal Header -->
+        <div class="modal-header bg-light">
+          <h4 class="modal-title" id="tituloPersonaEl"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="txtFechaSalida">Fecha de salida:</label>
+               <div class="input-group input-group-sm">
+                <input type="date" class="form-control" name="txtFechaSalida" required>
+              </div>
+            </div>
+          </div>          
+        </div>
+        <input type="hidden" name="funcion" value="eliminarPersonal">
+        <input type="hidden" name="idPersonalEl">
         <!-- Modal footer -->
         <div class="modal-footer">
           <div>

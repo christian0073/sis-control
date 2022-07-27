@@ -75,7 +75,7 @@
 					$datoPersonal = $value['apellidoPaternoPersona'].' '.$value['apellidoMaternoPersona'].', '.$value['nombresPersona'];
 					$acciones = "<div class='btn-group'>";
 					if ($value['estadoPersonal'] == 1) {
-						$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEditarPersonal'><i class='fa-solid fa-user-pen'></i></button><a href='persona?idPersonal=".$value['idPersonal']."' class='btn btn-info btn-sm btnVerPersonal' title='Ver datos de  ".$datoPersonal."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-eye'></i></a></div>"; 
+						$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEditarPersonal'><i class='fa-solid fa-user-pen'></i></button><a href='persona?idPersonal=".$value['idPersonal']."' class='btn btn-info btn-sm btnVerPersonal' title='Ver datos de  ".$datoPersonal."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-eye'></i></a><button class='btn btn-dark btn-sm btnEliminarPersonal' title='Eliminar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEliminarPersonal'><i class='fa-solid fa-delete-left'></i></button></div>"; 
 					}else{
 						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}
@@ -169,6 +169,41 @@
 				return 'ok';
 			}
 			return $respuesta;
+		}else{
+			return 'no';
+		}
+	}
+	static public function ctrEditarEstadoPersonal(){
+		if (isset($_POST['idPersonalEl']) && !empty($_POST['idPersonalEl']) &&
+			isset($_POST['txtFechaSalida']) && !empty($_POST['txtFechaSalida'])
+		) {
+			if (!validarFecha($_POST['txtFechaSalida'])) {
+				return 'no';
+			}
+			$fechasalida = $_POST['txtFechaSalida'];
+			$idPersonal = intval($_POST['idPersonalEl']);
+			$modeloPersonal = new ModeloPersonal();
+			$editar = $modeloPersonal->mdlEditarEstadoPersonal($idPersonal, $fechasalida, FALSE);
+			if ($editar) {
+				$modeloCurso = new ModeloCursoAula();
+				$cursos = $modeloCurso->mdlMostrarCurosDoc($idPersonal);
+				if (!empty($cursos)) {
+					$editarCursos= $modeloCurso->mdlEditarCursoVarios($idPersonal, NULL);
+					$consulta = '';
+					if ($editarCursos) {
+						foreach ($cursos as $key => $value) {
+							$idHorarioCurso = $value['idHorarioCurso'];
+							$consulta .= "DELETE FROM detallehorario WHERE idHorarioCurso = $idHorarioCurso;";
+						}
+						$borrarRegistro = $modeloCurso->mdlEliminarCursoDocente($consulta);
+						if ($borrarRegistro) {
+							return 'ok';
+						}						
+					}else{
+						return 'error';
+					}
+				}
+			}
 		}else{
 			return 'no';
 		}

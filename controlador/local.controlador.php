@@ -93,4 +93,9 @@
 				return 'error';
 			}
 		}
+		static public function ctrMostrarLocalSede($idLocalSeccion){
+			$modeloLocal = new ModeloLocal();
+			$respuesta = $modeloLocal->mdlMostrarLocalSede($idLocalSeccion);
+			return $respuesta;	
+		}
 	}

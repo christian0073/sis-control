@@ -25,14 +25,15 @@
     }else{
       echo '<script>
         mensaje("¡ERROR!", "¡Ah ocurrido un  error al ingresar a la pagina! Comuniquese con el administrador de inmediato." , "error");
-        window.location = "http://localhost/sis-control/registrar";
+        window.location = "'.$rutaSistema.'secciones";
       </script>';
-      exit;    }
+      exit;    
+    }
   }else{
-      echo '<script>
-        window.location = "http://localhost/sis-control/error";
-      </script>';
-      exit;
+    echo '<script>
+      window.location = "'.$rutaSistema.'error";
+    </script>';
+    exit;
   }
  ?>
 <div class="content-wrapper">
@@ -132,10 +133,10 @@
                                   <tr>
                                     <th style="width: 20px;">N°</th>
                                     <th>Especialidad</th>
-                                    <th style="width: 30px;">Codigo</th>
-                                    <th>Nombre del curso</th>
-                                    <th style="width: 130px;">Seccion - Turno</th>
                                     <th style="width: 40px;">Ciclo</th>
+                                    <th style="width: 130px;">Seccion - Turno</th>
+                                    <th>Nombre del curso</th>
+                                    <th style="width: 30px;">Codigo</th>
                                     <th style="width: 40px;">Acciones</th>
                                   </tr>
                                 </thead>

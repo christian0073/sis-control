@@ -50,4 +50,31 @@
 			$respuesta = $this->consulta->selectAll($sql);
 			return $respuesta;		
 		}
+		public function mdlMostrarCurosSeccion($idSeccion){
+			$sql = "SELECT horario_curso.*, nombreCurso, codigo, periodo, nombreCarrera, concat(nombresPersona, ' ', apellidoPaternoPersona, ' ', apellidoMaternoPersona) AS datos FROM horario_curso 
+				INNER JOIN cursos ON idCursoHor = idCurso
+				INNER JOIN carreras ON idCarreraCurso = idCarrera
+				LEFT JOIN personal ON idPersonalHor = idPersonal
+				LEFT JOIN personas ON idPersonaPersonal = idPersona
+				WHERE idSeccionHor = $idSeccion ORDER BY nombreCurso ASC;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;				
+		}
+		public function mdlEliminarCursoDocente($query){
+		   	$respuesta = $this->consulta->delete($query);
+		   	return $respuesta;
+		}
+		public function mdlMostrarCurosDoc($idPersonal){
+			$sql = "SELECT * FROM horario_curso 
+				WHERE idPersonalHor= $idPersonal;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
+		public function mdlEditarCursoVarios($idPersonal, $valor){
+			$sql = "UPDATE horario_curso  SET  idPersonalHor = ?
+					WHERE idPersonalHor = $idPersonal;";
+			$arrData = array($valor); 
+			$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;			
+		}
 	}

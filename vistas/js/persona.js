@@ -340,7 +340,7 @@ $(document).on("click", ".agregarHorario", function(e){
                if (horas == '-') {
                   $("#horasCurso" + diaId).html(valor['horas']);
                }else{
-                  $("#horasCurso" + diaId).html(horas+valor['horas'].Math.round());
+                  $("#horasCurso" + diaId).html(parseInt(horas)+parseInt(valor['horas']));
                }
             }); 
          }
@@ -430,6 +430,47 @@ $('#form1, #form2, #form3, #form4, #form5, #form6').submit(event=>{
    });
    
    event.preventDefault();
+});
+
+$(document).on("click", ".btnEliminarCurso", function(e){
+   let idHorarioCurso = $(this).attr('idHorarioCurso');
+   swal({
+      title: "¿Está seguro de quitar el curso?",
+      text: "¡Sí no lo está, puede cancelar la acción! Se eliminará el horario del curso",
+      type: "warning",
+      showCancelButton: true,
+      cancelButtonText: "¡Cancelar!",
+      focusCancel: true,
+      confirmButtonText: "Sí, Eliminar",
+   }).then(function(result){
+      if (result.value) {
+         let datos = new FormData();
+         datos.append('funcion', 'eliminarDocenteCurso');
+         datos.append('idHorarioCurso', idHorarioCurso);
+         $.ajax({
+            url:"ajax/cursoaula.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(response){
+               if (response == 'ok') {
+                  let mostrarCursos = new FormData();
+                  mostrarCursos.append("funcion", "mostrarCursosDocente");
+                  mostrarCursos.append("idPersonal", idPersonalGlobal);
+                  buscarEnTabla('tablaCursos', 'cursoaula.ajax.php', mostrarCursos, 10);
+                  alertaMensaje1('top-right', 'success', '¡Se elimnó el curso y horario!');
+               }else if (response == 'no') {
+                  alertaMensaje1('top-right', 'warning', '¡No se realizó la acción!');
+               }else{
+                  mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
+               }
+            }
+         });
+      }
+   });
+
 });
 
 function mostrarDatosPersonal(datos){

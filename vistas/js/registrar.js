@@ -1,5 +1,6 @@
 var btnMaximo = 1;
 var btnCelular = 1;
+var cargoGlobal = '';
 
 $(document).ready(function(){
    $('.select2').select2();
@@ -21,6 +22,7 @@ $(document).on("change", "#cmbCargoPersonal", function(e){
 $(document).on("change", "#cmbCargo", function(e){
    $(this).find("option[value='']").remove();
    let idCargo = $(this).val();
+   cargoGlobal = idCargo
    let mostrarPersonal = new FormData();
    mostrarPersonal.append("funcion", "mostrarPersonales")
    mostrarPersonal.append("idCargo", idCargo)
@@ -206,9 +208,9 @@ $("#formEditarPersonal").submit(event=>{
       success:function(response){
          if (response == 'ok') {
             let mostrarPersonal = new FormData();
-            mostrarPersonal.append("funcion", "mostrarPersonales")
+            mostrarPersonal.append("funcion", "mostrarPersonales");
+            mostrarPersonal.append("idCargo", cargoGlobal);
             buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
-            mostrarSelectCmb("cmbCargo", "Seleccionar una opción");
             $('#cmbCargo').select2("val", "");
             $("#modalEditarPersonal").modal("hide");
             mensaje('¡CORRECTO!', 'La acción se realizó con exito.' , 'success');
@@ -222,7 +224,52 @@ $("#formEditarPersonal").submit(event=>{
    event.preventDefault();
 });
 
+$(document).on("click", ".btnEliminarPersonal", function(e){
+   let idPersonal = $(this).attr('idPersonal');
+   $("#formEliminarPersonal")[0].reset();
+   $('#tituloPersonaEl').html("");
+   let datos = new FormData();
+   datos.append('funcion', 'mostrarPersonal');
+   datos.append('idPersonal', idPersonal);
+   $.ajax({
+      url:"ajax/personal.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         $('#tituloPersonaEl').html(response['apellidoPaternoPersona']+' '+response['apellidoMaternoPersona']+', '+ response['nombresPersona']+' ('+response['dniPersona']+')');
+         $('input[name="idPersonalEl"]').val(response['idPersonal']);
+         $('input[name="txtFechaSalida"]').prop('min', response['fechaIngresoPersonal']);
+      }
+   }); 
+});
 
+$("#formEliminarPersonal").submit(event=>{
+   $.ajax({
+      url:"ajax/personal.ajax.php",
+      method: "POST",
+      data: $('#formEliminarPersonal').serialize(),
+      cache: false,
+      success:function(response){
+         if (response == 'ok') {
+            let mostrarPersonal = new FormData();
+            mostrarPersonal.append("funcion", "mostrarPersonales");
+            mostrarPersonal.append("idCargo", cargoGlobal);
+            buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
+            $("#modalEliminarPersonal").modal("hide");
+            alertaMensaje1('top-right', 'success', '¡Se elimnó al personal!');
+         }else if(response == 'no'){
+            mensaje('¡CORREGIR!', '¡no se pudo eliminar!', 'warning');
+         }else{
+            mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
+         }
+      }
+   });
+   event.preventDefault();
+});
 
 function buscarDniUsuario(datos, dni, dato){
    if(dni.length == 8 && dato){

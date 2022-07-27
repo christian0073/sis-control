@@ -67,5 +67,11 @@
 			$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
 		}
-		
+		public function mdlMostrarLocalSede($idLocalSeccion){
+			$sql = "SELECT * FROM local_carrera
+				INNER JOIN locales ON local_carrera.idLocal = locales.idLocal
+				INNER JOIN sedes ON locales.idSedeLocal = sedes.idSede WHERE idLocalCarrera = $idLocalSeccion;";
+		   	$respuesta = $this->consulta->select($sql);
+		   	return $respuesta;				
+		}
 	}

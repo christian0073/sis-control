@@ -9,6 +9,8 @@
 	require_once "../controlador/cursohorario.controlador.php";
 	require_once "../modelo/cursohorario.modelo.php";
 
+	require_once "../modelo/cursoaula.modelo.php";
+
 	require_once "../helpers/funciones.php";
 	/* condición para buscar a una persona */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'buscarDni') {
@@ -18,11 +20,10 @@
 		}else{
 			$respuesta = ControladorPersona::ctrMostrarPersonaDni($_POST['dni']);
 			if(empty($respuesta)){
-				$persona = buscarPersona($_POST['dni']);
-				if ($persona['success']) {
-					$respuesta = $persona['result'];
-				}else{
-					$respuesta = array("valor" => 'no');
+				//$persona = buscarPersona($_POST['dni']);
+				$respuesta = buscarPersona1($_POST['dni']);
+				if (empty($respuesta)) {
+					$respuesta = array("valor" => 'no');	
 				}
 			}
 		}
@@ -60,5 +61,17 @@
 			$respuesta = ControladorCursoHorario::ctrDocenteHorario($_POST['idPersonal']);
 			echo json_encode($respuesta);
 		}
+	}
+	/* condición para buscar a una persona */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'buscarDniPersonal') {
+		$respuesta = ControladorPersonal::ctrMostrarPersonalDni($_POST['dni']);
+		if (empty($respuesta)) {
+			$respuesta = array("valor" => 'no');
+		}
+		echo json_encode($respuesta);
+	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'eliminarPersonal') {
+		$respuesta = ControladorPersonal::ctrEditarEstadoPersonal();
+		echo $respuesta;
 	}
 ?>
