@@ -20,7 +20,7 @@ $(document).on("click", "#btnBuscarSupervision", function(e){
 	   	datos.append("funcion", "mostrarSupervision");
 	   	datos.append("fecha", fecha);
 	   	datos.append("idSede", idSede);
-	   	buscarEnTabla('tablaSupervisar', 'supervision.ajax.php', datos, 25);
+	   	buscarEnTabla('tablaSupervisar', 'supervision.ajax.php', datos, 100);
 	   	fechaSuper = fecha;
 	}else{
 		alertaMensaje1('top-right', 'warning', '¡No se puede realizar la busqueda!');

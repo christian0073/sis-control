@@ -1,7 +1,7 @@
 <?php 
 	require_once '../controlador/aula.controlador.php';
 	require_once '../modelo/aula.modelo.php';
-
+	session_start();
 	Class TablaAulas{
 		public function mostrarTabla(){
 			$aulas = '';
@@ -24,7 +24,12 @@
 				foreach ($aulas as $key => $value) {
 					$acciones = '';
 					if ($value['estado'] == 1) {
-						$acciones = "<div class='btn-group'><button class='btn btn-warning btn-sm editarAula' title='Editar el aula ".$value['nombreSeccion']."' idAula='".$value['idSeccion']."' data-toggle='modal' data-target='#modalEditarAula'><i class='fa-solid fa-pen-to-square'></i></button><button class='btn btn-sm btn-info btnVerCursos' title='Ver cursos' idAula='".$value['idSeccion']."' data-toggle='modal' data-target='#modalVerCursos'><i class='fa-solid fa-eye'></i></button><a href='seccion?idSeccion=".$value['idSeccion']."' class='btn btn-danger btn-sm btnVerSeccion' title='Cambiar datos de la sección'><i class='fa-solid fa-sort'></i></a><button class='btn btn-dark btn-sm desactivarCurso' nombre=".$value['nombreSeccion']." idAula=".$value['idSeccion']." title='Desactivar el aula ".$value['nombreSeccion']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 
+						if ($_SESSION['idUsuarioRol'] == 4) {
+							$acciones = "<div class='btn-group'><button class='btn btn-sm btn-info btnVerCursos' title='Ver cursos' idAula='".$value['idSeccion']."' data-toggle='modal' data-target='#modalVerCursos'><i class='fa-solid fa-eye'></i></button><a href='seccion?idSeccion=".$value['idSeccion']."' class='btn btn-danger btn-sm btnVerSeccion' title='Cambiar datos de la sección'><i class='fa-solid fa-sort'></i></a></div>"; 	
+						}else{
+
+							$acciones = "<div class='btn-group'><button class='btn btn-warning btn-sm editarAula' title='Editar el aula ".$value['nombreSeccion']."' idAula='".$value['idSeccion']."' data-toggle='modal' data-target='#modalEditarAula'><i class='fa-solid fa-pen-to-square'></i></button><button class='btn btn-sm btn-info btnVerCursos' title='Ver cursos' idAula='".$value['idSeccion']."' data-toggle='modal' data-target='#modalVerCursos'><i class='fa-solid fa-eye'></i></button><a href='seccion?idSeccion=".$value['idSeccion']."' class='btn btn-danger btn-sm btnVerSeccion' title='Cambiar datos de la sección'><i class='fa-solid fa-sort'></i></a><button class='btn btn-dark btn-sm desactivarCurso' nombre=".$value['nombreSeccion']." idAula=".$value['idSeccion']." title='Desactivar el aula ".$value['nombreSeccion']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 
+						}
 					}else{
 						$acciones = "<h5><span class='badge badge-dark'>No disponible</span></h5>";
 					}

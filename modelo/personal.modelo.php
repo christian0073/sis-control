@@ -57,7 +57,7 @@
 			}
 			$sql = "SELECT personal.*, dniPersona, nombresPersona, apellidoMaternoPersona, apellidoPaternoPersona, nombreCargo FROM personal
 				INNER JOIN personas ON idPersonaPersonal= idPersona
-				INNER JOIN cargos ON personal.idCargo = cargos.idCargo $consulta ORDER BY estadoPersonal DESC, apellidoPaternoPersona ASC;";
+				INNER JOIN cargos ON personal.idCargo = cargos.idCargo $consulta ORDER BY estadoPersonal DESC, idPersonal DESC;";
 			$respuesta = $this->consulta->selectAll($sql);
 			return $respuesta;
 		}

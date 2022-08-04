@@ -1,5 +1,6 @@
 <?php 
 	date_default_timezone_set("America/Lima");
+	session_start();
 	require_once "../controlador/personal.controlador.php";
 	require_once "../modelo/personal.modelo.php";
 

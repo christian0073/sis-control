@@ -28,6 +28,7 @@
               <p>Inicio</p>
             </a>
           </li>
+          <?php if ($idUsuarioRol!=4): ?>
           <li class="nav-item">
             <a href="usuarios" class="nav-link">
               <i class="nav-icon fa-solid fa-user-gear"></i>
@@ -61,14 +62,17 @@
                   <p>periodos</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="secciones" class="nav-link">
-                  <i class="fa-solid fa-chalkboard-user nav-icon"></i>
-                  <p>Secciones</p>
-                </a>
-              </li>
             </ul>
           </li>       
+          <?php endif ?>
+          <li class="nav-item ">
+            <a href="secciones" class="nav-link">
+              <i class="fa-solid fa-chalkboard-user nav-icon"></i>
+              <p>
+                Secciones
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="#" id="registrar" class="nav-link">
               <i class="nav-icon fa-solid fa-user-gear"></i>
@@ -84,6 +88,14 @@
                   <p>Personal</p>
                 </a>
               </li>
+              <?php if ($idUsuarioRol != 4): ?>
+              <li class="nav-item">
+                <a href="cambios" class="nav-link">
+                  <i class="fa-solid fa-sort nav-icon"></i>
+                  <p>Cambios</p>
+                </a>
+              </li>
+              <?php endif ?>
               <li class="nav-item">
                 <a href="supervisar" class="nav-link">
                   <i class="fa-solid fa-calendar-check nav-icon"></i>
@@ -94,35 +106,6 @@
                 <a href="reprogramar" class="nav-link">
                   <i class="fa-solid fa-calendar-day nav-icon"></i>
                   <p>Reprogramación</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="cambios" class="nav-link">
-                  <i class="fa-solid fa-sort nav-icon"></i>
-                  <p>Cambios</p>
-                </a>
-              </li>              
-            </ul>
-          </li>
-          <li class="nav-item ">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Starter Pages
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
                 </a>
               </li>
             </ul>

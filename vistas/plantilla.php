@@ -8,6 +8,7 @@
 		if (!isset($_SESSION['usuarioInciar'])) {
 			include "paginas/login.php";
 		}else{
+			$idUsuarioRol = $_SESSION['idUsuarioRol'];
 			if (isset($_GET['pagina'])) {
 				include "paginas/modulos/header.php";
 				include "paginas/modulos/menu.php";

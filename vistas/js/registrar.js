@@ -7,12 +7,13 @@ $(document).ready(function(){
    activarLinkMenu("registrar", "#registrar");
    let mostrarPersonal = new FormData();
    mostrarPersonal.append("funcion", "mostrarPersonales")
-   buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
+   buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 50);
 });
 
 $(document).on("click", "#btnAgregarPeriodo", function(e){
    mostrarSelectCmb("cmbCargoPersonal", "Seleccione una opción");
    $("#formRegistrarPersonal")[0].reset();
+   $("input[name='txtDniUsuario']").focus();
 });
 
 $(document).on("change", "#cmbCargoPersonal", function(e){
@@ -26,7 +27,7 @@ $(document).on("change", "#cmbCargo", function(e){
    let mostrarPersonal = new FormData();
    mostrarPersonal.append("funcion", "mostrarPersonales")
    mostrarPersonal.append("idCargo", idCargo)
-   buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
+   buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 50);
 });
 
 $(document).on("click", "#btnBuscarDni", function(e){
@@ -134,7 +135,7 @@ $('#formRegistrarPersonal').submit(event=>{
             if (response == 'ok') {
                let mostrarPersonal = new FormData();
                mostrarPersonal.append("funcion", "mostrarPersonales")
-               buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
+               buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 50);
                mostrarSelectCmb("cmbCargo", "Seleccionar una opción");
                $('#cmbCargo').select2("val", "");
                $("#modalRegistroPersonal").modal("hide");
@@ -210,7 +211,7 @@ $("#formEditarPersonal").submit(event=>{
             let mostrarPersonal = new FormData();
             mostrarPersonal.append("funcion", "mostrarPersonales");
             mostrarPersonal.append("idCargo", cargoGlobal);
-            buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
+            buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 100);
             $('#cmbCargo').select2("val", "");
             $("#modalEditarPersonal").modal("hide");
             mensaje('¡CORRECTO!', 'La acción se realizó con exito.' , 'success');
@@ -258,7 +259,7 @@ $("#formEliminarPersonal").submit(event=>{
             let mostrarPersonal = new FormData();
             mostrarPersonal.append("funcion", "mostrarPersonales");
             mostrarPersonal.append("idCargo", cargoGlobal);
-            buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 10);
+            buscarEnTabla('tablaPersonal', 'personal.ajax.php', mostrarPersonal, 100);
             $("#modalEliminarPersonal").modal("hide");
             alertaMensaje1('top-right', 'success', '¡Se elimnó al personal!');
          }else if(response == 'no'){

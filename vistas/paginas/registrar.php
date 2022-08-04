@@ -8,8 +8,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6 row">
+            <?php if ($idUsuarioRol != 4): ?>
             <h1 class="m-0">Registar personal</h1>
             <button class="ml-2 btn btn-primary btn-sm" id="btnAgregarPeriodo" data-toggle='modal' data-target='#modalRegistroPersonal'><i class="fas fa-add"></i> Agregar personal</button>
+              
+            <?php endif ?>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

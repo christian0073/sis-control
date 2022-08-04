@@ -10,7 +10,7 @@
         <div class="row mb-2">
           <div class="col-sm-6 row">
             <h1 class="m-0">Aulas</h1>
-            <?php if (!empty($periodoActivo)): ?>
+            <?php if (!empty($periodoActivo) && $idUsuarioRol != 4): ?>
               <button class="ml-2 btn btn-primary btn-sm" id="btnAgregarAula" data-toggle='modal' data-target='#modalRegistrarAula'><i class="fas fa-add"></i> Agregar Aula</button>
             <?php endif ?>
           </div><!-- /.col -->

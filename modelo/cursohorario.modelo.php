@@ -54,4 +54,11 @@
 		   	$respuesta = $this->consulta->select($sql);
 		   	return $respuesta;	
 		}
+		public function mdlMostrarHorasDocente($idPersonal){
+			$sql = "SELECT SUM(horas) AS horas FROM detallehorario 
+				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso 
+				WHERE idPersonalHor = $idPersonal;";
+		   	$respuesta = $this->consulta->select($sql);
+		   	return $respuesta;				
+		}
 	}

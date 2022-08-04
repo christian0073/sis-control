@@ -75,7 +75,11 @@
 					$datoPersonal = $value['apellidoPaternoPersona'].' '.$value['apellidoMaternoPersona'].', '.$value['nombresPersona'];
 					$acciones = "<div class='btn-group'>";
 					if ($value['estadoPersonal'] == 1) {
-						$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEditarPersonal'><i class='fa-solid fa-user-pen'></i></button><a href='persona?idPersonal=".$value['idPersonal']."' class='btn btn-info btn-sm btnVerPersonal' title='Ver datos de  ".$datoPersonal."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-eye'></i></a><button class='btn btn-dark btn-sm btnEliminarPersonal' title='Eliminar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEliminarPersonal'><i class='fa-solid fa-delete-left'></i></button></div>"; 
+						if ($_SESSION['idUsuarioRol'] == 4) {
+							$acciones .= "<a href='persona?idPersonal=".$value['idPersonal']."' class='btn btn-info btn-sm btnVerPersonal' title='Ver datos de  ".$datoPersonal."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-eye'></i></a></div>"; 	
+						}else{
+							$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEditarPersonal'><i class='fa-solid fa-user-pen'></i></button><a href='persona?idPersonal=".$value['idPersonal']."' class='btn btn-info btn-sm btnVerPersonal' title='Ver datos de  ".$datoPersonal."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-eye'></i></a><button class='btn btn-dark btn-sm btnEliminarPersonal' title='Eliminar ".$datoPersonal."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalEliminarPersonal'><i class='fa-solid fa-delete-left'></i></button></div>"; 
+						}
 					}else{
 						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}
@@ -153,8 +157,8 @@
 	/* metodo para editar los detalles de un personal */
 	static public function ctrEditarDetallesPersonal(){
 		if (isset($_POST['idPersonal']) && !empty($_POST['idPersonal']) &&
-			isset($_POST['txtBancoPersonal']) && !empty($_POST['txtBancoPersonal']) &&
-			isset($_POST['txtNumCuenta']) && !empty($_POST['txtNumCuenta']) &&
+			//isset($_POST['txtBancoPersonal']) && !empty($_POST['txtBancoPersonal']) &&
+			//isset($_POST['txtNumCuenta']) && !empty($_POST['txtNumCuenta']) &&
 			isset($_POST['cmbTipoPago']) && !empty($_POST['cmbTipoPago']) &&
 			isset($_POST['txtMontoPersonal']) && !empty($_POST['txtMontoPersonal'])
 		) {
@@ -202,6 +206,9 @@
 					}else{
 						return 'error';
 					}
+				}
+				else{
+					return 'ok';
 				}
 			}
 		}else{

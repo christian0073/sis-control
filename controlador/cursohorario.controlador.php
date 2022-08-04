@@ -99,7 +99,19 @@
 			$arrData = [];
 			$horaInicio =	$horario[0]['horaEntrada'];
 			$horaTarde = strtotime('13:30');
+			$horaExtraordinario = strtotime('07:00');
 			$horaTarde0 = strtotime($horaInicio);
+			$arrHoras = [];
+			if ($horaTarde0 == $horaExtraordinario) {
+				$horaTemporal =  strtotime('+50 minute', $horaExtraordinario);
+				$rangoHoraExtra = array(
+									"rangoHora"=> date("H:i", $horaExtraordinario).' - '.date("H:i", $horaTemporal), "horaEntrada" => $horaExtraordinario, "horaSalida" => $horaTemporal, "dia1"=>"",
+									"dia2"=>"","dia3"=>"","dia4"=>"","dia5"=>"","dia6"=>""
+								);	
+				array_push($arrHoras, $rangoHoraExtra);
+				$horaInicio =	$horario[1]['horaEntrada'];
+				$horaTarde0 = strtotime($horaInicio);
+			}
 			$horaTemporal0 = strtotime($horaInicio);
 			if ($horaTemporal0 >= $horaTarde) {
 				$horaTemporal0 = $horaTarde0;
@@ -112,7 +124,6 @@
 				}
 			}
 			$horasAc = true;
-			$arrHoras = [];
 			$horaNoche = strtotime('18:30');
 			$horaTarde = strtotime('13:00');
 			while($horasAc){
@@ -172,5 +183,11 @@
 			$modeloCurso = new ModeloCursoHorario();
 			$respuesta = $modeloCurso->mdlMostrarAsistenciaCurso($idHorarioCurso);
 			return $respuesta;
+		}
+
+		static public function ctrMostrarHorasDocente($idPersonal){
+			$modeloCurso = new ModeloCursoHorario();
+			$respuesta = $modeloCurso->mdlMostrarHorasDocente($idPersonal);
+			return $respuesta['horas'];	
 		}
 	}

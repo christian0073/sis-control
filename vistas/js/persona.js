@@ -18,6 +18,24 @@ $(document).on("click", "#verHorario", function(e){
    mostrarHorario.append("idPersonal", idPersonalGlobal);
    mostrarHorario.append("nombreCargo", nombreCargo);
    mostrarHorarios("#tableHorario", mostrarHorario);
+   let datos = new FormData();
+   datos.append('funcion', 'verHoras');
+   datos.append('idPersonal', idPersonalGlobal);
+   $.ajax({
+      url:"ajax/cursohorario.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success:function(response){
+         if (response == '') {
+            $("#horas").html(0);
+         }else{
+            $("#horas").html(response);
+         }
+      }
+   });
 });
 
 /* boton para traer los datos a editar */
@@ -539,8 +557,8 @@ function mostrarHorarios(elemento, datos){
          response.forEach(valor => {
 
             template +=  `<tr>
-                              <td style="max-width:80px">${valor['rangoHora']}</td>
-                              <td style="max-width:20px">${contador}</td>
+                              <td style="max-width:75px">${valor['rangoHora']}</td>
+                              <td style="max-width:30px">${contador}</td>
                               <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia1']}</td>
                               <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia2']}</td>
                               <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia3']}</td>

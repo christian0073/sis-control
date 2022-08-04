@@ -12,3 +12,9 @@
 		$respuesta = ControladorCursoHorario::ctrMostrarAsistenciaCurso($_POST['idHorarioCurso']);
 		echo json_encode($respuesta);
 	}
+
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'verHoras'){
+		$respuesta = ControladorCursoHorario::ctrMostrarHorasDocente($_POST['idPersonal']);
+		echo $respuesta;
+	}
+	

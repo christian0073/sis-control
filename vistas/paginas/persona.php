@@ -72,7 +72,7 @@
 
                       <p class="text-muted text-center" id="profesioPersona"><?php echo $personal['profesionPersonal']; ?></p>
 
-                      <ul class="list-group list-group-unbordered mb-3">
+                      <ul class="list-group list-group-unbordered mb-3" style="font-size: 13px;">
                         <li class="list-group-item">
                           <b>DNI</b> <a class="float-right" id="dniPersona"><?php echo $personal['dniPersona']; ?></a>
                         </li>
@@ -85,6 +85,7 @@
                         <li class="list-group-item">
                           <b>Dirección</b> <a class="float-right" id="direccionPersona"><?php echo $personal['direccionPersonal']; ?></a>
                         </li>
+                        <?php if ($idUsuarioRol !=4): ?>
                         <li class="list-group-item">
                           <b>Banco</b> <a class="float-right" id="bancoPersona"><?php echo $personal['bancoPersonal']; ?></a>
                         </li>
@@ -97,7 +98,10 @@
                         <li class="list-group-item">
                           <b>Monto</b> <a class="float-right" id="montoPago">S/. <?php echo number_format($personal['montoPago'], 2); ?></a>
                         </li>
+                        <?php endif ?>
+                          
                       </ul>
+                      <?php if ($idUsuarioRol != 4): ?>
                       <div class="row">
                         <div class="p-1 col-6">
                           <button class="btn btn-primary col-12" id="editarDetalles" data-toggle='modal' data-target='#modalDetalles' idPersonal="<?php echo $personal['idPersonal']; ?>">Editar detalles</button>
@@ -106,6 +110,8 @@
                           <button class="btn btn-warning col-12" id="editarDatos">Editar Datos</button>
                         </div>
                       </div>
+                        
+                      <?php endif ?>
                     </div>
                     <!-- /.card-body -->
                   </div>
@@ -122,13 +128,15 @@
                         <div class="tab-content">
                           <div class="active tab-pane" id="cursos">
                             <div class="row">
+                              <?php if ($idUsuarioRol !=4): ?>
                               <div class="mr-2">
                                 <button class="btn btn-primary" id="btnRegistrarCurso" data-toggle='modal' data-target='#modalRegistrarCurso'>Agregar Curso</button>
                               </div>
+                              <?php endif ?>
                               <h3>Cursos</h3>
                             </div>
                             <div class="mt-2 col-12">
-                              <table class="table table-striped table-hover dt-responsive" id="tablaCursos" style="width: 100%;">
+                              <table class="table table-striped table-hover dt-responsive" id="tablaCursos" style="width: 100%; font-size: 13px;">
                                 <thead>
                                   <tr>
                                     <th style="width: 20px;">N°</th>
@@ -145,8 +153,24 @@
                           </div>
                           <!-- /.tab-pane -->
                           <div class="tab-pane" id="horario">
-                            <div class="mb-2">
-                              <button type="button" class="btn btn-primary">Registrar</button>
+                            <div class="row align-items-center">
+                              <div class="mb-2">
+                                <?php if ($idUsuarioRol != 4): ?>
+                                <button type="button" class="btn btn-primary">Registrar</button>
+                                <?php endif ?>
+                              </div>
+                              <div class="col-md-3 col-sm-4 col-12">
+                                <div class="info-box">
+                                  <span class="info-box-icon bg-danger"><i class="fa-solid fa-clock"></i></span>
+
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Horas</span>
+                                    <span class="info-box-number" id="horas"></span>
+                                  </div>
+                                  <!-- /.info-box-content -->
+                                </div>
+                              </div>
+                              
                             </div>
                             <div class="table-responsive">
                               <table class="table text-center table-bordered" style="height:300px; min-width: 900px;">
