@@ -5,7 +5,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema de Matricula </title>
+  <meta name="theme-color" content="#003688"> <link rel="icon" href="vistas/img/favicon.png">
+  <title>Sistema de control</title>
 
   <!-- Google Font: Source Sans Pro 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">

@@ -2,6 +2,9 @@
 	require_once "controlador/ruta.controlador.php";
 	require_once "controlador/plantilla.controlador.php";
 
+	require_once "controlador/usuario.controlador.php";
+	require_once "modelo/usuario.modelo.php";
+
 	require_once "controlador/carrera.controlador.php";
 	require_once "modelo/carrera.modelo.php";
 

@@ -215,4 +215,9 @@
 			return 'no';
 		}
 	}
+	static public function ctrMostrarDocentes(){
+		$modeloPersonal = new ModeloPersonal();
+		$personal = $modeloPersonal->mdlMostrarPersonales(1);
+		return $personal;
+	}
 }

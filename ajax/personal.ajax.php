@@ -75,4 +75,8 @@
 		$respuesta = ControladorPersonal::ctrEditarEstadoPersonal();
 		echo $respuesta;
 	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarDocentes') {
+		$respuesta = ControladorPersonal::ctrMostrarDocentes();
+		echo json_encode($respuesta);	
+	}
 ?>
