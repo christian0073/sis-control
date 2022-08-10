@@ -38,7 +38,6 @@
 						if ($cursosRespuesta) {
 							return 'ok';
 						}
-
 					}
 					return $respuesta;
 				}else{

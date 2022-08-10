@@ -20,7 +20,7 @@
 			$respuesta = array("valor" => 'existe');
 		}else{
 			$respuesta = ControladorPersona::ctrMostrarPersonaDni($_POST['dni']);
-			if(empty($respuesta)){
+			if ((isset($respuesta['success']) && empty($respuesta['success'])) || empty($respuesta)) {
 				//$persona = buscarPersona($_POST['dni']);
 				$respuesta = buscarPersona1($_POST['dni']);
 				if (empty($respuesta)) {

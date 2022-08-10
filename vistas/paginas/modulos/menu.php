@@ -28,7 +28,7 @@
               <p>Inicio</p>
             </a>
           </li>
-          <?php if ($idUsuarioRol!=4): ?>
+          <?php if ($idUsuarioRol!=4 && $idUsuarioRol !=5): ?>
           <li class="nav-item">
             <a href="usuarios" class="nav-link">
               <i class="nav-icon fa-solid fa-user-gear"></i>
@@ -65,6 +65,8 @@
             </ul>
           </li>       
           <?php endif ?>
+          <?php if ($idUsuarioRol != 5): ?>
+            
           <li class="nav-item ">
             <a href="secciones" class="nav-link">
               <i class="fa-solid fa-chalkboard-user nav-icon"></i>
@@ -118,6 +120,15 @@
               </p>
             </a>
           </li>
+          <?php endif ?>
+          <li class="nav-item">
+            <a href="subsanaciones" class="nav-link">
+              <i class="nav-icon fa-solid fa-user-graduate"></i>
+              <p>
+                Subsanaciones
+              </p>
+            </a>
+          </li>          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
