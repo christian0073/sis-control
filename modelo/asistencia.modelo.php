@@ -82,4 +82,15 @@
 		   	$respuesta = $this->consulta->delete($sql);
 		   	return $respuesta;
 		}
+		public function mdlMostrarAsistencias($idPersonal, $rangoFecha){
+			$sql = "SELECT DATE_FORMAT(fechaAsis, '%d/%m/%Y')AS fechaAsiste, asistencia_docente.*, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ' ', nombresPersona)AS datos , nombreSeccion, turno, cicloSeccion, nombreCurso, dniPersona FROM asistencia_docente 
+				INNER JOIN personal ON idPersonaAsistencia = idpersonal
+				INNER JOIN personas ON personal.idPersonaPersonal = personas.idPersona
+				INNER JOIN horario_curso ON idAsistenciaHor = idHorarioCurso
+				INNER JOIN seccion ON idSeccionHor = idSeccion
+				INNER JOIN cursos ON horario_curso.idCursoHor = idCurso
+				WHERE DATE_FORMAT(fechaAsis, '%Y-%m') = '$rangoFecha' and idPersonaAsistencia = $idPersonal ORDER BY fechaAsis, horaEntrada;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;			
+		}
 	}

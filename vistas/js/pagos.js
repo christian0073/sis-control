@@ -36,11 +36,26 @@ $(document).on("keypress", "input[name='textBuscarDocente']", function(e){
 $('#formBuscarDocente').submit(event=>{
    let persona = $("input[name='textBuscarDocente']").val();
    let fecha = $("input[name='txtFechaBuscar']").val();
-   console.log("fecha", fecha);
    let estado = $("#buscar").find("option[value='"+persona+"']");
    if (estado.length > 0 && fecha != '') {
-      console.log("fecha", fecha);
-
+      let idPersonal = document.getElementById("buscar").querySelector("option[value='"+persona+"']").dataset.value;
+      $("input[name='idPersonal']").val(idPersonal);
+      $("#tablaPagos").html('');
+      $.ajax({
+         url:"ajax/asistencia.ajax.php",
+         method: "POST",
+         data: $("#formBuscarDocente").serialize(),
+         cache: false,
+         success:function(response){
+            if (response =='') {
+               alertaMensaje1('top-right', 'warning', '¡No se encontraron resultados!');
+            }else if (response == 'no') {
+               mensaje('¡ADVERTENCIA!', '¡El docente no tiene asigando el monto por hora! registre el monto correspondiente.' , 'warning');
+            }else{
+               $("#tablaPagos").html(response); 
+            }
+         }
+      });      
    }else{
       alertaMensaje1('top-right', 'warning', '¡No se realizó la busqueda!');
    }

@@ -6,7 +6,7 @@
    <section class="content">
        <div class="container-fluid">
            <h2 class="text-center display-4">Realizar Busqueda</h2>
-           <form action="POST" id="formBuscarDocente">
+           <form method="POST" id="formBuscarDocente">
                <div class="row justify-content-center">
                    <div class="col-md-8">
                        <div class="row">
@@ -34,7 +34,20 @@
                        </div>
                    </div>
                </div>
+               <input type="hidden" name="idPersonal" value="">
+               <input type="hidden" name="funcion" value="mostrarAsistencia">
            </form>
        </div>
    </section>
+    <div class="content">
+      <div class="card card-danger card-outline">
+
+        <div class="card-body">
+          <div class="col-12">
+            <table class="table table-hover text-center" style="font-size: 13px;" id="tablaPagos">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>    
 </div>

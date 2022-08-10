@@ -326,7 +326,7 @@ $(document).on("click", ".agregarHorario", function(e){
    $("#totalHoras").html('0');
    let horasAcumulada = 0;
    $.ajax({
-      url:"ajax/cursoAula.ajax.php",
+      url:"ajax/cursoaula.ajax.php",
       method: "POST",
       data: datos1,
       cache: false,

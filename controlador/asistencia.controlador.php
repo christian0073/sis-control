@@ -170,4 +170,104 @@
 			}
 			return ' error';
 		}
+		static public function ctrMostrarAsistencias(){
+			if (isset($_POST['idPersonal']) && !empty($_POST['idPersonal'])) {
+				$modeloAsistencia = new ModeloAsistencia();
+				$asistencias = $modeloAsistencia->mdlMostrarAsistencias($_POST['idPersonal'], $_POST['txtFechaBuscar']);
+				$modeloPersonal = new ModeloPersonal();
+				$personal = $modeloPersonal->mdlMostrarPersonalCampo('idPersonal', $_POST['idPersonal']);
+				$template = '';
+				$pagoHora = 0;
+				if (!empty($personal['montoPago'])) {
+					$template .= "<thead>
+				                <tr>
+				                  <th>N°</th>
+				                  <th>Docente</th>
+				                  <th>DNI</th>
+				                  <th>Día asis.</th>
+				                  <th>Curso</th>
+				                  <th>Aula</th>
+				                  <th>Observación</th>
+				                  <th>Estado</th>
+				                  <th>Tiempo</th>
+				                  <th>x hora</th>
+				                  <th>Pago</th>
+				                </tr>
+				              </thead>";
+					$pagoTotal = 0;
+					$totalMin = 0;
+					$totalHoras = 0; 
+					$horaMaTard = $personal['montoPago'] / 50;
+					$horaNoche = $personal['montoPago'] / 45;
+					$horatarde = strtotime('18:30:00');
+					foreach ($asistencias as $key => $value) {
+						$montoPago = 0;
+						$minutos = 0;
+						$horasTrab = 0;
+						$horaEntrada = strtotime($value['horaEntrada']);
+						$horaSalida = strtotime($value['horaSalida']);
+						if ($value['tipo'] == 1 && $value['estado'] == 1) {
+							$estado = "<h4 class='badge badge-info'>VIRTUAL OK</h4>";
+							if ($horaEntrada < $horatarde && $horaSalida <= $horatarde) {
+								$min = ($horaSalida - $horaEntrada)/60;
+								$montoPago = ($horaMaTard *$min);
+								$horasTrab = round(($horaSalida - $horaEntrada)/(50*60));
+							}else if($horaEntrada< $horatarde && $horaSalida > $horatarde){
+								$montoPago = $montoPago + ($horaMaTard *(($horatarde - $horaEntrada)/60));
+								$horasTrab = round(($horatarde - $horaEntrada)/(50*60));
+								$montoPago = $montoPago + ($horaNoche * (($horaSalida - $horatarde)/60));
+								$horasTrab = $horasTrab + round(($horatarde - $horaEntrada)/(45*60));
+							}else if ($horaEntrada >= $horatarde) {
+								$montoPago = ($horaNoche* (($horaSalida - $horaEntrada)/60));
+								$horasTrab = round(($horaSalida - $horaEntrada)/(50*60));
+							}
+							$montoPago = round($montoPago, 2);
+							$minutos = ($horaSalida - $horaEntrada)/60;
+							$totalMin = $totalMin + $minutos;
+							$totalHoras = $totalHoras + $horasTrab;
+							if ($personal['tipoPago'] == 1) {
+								$montoPago = 0;
+								$pagxhora = 0;
+							}else{
+								$pagxhora = $personal['montoPago'];
+							}							
+							$pagoTotal = $pagoTotal + $montoPago;
+						}else if ($value['tipo'] == 2) {
+							$estado = "<h4 class='badge badge-success'>PRESENCIAL</h4>";
+						}else if($value['tipo'] == 3){
+							$estado = "<h4 class='badge badge-warning'>REPROGRAMADO</h4>";
+						}else{
+							$estado = "<h4 class='badge badge-danger'>NO REALIZADO</h4>";
+						}
+						array_push($asistencias[$key], array("minutos"=>$minutos, "pago"=>$montoPago));
+						$template .= "<tr>
+				                        <td>".($key+1)."</td>
+				                        <td>".$value['datos']."</td>
+				                        <td>".$value['dniPersona']."</td>
+				                        <td>".$value['fechaAsiste']."</td>
+				                        <td>".$value['nombreCurso']."</td>
+				                        <td>".$value['nombreSeccion']."</td>
+				                        <td>".$value['observacion']."</td>
+				                        <td>$estado</td>
+				                        <td>$minutos - $horasTrab</td>
+				                        <td>S/. $pagxhora</td>
+				                        <td>S/. $montoPago</td>
+				                    </tr>";
+					}
+					if ($personal['tipoPago'] == 1) {
+						$pagoTotal = $personal['montoPago'];
+					}
+					$template .= "<tfoot class='table-dark'>
+									<tr class='font-weight-bold'>
+				                        <td colspan='8'>TOTAL</td>
+				                        <td>$totalMin - $totalHoras</td>
+				                        <td colspan='2'>S/. $pagoTotal</td>
+				                    </tr>
+								</tfoot>";
+					return $template;
+				}else{
+					return 'no';
+				}
+			}
+		}
 	}
