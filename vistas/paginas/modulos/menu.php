@@ -66,7 +66,6 @@
           </li>       
           <?php endif ?>
           <?php if ($idUsuarioRol != 5): ?>
-            
           <li class="nav-item ">
             <a href="secciones" class="nav-link">
               <i class="fa-solid fa-chalkboard-user nav-icon"></i>
@@ -112,15 +111,8 @@
               </li>
             </ul>
           </li>  
-          <li class="nav-item">
-            <a href="pagos" class="nav-link">
-              <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
-              <p>
-                Pagos
-              </p>
-            </a>
-          </li>
           <?php endif ?>
+          <?php if ($idUsuarioRol !=4): ?>
           <li class="nav-item">
             <a href="subsanaciones" class="nav-link">
               <i class="nav-icon fa-solid fa-user-graduate"></i>
@@ -129,6 +121,36 @@
               </p>
             </a>
           </li>          
+          <?php endif ?>
+          <?php if ($idUsuarioRol != 4 && $idUsuarioRol != 5): ?>
+          <li class="nav-item">
+            <a href="#" id="control" class="nav-link">
+              <i class="nav-icon fa-solid fa-person-circle-check"></i>
+              <p>
+                Control asistencia
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pagos" class="nav-link">
+                  <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
+                  <p>
+                    Pagos
+                  </p>
+                </a>
+              </li>     
+              <li class="nav-item">
+                <a href="importar-asistencia" class="nav-link">
+                  <i class="nav-icon fa-solid fa-upload"></i>
+                  <p>
+                    Cargar Asistencias
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </li>              
+          <?php endif ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

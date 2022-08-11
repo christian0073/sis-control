@@ -1,6 +1,7 @@
    var docentes = [];
    var persona = '';
 $(document).ready(function(){
+   activarLinkMenu("pagos", "#control");
    let datos = new FormData();
    datos.append('funcion', 'mostrarDocentes');
    $.ajax({
