@@ -216,7 +216,7 @@
 								$montoPago = $montoPago + ($horaMaTard *(($horatarde - $horaEntrada)/60));
 								$horasTrab = round(($horatarde - $horaEntrada)/(50*60));
 								$montoPago = $montoPago + ($horaNoche * (($horaSalida - $horatarde)/60));
-								$horasTrab = $horasTrab + round(($horatarde - $horaEntrada)/(45*60));
+								$horasTrab = $horasTrab + round(($horaSalida - $horatarde)/(45*60));
 							}else if ($horaEntrada >= $horatarde) {
 								$montoPago = ($horaNoche* (($horaSalida - $horaEntrada)/60));
 								$horasTrab = round(($horaSalida - $horaEntrada)/(50*60));

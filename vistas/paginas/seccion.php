@@ -174,3 +174,210 @@
     </div>
   </div>
 </div>
+
+<div class="modal" id="agregarHorario">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="tituloCurso"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>        
+      </div>
+      <input type="hidden" name="turno">
+      <div class="modal-body">
+        <div class="text-center">
+          <h5 id="nombreCurso"></h5>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Día</th>
+                <th class="text-left">Periodo</th>
+                <th class="text-right" style="width: 35px;">Horas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Lunes</td>
+                <td>
+                  <form id="form1" method="POST">
+                    <div class="d-flex" id="dia1">  
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div> 
+                    <input type="hidden" name="diaId" value="1">
+                    <input type="hidden" name="cargo" value="<?php echo $personal['nombreCargo']; ?>">
+                    <input type="hidden" name="idPersonal" value="<?php echo $personal['idPersonal']; ?>">
+                    <input type="hidden" name="idCursoHorario" value="">
+                    <input type="hidden" name="minutos" value="">
+                    <input type="hidden" name="funcion" value="registrarHorario">
+                  </form>
+                </td>
+                <td class="text-center horasCurso1" id="horasCurso1">-</td>
+              </tr>
+              <tr>
+                <td>Martes</td>
+                <td>
+                  <form id="form2" method="POST">
+                    <div class="d-flex" id="dia2">  
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>  
+                    <input type="hidden" name="diaId" value="2">
+                    <input type="hidden" name="cargo" value="<?php echo $personal['nombreCargo']; ?>">
+                    <input type="hidden" name="idPersonal" value="<?php echo $personal['idPersonal']; ?>">
+                    <input type="hidden" name="idCursoHorario" value="">
+                    <input type="hidden" name="minutos" value="">
+                    <input type="hidden" name="funcion" value="registrarHorario">
+                  </form>
+                </td>
+                <td class="text-center horasCurso1" id="horasCurso2">-</td>
+              </tr>
+              <tr>
+                <td>Miercoles</td>
+                <td>
+                  <form id="form3" method="POST">
+                    <div class="d-flex" id="dia3">  
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>  
+                    <input type="hidden" name="diaId" value="3">
+                    <input type="hidden" name="cargo" value="<?php echo $personal['nombreCargo']; ?>">
+                    <input type="hidden" name="idPersonal" value="<?php echo $personal['idPersonal']; ?>">
+                    <input type="hidden" name="idCursoHorario" value="">
+                    <input type="hidden" name="funcion" value="registrarHorario">
+                    <input type="hidden" name="minutos" value="">
+                  </form>
+                </td>
+                <td class="text-center horasCurso1" id="horasCurso3">-</td>
+              </tr>
+              <tr>
+                <td>Jueves</td>
+                <td>
+                  <form id="form4" method="POST">
+                    <div class="d-flex" id="dia4">  
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>
+                    <input type="hidden" name="diaId" value="4">
+                    <input type="hidden" name="cargo" value="<?php echo $personal['nombreCargo']; ?>">
+                    <input type="hidden" name="idPersonal" value="<?php echo $personal['idPersonal']; ?>">
+                    <input type="hidden" name="idCursoHorario" value="">
+                    <input type="hidden" name="minutos" value="">
+                    <input type="hidden" name="funcion" value="registrarHorario">
+                  </form>
+                </td>
+                <td class="text-center horasCurso1" id="horasCurso4">-</td>
+              </tr>
+              <tr>
+                <td>Viernes</td>
+                <td>
+                  <form id="form5" method="POST">
+                    <div class="d-flex" id="dia5">  
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>
+                    <input type="hidden" name="diaId" value="5">
+                    <input type="hidden" name="cargo" value="<?php echo $personal['nombreCargo']; ?>">
+                    <input type="hidden" name="idPersonal" value="<?php echo $personal['idPersonal']; ?>">
+                    <input type="hidden" name="idCursoHorario" value="">
+                    <input type="hidden" name="minutos" value="">
+                    <input type="hidden" name="funcion" value="registrarHorario">
+                  </form>                
+                </td>
+                <td class="text-center horasCurso1" id="horasCurso5">-</td>
+              </tr> 
+              <tr>
+                <td>Sábado</td>
+                <td>
+                  <form id="form6" method="POST">
+                    <div class="d-flex" id="dia6">  
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm btnNuevoInput" data-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-plus"></i>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                          <li><button type="button" class="dropdown-item btnTeoria">Teoría</button></li>
+                          <li><button type="button" class="dropdown-item btnPractica">Práctica</button></li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary btn-sm btnRegistrarHora"><i class="fa-solid fa-floppy-disk"></i></button>
+                      </div>                               
+                    </div>
+                    <input type="hidden" name="diaId" value="6">
+                    <input type="hidden" name="cargo" value="<?php echo $personal['nombreCargo']; ?>">
+                    <input type="hidden" name="idPersonal" value="<?php echo $personal['idPersonal']; ?>">
+                    <input type="hidden" name="idCursoHorario" value="">
+                    <input type="hidden" name="minutos" value="">
+                    <input type="hidden" name="funcion" value="registrarHorario">
+                  </form>                
+                </td>
+                <td class="text-center horasCurso1" id="horasCurso6">-</td>
+              </tr>                
+            </tbody>
+            <tfoot class="border-bottom">
+              <tr>
+                <td colspan="2" class="text-center"><strong>Total</strong></td>
+                <td style="width: 35px;" class="text-center"><strong id="totalHoras">0</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modalDetalleCurso">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Detalles</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>        
+      </div>
+      <div class="modal-body">
+        <ul class="list-group" id="detalleCurso">
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
