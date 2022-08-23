@@ -60,6 +60,7 @@
 				}else{
 					$horasTrab = 0;
 					if ($fechaAsist == $fecha1) {
+						$fechaAs = $mDate->format("d/m/Y").PHP_EOL; 
 						$horaInicio = $mDate->format("H:i:s").PHP_EOL;
 						$horas .= $horaInicio;
 						$numHora = strtotime($horaInicio);
@@ -80,7 +81,7 @@
 									<td>$dep</td>
 									<td>$nombre</td>
 									<td>$nro</td>
-									<td>$fecha1</td>
+									<td>$fechaAs</td>
 									<td>$horas</td>
 									<td>$horasTrab</td>
 								</tr>";

@@ -44,7 +44,6 @@ $(document).on("click", ".mostrarAsistencia", function(e){
    $("input[name='txtFechaRep']").prop('disabled', true);
    $("input[name='idAsistenciaDocente']").val('');
    $("input[name='idReprogramar']").val('');
-   $("input[name='txtFechaRep']").prop('min', fechaSuper);
    $.ajax({
       url:"ajax/cursohorario.ajax.php",
       method: "POST",

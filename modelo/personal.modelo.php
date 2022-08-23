@@ -55,7 +55,7 @@
 			if (!empty($idCargo)) {
 				$consulta = "WHERE personal.idCargo = $idCargo";
 			}
-			$sql = "SELECT personal.*, dniPersona, nombresPersona, apellidoMaternoPersona, apellidoPaternoPersona, nombreCargo, CONCAT(nombresPersona, ' ' , apellidoPaternoPersona, ' ', apellidoMaternoPersona) AS datos FROM personal
+			$sql = "SELECT personal.*, dniPersona, nombresPersona, apellidoMaternoPersona, apellidoPaternoPersona, nombreCargo, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ' ', nombresPersona) AS datos FROM personal
 				INNER JOIN personas ON idPersonaPersonal= idPersona
 				INNER JOIN cargos ON personal.idCargo = cargos.idCargo $consulta ORDER BY estadoPersonal DESC, idPersonal DESC;";
 			$respuesta = $this->consulta->selectAll($sql);

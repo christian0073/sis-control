@@ -83,13 +83,27 @@
 		   	return $respuesta;
 		}
 		public function mdlMostrarAsistencias($idPersonal, $rangoFecha){
-			$sql = "SELECT DATE_FORMAT(fechaAsis, '%d/%m/%Y')AS fechaAsiste, asistencia_docente.*, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ' ', nombresPersona)AS datos , nombreSeccion, turno, cicloSeccion, nombreCurso, dniPersona FROM asistencia_docente 
+			$sql = "SELECT DATE_FORMAT(fechaAsis, '%d/%m/%Y')AS fechaAsiste, asistencia_docente.*, CONCAT(personas.apellidoPaternoPersona, ' ', personas.apellidoMaternoPersona, ' ', personas.nombresPersona)AS datos , nombreSeccion, turno, cicloSeccion, nombreCurso, personas.dniPersona, CONCAT(perUs.apellidoPaternoPersona, ' ', perUs.apellidoMaternoPersona, ' ', perUs.nombresPersona) AS datosUsuario FROM asistencia_docente 
 				INNER JOIN personal ON idPersonaAsistencia = idpersonal
 				INNER JOIN personas ON personal.idPersonaPersonal = personas.idPersona
 				INNER JOIN horario_curso ON idAsistenciaHor = idHorarioCurso
 				INNER JOIN seccion ON idSeccionHor = idSeccion
 				INNER JOIN cursos ON horario_curso.idCursoHor = idCurso
+				INNER JOIN usuarios ON idUsuarioAsistencia = idUsuario 
+				INNER JOIN personas AS perUs ON usuarios.idPersonaUsuario = perUs.idPersona
 				WHERE DATE_FORMAT(fechaAsis, '%Y-%m') = '$rangoFecha' and idPersonaAsistencia = $idPersonal ORDER BY fechaAsis, horaEntrada;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;			
+		}
+		public function mdlMostrarAvance($fecha, $idUsuario){
+			$sql = "SELECT asistencia_docente.*, CONCAT(apellidoPaternoPersona, ' ',apellidoMaternoPersona, ' ',nombresPersona) AS datos, nombreCurso, nombreSeccion, turno, cicloSeccion, nombreCarrera FROM asistencia_docente
+				INNER JOIN personal ON idPersonaAsistencia = idPersonal
+				INNER JOIN personas ON idPersonaPersonal= idPersona
+				INNER JOIN horario_curso ON idAsistenciaHor = idHorarioCurso
+				INNER JOIN cursos ON idCursoHor = idCurso
+				INNER JOIN seccion ON idSeccionHor = idSeccion
+				INNER JOIN carreras ON idCarreraCurso = idCarrera
+				WHERE fechaAsis = '$fecha' AND idUsuarioAsistencia = $idUsuario ORDER BY datos ASC;";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;			
 		}

@@ -182,6 +182,7 @@
 					$template .= "<thead>
 				                <tr>
 				                  <th>N°</th>
+				                  <th>Supervisora</th>
 				                  <th>Docente</th>
 				                  <th>DNI</th>
 				                  <th>Día asis.</th>
@@ -242,6 +243,7 @@
 						array_push($asistencias[$key], array("minutos"=>$minutos, "pago"=>$montoPago));
 						$template .= "<tr>
 				                        <td>".($key+1)."</td>
+				                        <td>".$value['datosUsuario']."</td>
 				                        <td>".$value['datos']."</td>
 				                        <td>".$value['dniPersona']."</td>
 				                        <td>".$value['fechaAsiste']."</td>
@@ -259,7 +261,7 @@
 					}
 					$template .= "<tfoot class='table-dark'>
 									<tr class='font-weight-bold'>
-				                        <td colspan='8'>TOTAL</td>
+				                        <td colspan='9'>TOTAL</td>
 				                        <td>$totalMin - $totalHoras</td>
 				                        <td colspan='2'>S/. $pagoTotal</td>
 				                    </tr>
@@ -269,5 +271,78 @@
 					return 'no';
 				}
 			}
+		}
+
+		static public function ctrMostrarAvance($fecha, $idUsuario){
+			$asistencias = '';
+			$modeloAsistencia = new ModeloAsistencia();
+			$asistencias = $modeloAsistencia->mdlMostrarAvance($fecha, $idUsuario);
+			if (count($asistencias) == 0) {
+				$datosJson = '{"data":[]}';
+				echo $datosJson;
+				return;
+			}else{
+				$datosJson = '{
+				"data":[';
+				foreach ($asistencias as $key => $value) {
+					$acciones = "<div class='btn-group'><button class='btn btn-danger btn-sm btnEliminarAsistencia' title='eliminarRegistro' idAsistenciaDocente='".$value['idAsistenciaDocente']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 
+					$ciclo = "<h5><span class='badge badge-warning'>".$value['cicloSeccion']."° Ciclo</span></h5></div>"; 
+					$estado = "";
+					$horatarde = strtotime('18:30:00');
+					$horasTrab = 0;
+					if ($value['estado'] == 1) {
+						$estado = "<h6><span class='badge badge-info'>VIRTUAL OK</span></h6></div>"; 
+						$horaEntrada = strtotime($value['horaEntrada']);
+						$horaSalida = strtotime($value['horaSalida']);
+						if ($horaEntrada < $horatarde && $horaSalida <= $horatarde) {
+							$min = ($horaSalida - $horaEntrada)/60;
+							$horasTrab = round(($horaSalida - $horaEntrada)/(50*60));
+						}else if($horaEntrada< $horatarde && $horaSalida > $horatarde){
+							$horasTrab = round(($horatarde - $horaEntrada)/(50*60));
+							$horasTrab = $horasTrab + round(($horaSalida - $horatarde)/(45*60));
+						}else if ($horaEntrada >= $horatarde) {
+							$horasTrab = round(($horaSalida - $horaEntrada)/(50*60));
+						}						
+					}else if($value['tipo'] == 2){
+						$estado = "<h6><span class='badge badge-success'>PRESENCIAL</span></h6></div>"; 
+					}else if($value['tipo'] == 3){
+						$estado = "<h6><span class='badge badge-warning'>REPROGRAMADO</span></h6></div>"; 
+					}else if($value['tipo'] == 4){
+						$estado = "<h6><span class='badge badge-danger'>NO REALIZÓ</span></h6></div>"; 
+					}
+					$turno = '';
+					if ($value['turno'] == 'M') {
+						$turno = 'MAÑANA';
+					}else if ($value['turno'] == 'T') {
+						$turno = 'TARDE';
+					}else if($value['turno'] == 'N'){
+						$turno = 'NOCHE';
+					}
+					$seccion = $value['nombreSeccion'].' '.$turno;
+					$datosJson .='[
+							"'.($key+1).'",
+							"'.$value['datos'].'",
+							"'.$value['nombreCarrera'].'",
+							"'.$value['nombreCurso'].'",
+							"'.$ciclo.'",
+							"'.$seccion.'",
+							"'.$estado.'",
+							"'.$value['horaEntrada'].' - '.$value['horaSalida'].'",
+							"'.$horasTrab.'",
+							"'.$acciones.'"
+					],';
+				}
+				$datosJson = substr($datosJson, 0, -1);
+				$datosJson .= ']}';
+				return $datosJson;			
+			}
+		}
+		static public function ctrEliminarAsistencia($idAsistenciaDocente){
+			$modeloAsistencia = new ModeloAsistencia();
+			$respuesta = $modeloAsistencia->mdlEliminarAsistencia($idAsistenciaDocente);
+			if ($respuesta) {
+				return 'ok';
+			}
+			return 'no';
 		}
 	}

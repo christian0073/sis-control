@@ -89,14 +89,12 @@
                   <p>Personal</p>
                 </a>
               </li>
-              <?php if ($idUsuarioRol != 4): ?>
               <li class="nav-item">
                 <a href="cambios" class="nav-link">
                   <i class="fa-solid fa-sort nav-icon"></i>
-                  <p>Cambios</p>
+                  <p>Avance</p>
                 </a>
               </li>
-              <?php endif ?>
               <li class="nav-item">
                 <a href="supervisar" class="nav-link">
                   <i class="fa-solid fa-calendar-check nav-icon"></i>

@@ -24,4 +24,12 @@
 		$respuesta = ControladorAsistencia::ctrEliminarReprogramacion();
 		echo $respuesta;
 	}
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAvance'){
+		$respuesta = ControladorAsistencia::ctrMostrarAvance($_POST['fecha'], $_SESSION['idUsuarioSis']);
+		echo $respuesta;
+	}
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'eliminarAsistencia'){
+		$respuesta = ControladorAsistencia::ctrEliminarAsistencia($_POST['idAsistenciaDocente']);
+		echo $respuesta;
+	}
  ?>
