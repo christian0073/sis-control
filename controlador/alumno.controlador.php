@@ -90,6 +90,47 @@
 							$acciones .= "<div class='btn-group'><button class='btn btn-success btn-sm btnAprobar' title='APROBAR A ".$value['datos']."' idSubsanacion='".$value['idSubsanacion']."'><i class='fa-solid fa-user-check'></i></button><button class='btn btn-danger btn-sm btnDesaprobar' title='DESAPROBAR A ".$value['datos']."' idSubsanacion='".$value['idSubsanacion']."'><i class='fa-solid fa-user-xmark'></i></button><button class='btn btn-dark btn-sm btnEliminar' title='ELIMINAR ".$value['nombreCurso']."' idSubsanacion='".$value['idSubsanacion']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 
 						}
 					}else if ($value['estadoSubsanacion'] == 2) {
+						$acciones .= "<div><h3 class='badge badge-success'>Aprobado</h3><button class='btn btn-info btn-sm ml-2 btnOk' title='PROCESAR ".$value['nombreCurso']."' idSubsanacion='".$value['idSubsanacion']."'><i class='fa-solid fa-check'></i></button></div>"; 
+					}else if ($value['estadoSubsanacion']==3) {
+						$acciones .= "<div><h3 class='badge badge-danger'>Desaprobado</h3><button class='btn btn-danger ml-2 btn-sm btnOk' title='PROCESAR ".$value['nombreCurso']."' idSubsanacion='".$value['idSubsanacion']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 	
+					}
+					$datosJson .='[
+							"'.($key+1).'",
+							"'.mb_strtoupper($value['nombreSede']).'",
+							"'.$value['nombreCarrera'].'",
+							"'.$value['nombreCurso'].'",
+							"'.$value['nombreSeccion'].'",
+							"'.$value['datos'].'",
+							"'.$value['dniPersona'].'",
+							"'.$value['codigo'].'",
+							"'.$value['codigoPago'].'",
+							" S/. '.$value['monto'].'",
+							"'.$acciones.'"
+					],';
+				}
+				$datosJson = substr($datosJson, 0, -1);
+				$datosJson .= ']}';
+				return $datosJson;
+			}	
+		}
+		static public function ctrMostrarProcesados(){
+			$modeloAlumno = new ModeloAlumno();
+			$alumnos = '';
+			if (isset($_POST['idSede']) && !empty($_POST['idSede'])) {
+				$alumnos = $modeloAlumno->mdlMostrarProcesados($_POST['idSede']);
+			}else{
+				$alumnos = $modeloAlumno->mdlMostrarProcesados('');
+			}
+			if (count($alumnos) == 0) {
+				$datosJson = '{"data":[]}';
+				echo $datosJson;
+				return;
+			}else{
+				$datosJson = '{
+				"data":[';
+				foreach ($alumnos as $key => $value) {
+					$acciones = "";
+					if ($value['estadoSubsanacion'] == 2) {
 						$acciones .= "<div><h3 class='badge badge-success'>Aprobado</h3></div>"; 
 					}else if ($value['estadoSubsanacion']==3) {
 						$acciones .= "<div><h3 class='badge badge-danger'>Desaprobado</h3></div>"; 	
@@ -112,7 +153,7 @@
 				$datosJson .= ']}';
 				return $datosJson;
 			}	
-		}
+		}		
 		static public function ctrEditarEstadoSubsanar(){
 			if (isset($_POST['idSubsanacion']) && !empty($_POST['idSubsanacion']) && isset($_POST['estado'])) {
 				$modeloAlumno = new ModeloAlumno();
@@ -123,5 +164,17 @@
 					return 'error';
 				}				
 			}
+		}
+		
+		static public function ctrEditarProcesar(){
+			if (isset($_POST['idSubsanacion']) && !empty($_POST['idSubsanacion']) && isset($_POST['estado'])) {
+				$modeloAlumno = new ModeloAlumno();
+				$respuesta  = $modeloAlumno->mdlEditarSubsanar('estado', $_POST['estado'], $_POST['idSubsanacion']);
+				if ($respuesta) {
+					return 'ok';
+				}else{
+					return 'error';
+				}				
+			}	
 		}
 	}

@@ -32,4 +32,11 @@
 		$respuesta = ControladorAsistencia::ctrEliminarAsistencia($_POST['idAsistenciaDocente']);
 		echo $respuesta;
 	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarLink') {
+		$respuesta = '';
+		if (!empty($_POST['link']) && isset($_POST['link']) && !empty($_POST['idHorarioCurso']) && isset($_POST['idHorarioCurso'])) {
+			$respuesta = ControladorAsistencia::ctrEditarLink($_POST['link'], $_POST['idHorarioCurso']);	
+		}
+		echo $respuesta;
+	}
  ?>

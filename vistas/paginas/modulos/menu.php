@@ -118,6 +118,14 @@
                 Subsanaciones
               </p>
             </a>
+          </li>
+          <li class="nav-item">
+            <a href="procesado" class="nav-link">
+              <i class="nav-icon fa-solid fa-user-check"></i>
+              <p>
+                Procesados
+              </p>
+            </a>
           </li>          
           <?php endif ?>
           <?php if ($idUsuarioRol != 4 && $idUsuarioRol != 5): ?>

@@ -2,7 +2,7 @@
 	$url= $_SERVER["REQUEST_URI"];
 	$components = parse_url($url);
 	$modeloAlumno = new ModeloAlumno();
-	parse_str($components['query'], $archivo);
+	parse_str($components['query'], $archivo); 
 	if (isset($archivo['idSede'])) {
 		$alumnos = $modeloAlumno->mdlMostrarAlumnos($archivo['idSede']);
 	}
@@ -22,6 +22,7 @@
  		<th>Boleta</th>
  		<th>Monto</th>
  		<th>Estado</th>
+ 		<th>fecha</th>
  	</tr>
  	<?php foreach ($alumnos as $key => $value): 
  		$estado = '';
@@ -47,6 +48,7 @@
 	 			}
 	 		 ?>
 	 		 <td><?php echo $estado; ?></td>
+	 		 <td><?php echo $value['fechaSubsanacion']; ?></td>
 	 	</tr>
  	<?php endforeach ?>
  </table>

@@ -8,7 +8,7 @@
 		}
 
 		public function mdlMostrarSupervision($idSede, $dia, $idPeriodo){
-			$sql = "SELECT detallehorario.*, idPersonal, nombreSede, cicloSeccion, nombreSeccion, nombreCurso, turno, concat(apellidoPaternoPersona,' ', apellidoMaternoPersona,' ', nombresPersona) AS datos, nombreCarrera, nombrecurso FROM detallehorario
+			$sql = "SELECT detallehorario.*, idPersonal, nombreSede, cicloSeccion, nombreSeccion, nombreCurso, turno, concat(apellidoPaternoPersona,' ', apellidoMaternoPersona,' ', nombresPersona) AS datos, nombreCarrera, nombrecurso, linkCurso FROM detallehorario
 				INNER JOIN horario_curso on detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
 				INNER JOIN seccion on horario_curso.idSeccionHor = seccion.idSeccion
 				inner join cursos on horario_curso.idCursoHor = cursos.idCurso
@@ -106,5 +106,12 @@
 				WHERE fechaAsis = '$fecha' AND idUsuarioAsistencia = $idUsuario ORDER BY datos ASC;";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;			
+		}
+		public function mdlEditarLink($link, $idHorarioCurso){
+			$sql = "UPDATE horario_curso  SET  linkCurso = ?
+						WHERE idHorarioCurso = $idHorarioCurso";
+				$arrData = array($link); 
+				$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;
 		}
 	}

@@ -8,7 +8,7 @@
 			$asistencias = '';
 			$modeloAsistencia = new ModeloAsistencia();
 			$asistencias = $modeloAsistencia->mdlMostrarSupervision($idSede, $dia, $idPeriodo);
-			if (count($asistencias) == 0) {
+			if (count($asistencias) == 0) { 
 				$datosJson = '{"data":[]}';
 				echo $datosJson;
 				return;
@@ -16,7 +16,13 @@
 				$datosJson = '{
 				"data":[';
 				foreach ($asistencias as $key => $value) {
-					$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button></div>"; 
+					$acciones = '';
+					if (!empty($value['linkCurso'])) {
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><a class='btn btn-danger btn-sm' href='".$value['linkCurso']."' title='Ingresar a la clase' target='_blank'><i class='fa-solid fa-link'></i></a></div>"; 	
+					}else{
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-warning btn-sm agregarLink' idHorarioCurso='".$value['idHorarioCurso']."' title='Registrar link'><i class='fa-solid fa-link'></i></button></div>"; 	
+					}
+					
 					$ciclo = "<h5><span class='badge badge-warning'>".$value['cicloSeccion']."° Ciclo</span></h5></div>"; 
 					$turno = '';
 					if ($value['turno'] == 'M') {
@@ -73,7 +79,7 @@
 					}
 				}
 				$estado = 1;
-				if ($tipoClase > 1) {
+				if ($tipoClase > 2) {
 					$estado = 0;
 				}
 				$modeloAsistencia = new ModeloAsistencia();
@@ -190,7 +196,7 @@
 				                  <th>Aula</th>
 				                  <th>Observación</th>
 				                  <th>Estado</th>
-				                  <th>Tiempo</th>
+				                  <th>Tiempo</th> 
 				                  <th>x hora</th>
 				                  <th>Pago</th>
 				                </tr>
@@ -207,8 +213,14 @@
 						$horasTrab = 0;
 						$horaEntrada = strtotime($value['horaEntrada']);
 						$horaSalida = strtotime($value['horaSalida']);
-						if ($value['tipo'] == 1 && $value['estado'] == 1) {
-							$estado = "<h4 class='badge badge-info'>VIRTUAL OK</h4>";
+							$pagxhora = 0;
+						if (($value['tipo'] == 1 || $value['tipo'] == 2) && $value['estado'] == 1) {
+							if ($value['tipo'] == 1) {
+								$estado = "<h4 class='badge badge-info'>VIRTUAL OK</h4>";	
+							}else{
+								$estado = "<h4 class='badge badge-success'>PRESENCIAL OK</h4>";
+							}
+							
 							if ($horaEntrada < $horatarde && $horaSalida <= $horatarde) {
 								$min = ($horaSalida - $horaEntrada)/60;
 								$montoPago = ($horaMaTard *$min);
@@ -233,8 +245,6 @@
 								$pagxhora = $personal['montoPago'];
 							}							
 							$pagoTotal = $pagoTotal + $montoPago;
-						}else if ($value['tipo'] == 2) {
-							$estado = "<h4 class='badge badge-success'>PRESENCIAL</h4>";
 						}else if($value['tipo'] == 3){
 							$estado = "<h4 class='badge badge-warning'>REPROGRAMADO</h4>";
 						}else{
@@ -344,5 +354,14 @@
 				return 'ok';
 			}
 			return 'no';
+		}
+
+		static public function ctrEditarLink($link, $idHorarioCurso){
+			$modeloAsistencia = new ModeloAsistencia();
+			$respuesta = $modeloAsistencia->mdlEditarLink($link, $idHorarioCurso);
+			if ($respuesta) {
+				return 'ok';
+			}
+			return 'error';	
 		}
 	}

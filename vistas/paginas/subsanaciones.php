@@ -50,7 +50,7 @@
                         <th style="width: 60px;">Código</th>
                         <th style="width: 60px;">Boleta</th>
                         <th style="width: 60px;">Monto</th>
-                        <th style="width: 80px;">Acciones</th>
+                        <th style="width: 100px;">Acciones</th>
                       </tr>
                     </thead>
                     <tbody>

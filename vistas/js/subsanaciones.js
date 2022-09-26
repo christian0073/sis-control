@@ -200,6 +200,15 @@ $(document).on('click', '.btnEliminar', function(e){
    cambiarEstado(datos, "borrar el registro");
 });
 
+$(document).on('click', '.btnOk', function(e){
+   let idSubsanacion = $(this).attr('idSubsanacion');
+   let datos = new FormData();
+   datos.append('funcion', 'editarProcesar');
+   datos.append('idSubsanacion', idSubsanacion);
+   datos.append('estado', 0);
+   cambiarEstado(datos, "borrar el registro");
+});
+
 $(document).on('click', '.btnAprobar', function(e){
    let idSubsanacion = $(this).attr('idSubsanacion');
    let datos = new FormData();

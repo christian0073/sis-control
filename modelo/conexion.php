@@ -1,11 +1,11 @@
 <?php 
 	class Conexion{
+		
 		private $host = 'localhost';
 		private $usuario = 'root';
 		private $contra = '';
 		private $db = 'bdcontrol';
 		private $conect;
-		
 		public function __construct(){
 			$conectionString = "mysql:host=".$this->host.";dbname=".$this->db.";charset=utf8";
 			try{

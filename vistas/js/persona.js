@@ -299,7 +299,7 @@ $(document).on("click", ".agregarHorario", function(e){
             maxTime = '18:30';
             $('input[name="minutos"]').val(50);
          }else if (response['turno'] == 'N') {
-            minTime = '16:00';
+            minTime = '13:30';
             maxTime = '23:00';
             turno = 'NOCHE';
             step = '';

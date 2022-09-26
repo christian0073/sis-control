@@ -31,7 +31,15 @@
 		$respuesta = ControladorAlumno::ctrMostrarAlumnos();
 		echo $respuesta;		
 	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarProcesados') {
+		$respuesta = ControladorAlumno::ctrMostrarProcesados();
+		echo $respuesta;		
+	}
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarCampoSubsanar') {
 		$respuesta = ControladorAlumno::ctrEditarEstadoSubsanar();
 		echo $respuesta;			
 	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'editarProcesar') {
+		$respuesta = ControladorAlumno::ctrEditarProcesar();
+		echo $respuesta;			
+	}	

@@ -33,11 +33,28 @@
 			return $respuesta;
 		}
 		public function mdlMostrarAlumnos($idSede){
-			$consulta = 'WHERE estadoSubsanacion > 0';
+			$consulta = 'WHERE estadoSubsanacion > 0 AND subsanaciones.estado = 1';
 			if (!empty($idSede)) {
-				$consulta = "WHERE sedes.idSede = $idSede AND estadoSubsanacion > 0";
+				$consulta = "WHERE sedes.idSede = $idSede AND estadoSubsanacion > 0 AND subsanaciones.estado = 1";
 			}
-			$sql = "SELECT subsanaciones.*, alumnos.codigo, dniPersona, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ', ', nombresPersona)AS datos, nombreSeccion, nombreCurso, nombreCarrera, cicloSeccion, nombreSede FROM subsanaciones
+			$sql = "SELECT subsanaciones.*, alumnos.codigo, dniPersona, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ', ', nombresPersona)AS datos, nombreSeccion, nombreCurso, nombreCarrera, cicloSeccion, nombreSede, fechaSubsanacion FROM subsanaciones
+				INNER JOIN alumnos ON idAlumnoSubsanacion = idAlumno
+				INNER JOIN personas ON idPersonaAlumno = idPersona
+				INNER JOIN seccion ON idSeccionSubsanacion = idSeccion
+				INNER JOIN local_carrera ON idSeccionLocal = idLocalCarrera
+				INNER JOIN locales ON local_carrera.idLocal= locales.idLocal
+				INNER JOIN cursos ON idCursoSubsanacion = idCurso
+				INNER JOIN carreras ON idCarreraCurso = carreras.idCarrera
+				INNER JOIN sedes ON idSedeLocal = sedes.idSede $consulta ORDER BY idSubsanacion ASC;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
+		public function mdlMostrarProcesados($idSede){
+			$consulta = 'WHERE estadoSubsanacion > 0 AND subsanaciones.estado = 0';
+			if (!empty($idSede)) {
+				$consulta = "WHERE sedes.idSede = $idSede AND estadoSubsanacion > 0 AND subsanaciones.estado = 0";
+			}
+			$sql = "SELECT subsanaciones.*, alumnos.codigo, dniPersona, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ', ', nombresPersona)AS datos, nombreSeccion, nombreCurso, nombreCarrera, cicloSeccion, nombreSede, fechaSubsanacion FROM subsanaciones
 				INNER JOIN alumnos ON idAlumnoSubsanacion = idAlumno
 				INNER JOIN personas ON idPersonaAlumno = idPersona
 				INNER JOIN seccion ON idSeccionSubsanacion = idSeccion
