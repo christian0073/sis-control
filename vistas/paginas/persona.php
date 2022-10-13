@@ -257,7 +257,7 @@
             <div class="form-group col-6">
               <label for="txtMontoPersonal">Ingrese monto:</label>
                <div class="input-group input-group-sm">
-                <input type="number" class="form-control" name="txtMontoPersonal" placeholder="S/. 0.00" required>
+                <input type="number" class="form-control" step="0.50" name="txtMontoPersonal" placeholder="S/. 0.00" required>
               </div>
             </div>
           </div>

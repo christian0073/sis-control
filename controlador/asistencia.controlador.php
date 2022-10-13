@@ -7,7 +7,7 @@
 			$idSede = $_POST['idSede'];
 			$asistencias = '';
 			$modeloAsistencia = new ModeloAsistencia();
-			$asistencias = $modeloAsistencia->mdlMostrarSupervision($idSede, $dia, $idPeriodo);
+			$asistencias = $modeloAsistencia->mdlMostrarSupervision($idSede, $dia, $idPeriodo, $_POST['fecha']);
 			if (count($asistencias) == 0) { 
 				$datosJson = '{"data":[]}';
 				echo $datosJson;
@@ -18,10 +18,17 @@
 				foreach ($asistencias as $key => $value) {
 					$acciones = '';
 					if (!empty($value['linkCurso'])) {
-						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><a class='btn btn-danger btn-sm' href='".$value['linkCurso']."' title='Ingresar a la clase' target='_blank'><i class='fa-solid fa-link'></i></a></div>"; 	
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."' idDetalle='".$value['idDetalle']."'><i class='fa-solid fa-calendar-check'></i></button><a class='btn btn-danger btn-sm' href='".$value['linkCurso']."' title='Ingresar a la clase' target='_blank'><i class='fa-solid fa-link'></i></a></div>"; 	
 					}else{
-						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-warning btn-sm agregarLink' idHorarioCurso='".$value['idHorarioCurso']."' title='Registrar link'><i class='fa-solid fa-link'></i></button></div>"; 	
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorarioCurso']."' idPersonal='".$value['idPersonal']."' idDetalle='".$value['idDetalle']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-warning btn-sm agregarLink' idHorarioCurso='".$value['idHorarioCurso']."' title='Registrar link'><i class='fa-solid fa-link'></i></button></div>"; 	
 					}
+					
+					
+					$estado = "<span class='badge badge-danger' style='font-size: 14px;'>Pendiente</span>";
+					if (!empty($value['idAsistenciaDocente'])) {
+						$estado = "<span class='badge badge-info' style='font-size: 14px;'>Registrado</span>";
+					}
+					
 					
 					$ciclo = "<h5><span class='badge badge-warning'>".$value['cicloSeccion']."° Ciclo</span></h5></div>"; 
 					$turno = '';
@@ -42,6 +49,7 @@
 							"'.$seccion.'",
 							"'.$value['horaEntrada'].' - '.$value['horaSalida'].'",
 							"'.$value['horas'].'",
+							"'.$estado.'",
 							"'.$acciones.'"
 					],';
 				}
@@ -69,8 +77,12 @@
 			return $asistencia;
 		}
 		static public function ctrRegistrarAsistencia(){
+			if (empty($_SESSION['idUsuarioSis'])) {
+				return 'error';
+			}
 			if (isset($_POST['cmbTipoClase']) && !empty($_POST['cmbTipoClase'])) {
 				$tipoClase = $_POST['cmbTipoClase'];
+
 				if (!empty($_POST['txtHoraEntrada']) && !empty($_POST['txtHoraSalida'])) {
 					$horaEntrada = strtotime($_POST['txtHoraEntrada']);
 					$horaSalida = strtotime($_POST['txtHoraSalida']);
@@ -134,7 +146,11 @@
 				$datosJson = '{
 				"data":[';
 				foreach ($reprogramar as $key => $value) {
-					$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button></div>"; 
+					if (!empty($value['linkCurso'])) {
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button><a class='btn btn-danger btn-sm' href='".$value['linkCurso']."' title='Ingresar a la clase' target='_blank'><i class='fa-solid fa-link'></i></a></div>"; 
+					}else{
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button></button><button class='btn btn-warning btn-sm agregarLink' idHorarioCurso='".$value['idHorCurso']."' title='Registrar link'><i class='fa-solid fa-link'></i></button></div>";
+					}					
 					$ciclo = "<h5><span class='badge badge-warning'>".$value['cicloSeccion']."° Ciclo</span></h5></div>"; 
 					$turno = '';
 					if ($value['turno'] == 'M') {

@@ -7,8 +7,8 @@
 			$this->consulta = new Consultas();
 		}
 
-		public function mdlMostrarSupervision($idSede, $dia, $idPeriodo){
-			$sql = "SELECT detallehorario.*, idPersonal, nombreSede, cicloSeccion, nombreSeccion, nombreCurso, turno, concat(apellidoPaternoPersona,' ', apellidoMaternoPersona,' ', nombresPersona) AS datos, nombreCarrera, nombrecurso, linkCurso FROM detallehorario
+		public function mdlMostrarSupervision($idSede, $dia, $idPeriodo, $fecha){
+			$sql = "SELECT detallehorario.*, idPersonal, nombreSede, cicloSeccion, nombreSeccion, nombreCurso, turno, concat(apellidoPaternoPersona,' ', apellidoMaternoPersona,' ', nombresPersona) AS datos, nombreCarrera, nombrecurso, linkCurso, idAsistenciaDocente, idDetalle FROM detallehorario
 				INNER JOIN horario_curso on detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
 				INNER JOIN seccion on horario_curso.idSeccionHor = seccion.idSeccion
 				inner join cursos on horario_curso.idCursoHor = cursos.idCurso
@@ -18,12 +18,13 @@
 			    INNER JOIN sedes on locales.idSedeLocal = sedes.idSede
 			    INNER JOIN personal on horario_curso.idPersonalHor = personal.idPersonal
 			    INNER JOIN personas on personal.idPersonaPersonal = personas.idPersona
+			    left join asistencia_docente on detallehorario.idHorarioCurso = asistencia_docente.idAsistenciaHor AND fechaAsis = '$fecha'
 			    WHERE idCargo = 1 AND dia = '$dia' AND idSede = $idSede AND idPeriodoSeccion = $idPeriodo AND estadoPersonal = TRUE order by horaEntrada;";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;	
 		}
 		public function mdlMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso){
-			$sql = "SELECT * FROM asistencia_docente 
+			$sql = "SELECT * FROM asistencia_docente
 				WHERE idPersonaAsistencia = $idPersonal AND idAsistenciaHor = $idHorarioCurso AND fechaAsis = '$fecha' LIMIT 1;";
 		   	$respuesta = $this->consulta->select($sql);
 		   	return $respuesta;				
@@ -61,7 +62,7 @@
 		   	return $respuesta;
 		}
 		public function mdlMostrarReprogramaciones($fecha){
-			$sql = "SELECT reprogramacion.*, personal.idPersonal, nombreCurso, nombreCarrera, nombreSeccion, turno, cicloSeccion, concat(nombresPersona, ' ', apellidoPaternoPersona,' ', apellidoMaternoPersona) AS datos FROM reprogramacion
+			$sql = "SELECT reprogramacion.*, personal.idPersonal, nombreCurso, nombreCarrera, nombreSeccion, turno, cicloSeccion, concat(nombresPersona, ' ', apellidoPaternoPersona,' ', apellidoMaternoPersona) AS datos, linkCurso FROM reprogramacion
 				INNER JOIN horario_curso ON reprogramacion.idHorCurso = horario_curso.idHorarioCurso
 				INNER JOIN personal ON horario_curso.idPersonalHor = personal.idPersonal
 				INNER JOIN personas ON personal.idPersonaPersonal = personas.idPersona

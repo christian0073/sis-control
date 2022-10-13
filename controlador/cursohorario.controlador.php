@@ -94,8 +94,9 @@
 		}
 
 		static public function ctrDocenteHorario($idPersonal){
+			$idPeriodo = $_SESSION['idPeriodo'];
 			$modeloDocenteHorario = new ModeloCursoHorario();
-			$horario = $modeloDocenteHorario->mdlDocenteHorario($idPersonal);
+			$horario = $modeloDocenteHorario->mdlDocenteHorario($idPersonal, $idPeriodo);
 			$arrData = [];
 			$horaInicio =	$horario[0]['horaEntrada'];
 			$horaTarde = strtotime('13:30');

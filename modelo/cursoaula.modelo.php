@@ -32,7 +32,7 @@
 		public function mdlMostrarCurosDocente($idPeriodoLectivo, $idPersonal){
 			$consulta = '';
 			if (!empty($idPeriodoLectivo)) {
-				$consulta = "WHERE personal.idCargo = $idCargo";
+				//$consulta = "WHERE personal.idCargo = $idCargo";
 			}
 			$sql = "SELECT horario_curso.*, cursos.nombreCurso, cursos.codigo, cursos.creditosCurso, carreras.nombreCarrera, seccion.nombreSeccion, seccion.turno, seccion.cicloSeccion FROM horario_curso 
 				INNER JOIN cursos ON horario_curso.idCursoHor = cursos.idCurso
@@ -75,6 +75,33 @@
 					WHERE idPersonalHor = $idPersonal;";
 			$arrData = array($valor); 
 			$respuesta = $this->consulta->update($sql, $arrData);
+			return $respuesta;			
+		}
+		public function mdlRegistrarExamenesDocenetes($arrExamenes){
+			$filTit = array(':idHorarioExamen', ':idDocenteExamen', ':idParcial', ':estadoExamen', ':fechaExamen');
+			$sql = "INSERT INTO examen_docente (idHorarioExamen, idDocenteExamen, idParcial, estadoExamen, fechaExamen) VALUES (:idHorarioExamen, :idDocenteExamen, :idParcial, :estadoExamen, :fechaExamen)";
+			$respuesta = $this->consulta->insertAll($sql, $arrExamenes, $filTit);
+			return $respuesta;
+		}
+		public function mdlCantidadExamenesRegistrados($idPersonal){
+			$sql = "SELECT idExamen, idHorarioExamen, COUNT(idExamen) AS cantidad, idParcial, SUM(estadoExamen) AS entregado FROM examen_docente where idDocenteExamen = $idPersonal GROUP BY idParcial;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
+		public function mdlMostrarExamenesDocente($idPersonal, $idParcial){
+			$sql = "SELECT examen_docente.*, nombreSeccion, nombreCurso, nombreCarrera FROM examen_docente
+				INNER JOIN horario_curso ON idHorarioExamen = horario_curso.idHorarioCurso
+				INNER JOIN seccion ON idSeccionHor = seccion.idSeccion
+				INNER JOIN cursos ON idCursoHor = cursos.idCurso
+				INNER JOIN carreras ON idCarreraCurso = carreras.idCarrera
+				WHERE idDocenteExamen = $idPersonal AND idParcial = $idParcial";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
+		public function mdlEditarExamenesDocenetes($arrExamenes){
+			$filTit = array(':idExamen', ':estadoExamen', ':fechaExamen');
+			$sql = "UPDATE examen_docente SET estadoExamen = :estadoExamen, fechaExamen = :fechaExamen WHERE idExamen = :idExamen";
+			$respuesta = $this->consulta->insertAll($sql, $arrExamenes, $filTit);
 			return $respuesta;			
 		}
 	}

@@ -141,3 +141,50 @@
     </div>
   </div>
 </div>
+
+<div class="modal" id="modalEditarUsuario">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" id="formEditarUsuario">
+        <!-- Modal Header -->
+        <div class="modal-header bg-light">
+          <h4 class="modal-title" id="tituloPersonal"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="cmbRolUsuarioEditar">Rol:</label>
+              <select class="form-control form-control-sm select2" style="width: 100%;" name="cmbRolUsuarioEditar" id="cmbRolUsuarioEditar" required>
+                <?php foreach ($roles as $key => $value): ?>
+                  <option value="<?php echo $value['idRol']; ?>"><?php echo $value['nombreRol']; ?></option>
+                  
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div> 
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="txtContraEditar">Contraseña:</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" name="txtContraEditar" placeholder="Ingrese Contraseña">
+              </div>
+            </div>
+          </div>            
+        </div>
+        <input type="hidden" name="funcion" value="editarPersonal">
+        <input type="hidden" name="idPersonal">
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

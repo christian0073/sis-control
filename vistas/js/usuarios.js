@@ -64,6 +64,29 @@ $('#formRegistrarUsuario').submit(event=>{
    event.preventDefault();
 });
 
+$(document).on("click", ".btnEditarUsuario", function(){
+   let idUsuario = $(this).attr('idUsuario');
+   $('#tituloPersonal').html("");
+   $("#formEditarUsuario")[0].reset();
+   let datos = new FormData();
+   datos.append('funcion', 'mostrarUsuario');
+   datos.append('idUsuario', idUsuario);
+   $.ajax({
+      url:"ajax/usuario.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         $("#tituloPersonal").html(response['apellidoPaternoPersona'] + " " + response['apellidoMaternoPersona'] + ", " + response['nombresPersona']);
+         $("#cmbRolUsuarioEditar").val(response['idRol']);
+         $("input[name='txtContraEditar']").val(response['contraUsuario']);
+      }
+   }); 
+});
+
 function buscarDniUsuario(datos, dni, dato){
    if(dni.length == 8 && dato){
       $.ajax({

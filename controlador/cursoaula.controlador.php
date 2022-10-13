@@ -79,6 +79,16 @@
 				return $datosJson;			
 		}
 	}
+	static public function ctrMostrarCursosListaDocente(){
+		$modeloCurso = new ModeloCursoAula();
+		if ($_POST['editar'] == 0) {
+			$cursos = $modeloCurso->mdlMostrarCurosDocente('',$_POST['idPersonal']);	
+		}else{
+			$cursos = $modeloCurso->mdlMostrarExamenesDocente($_POST['idPersonal'], $_POST['idParcial']);
+		}
+		
+		return $cursos;
+	}
 	static public function ctrMostrarDetalleCurso($idCursoDetalle){
 		$modeloCurso = new ModeloCursoAula();
 		$respuesta = $modeloCurso->mdlMostrarDetalleCurso($idCursoDetalle);
@@ -162,6 +172,51 @@
 			return 'error';
 		}else{
 			return 'no';
+		}
+	}
+
+	static public function ctrRegistrarExamenesDocente(){
+		if (isset($_POST['idParcial']) && !empty($_POST['idParcial']) && isset($_POST['idPersonal']) && !empty($_POST['idPersonal']) &&
+			isset($_POST['totalCheck']) && !empty($_POST['totalCheck'])
+		) {
+			$totalChek = intval($_POST['totalCheck']);
+			if ($totalChek == 0) {
+				return 'no';
+			}
+			$modeloCursoAula = new ModeloCursoAula;
+			$arrExamenes = [];
+			if ($_POST['editar'] == 1) {
+				$cursos = $modeloCursoAula->mdlMostrarExamenesDocente($_POST['idPersonal'], $_POST['idParcial']);		
+				foreach ($cursos as $key => $value) {
+					if (isset($_POST['checkbox'.($key+1)])) {
+						$fila = array($value['idExamen'], 1, $_POST['txtFechaRegistro']);
+					}else{
+						$fila = array($value['idExamen'], 0, $_POST['txtFechaRegistro']);
+					}
+					array_push($arrExamenes, $fila);
+				}
+				$examenes = $modeloCursoAula->mdlEditarExamenesDocenetes($arrExamenes);
+				if ($examenes) {
+					return 'ok';
+				}				
+			}else{
+				$cursos = $modeloCursoAula->mdlMostrarCurosDocente('',$_POST['idPersonal']);
+				foreach ($cursos as $key => $value) {
+					if (isset($_POST['checkbox'.($key+1)])) {
+						$fila = array($value['idHorarioCurso'], $_POST['idPersonal'], $_POST['idParcial'], 1, $_POST['txtFechaRegistro']);
+					}else{
+						$fila = array($value['idHorarioCurso'], $_POST['idPersonal'], $_POST['idParcial'], 0, $_POST['txtFechaRegistro']);
+					}
+					array_push($arrExamenes, $fila);
+				}
+				$examenes = $modeloCursoAula->mdlRegistrarExamenesDocenetes($arrExamenes);
+				if ($examenes) {
+					return 'ok';
+				}
+			}
+			return 'noval';
+		}else{
+			return 'error';
 		}
 	}
 }

@@ -45,8 +45,8 @@
                   <th>Curso</th>
                   <th style="width: 40px;">Ciclo</th>
                   <th style="width: 100px;">Sección - turno</th>
-                  <th style="width: 100px;">Horario</th>
                   <th style="width: 100px;">Estado</th>
+                  <th style="width: 100px;">Horario</th>
                   <th style="width: 30px;">Horas</th>
                   <th style="width: 40px;">Acciones</th>
                 </tr>

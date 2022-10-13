@@ -129,14 +129,21 @@ $('#formRegistrarAsistencia').submit(event=>{
    $.ajax({
       url:"ajax/supervision.ajax.php",
       method: "POST",
-      data: $('#formRegistrarAsistencia').serialize(),
+      data: $('#formRegistrarAsistencia').serialize(), 
       cache: false,
       success:function(response){
          if (response == 'ok') {
             mensaje('¡CORRECTO!', 'La acción se realizó con exito.' , 'success');
-          $("#modalAsistencia").modal("hide");
+            $("#modalAsistencia").modal("hide");
+            let datos1 = new FormData()
+            datos1.append("funcion", "mostrarSupervision");
+            datos1.append("fecha", fechaSuper);
+            datos1.append("idSede", sedeSuper);
+            buscarEnTabla('tablaSupervisar', 'supervision.ajax.php', datos1, 100);
          }else if(response == 'noval'){
             alertaMensaje1('top-right', 'warning', '¡La hora de salida no puede ser mayor a la hora de entrada!');
+         }else if(response=='error'){
+            mensaje('¡ADVERTENCIA!', '¡El tiempo de sessión ah expirado. Actualice la pagina' , 'warning');
          }else{
             mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
          }

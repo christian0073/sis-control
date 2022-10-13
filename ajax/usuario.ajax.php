@@ -40,4 +40,10 @@
 		$respuesta = ControladorUsuario::ctrMostrarUsuarios();
 		echo $respuesta;
 	}
+
+
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarUsuario') {
+		$respuesta = ControladorUsuario::ctrMostrarUsuarioId($_POST['idUsuario']);
+		echo json_encode($respuesta);
+	}
  ?>

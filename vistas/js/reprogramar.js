@@ -173,3 +173,41 @@ $(document).on("click", ".eliminarRep", function(e){
       }
    });     
 });
+
+$(document).on('click','.agregarLink', function(e){
+   let idHorarioCurso = $(this).attr('idHorarioCurso');
+   swal({
+      title: 'Ingrese link de la clase',
+      input: 'url',
+      inputPlaceholder: 'Link de la clase',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar'
+   }).then(function(result){
+      if (result.value) {
+         let datos = new FormData();
+         datos.append('funcion', 'editarLink');
+         datos.append('link', result.value);
+         datos.append('idHorarioCurso', idHorarioCurso);
+         $.ajax({
+            url:"ajax/supervision.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(response){
+               if (response == 'ok') {
+                  alertaMensaje1('top-right', 'success', '¡El link fue registrado con exito!');
+                  let datos1 = new FormData()
+                  datos1.append("funcion", "mostrarSupervision");
+                  datos1.append("fecha", fechaSuper);
+                  datos1.append("idSede", sedeSuper);
+                  buscarEnTabla('tablaSupervisar', 'supervision.ajax.php', datos1, 100);
+               }else{
+                  alertaMensaje1('top-right', 'warning', '¡Ocurrió un error al registrar el link!');
+               }
+            }
+         });
+      }
+   });
+});

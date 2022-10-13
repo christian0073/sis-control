@@ -14,7 +14,7 @@
           <img src="vistas/img/user.png" class="img-circle" alt="Icono del usuario">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"><?php echo $usuarioActivo['apellidoPaternoPersona']." ".$usuarioActivo['apellidoMaternoPersona'].' '.substr($usuarioActivo['nombresPersona'], 0,1)."."; ?></a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -155,7 +155,34 @@
                 </a>
               </li>
             </ul>
-          </li>              
+          </li>  
+          <li class="nav-item">
+            <a href="#" id="examenes" class="nav-link">
+              <i class="nav-icon fa-solid fa-clipboard-list"></i>
+              <p>
+                Control examenes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="examenes" class="nav-link">
+                  <i class="nav-icon fa-solid fa-list-ul"></i>
+                  <p>
+                    Lista examenes
+                  </p>
+                </a>
+              </li>     
+              <li class="nav-item">
+                <a href="importar-asistencia" class="nav-link">
+                  <i class="nav-icon fa-solid fa-list-check"></i>
+                  <p>
+                    Examenes entregados
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </li>  
           <?php endif ?>
         </ul>
       </nav>

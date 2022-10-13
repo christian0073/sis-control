@@ -55,6 +55,7 @@
                   <th style="width: 100px;">Sección - turno</th>
                   <th style="width: 100px;">Horario</th>
                   <th style="width: 30px;">Horas</th>
+                  <th style="width: 30px;">Estado</th>
                   <th style="width: 40px;">Acciones</th>
                 </tr>
               </thead>
@@ -91,7 +92,7 @@
                       <option value="1">Virtual</option>
                       <option value="2">Presencial</option>
                       <option value="3">Reprogramar</option>
-                      <option value="4">No se realizó</option>
+                      <option value="4">No se realizó</option> 
                     </select>
                 </div>
               </div>

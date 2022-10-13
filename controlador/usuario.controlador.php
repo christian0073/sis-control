@@ -32,10 +32,17 @@
 			return $respuesta;
 		}
 
-		static public function ctrMostrarUsuarioDni($dni){
+		static public function ctrMostrarUsuarioDni($dni){ 
 			$item = 'dniPersona';
 			$modeloUsuario = new ModeloUsuario();
 			$respuesta = $modeloUsuario->mdlMostrarUsuarioCampo($item, $dni);
+			return $respuesta;
+		}
+
+		static public function ctrMostrarUsuarioId($id){ 
+			$item = 'idUsuario';
+			$modeloUsuario = new ModeloUsuario();
+			$respuesta = $modeloUsuario->mdlMostrarUsuarioCampo($item, $id);
 			return $respuesta;
 		}
 
@@ -90,7 +97,7 @@
 					$datosUsuario = $value['apellidoPaternoPersona'].' '.$value['apellidoMaternoPersona'].', '.$value['nombresPersona'];
 					$acciones = "<div class=' text-center'>";
 					if ($value['estadoUsuario'] == 1) {
-						$acciones .= "<button class='btn btn-warning btn-sm btnEditarPersonal' title='Editar ".$datosUsuario."' idUsuario='".$value['idUsuario']."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa-solid fa-user-pen'></i><button class='btn btn-dark btn-sm btnEliminarUsuario' title='Eliminar ".$datosUsuario."' idUsuario='".$value['idUsuario']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 
+						$acciones .= "<button class='btn btn-warning btn-sm btnEditarUsuario' title='Editar ".$datosUsuario."' idUsuario='".$value['idUsuario']."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa-solid fa-user-pen'></i><button class='btn btn-dark btn-sm btnEliminarUsuario' title='Eliminar ".$datosUsuario."' idUsuario='".$value['idUsuario']."'><i class='fa-solid fa-delete-left'></i></button></div>"; 
 					}else{
 						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
 					}

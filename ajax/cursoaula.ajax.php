@@ -16,6 +16,10 @@
 		$respuesta = ControladorCursoAula::ctrMostrarCursosDocente();
 		echo $respuesta;
 	}
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarCursosListaDocente') {
+		$respuesta = ControladorCursoAula::ctrMostrarCursosListaDocente();
+		echo json_encode($respuesta);
+	}
 	/* condicoón para mostrar el detalle del horario de las secciones */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarHoras') {
 		$respuesta = ControladorCursoAula::ctrMostrarDetalleCurso($_POST['idhorariocurso']);

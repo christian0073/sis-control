@@ -31,7 +31,7 @@
 			$respuesta = $this->consulta->delete($consulta);
 			return $respuesta;	
 		}
-		public function mdlDocenteHorario($idPersonal){
+		public function mdlDocenteHorario($idPersonal, $idPeriodo){
 			$sql = "SELECT detallehorario.*, horario_curso.linkCurso, cursos.nombreCurso, periodo, cursos.periodo, seccion.nombreSeccion, carreras.nombreCarrera, sedes.nombreSede FROM detallehorario 
 				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso 
                 INNER JOIN cursos ON horario_curso.idCursoHor = cursos.idCurso
@@ -40,7 +40,7 @@
 				INNER JOIN local_carrera ON seccion.idSeccionLocal = local_carrera.idLocalCarrera
                 INNER JOIN locales ON local_carrera.idLocal = locales.idLocal
                 INNER JOIN sedes ON locales.idSedeLocal = sedes.idSede
-			    WHERE idPersonalHor = $idPersonal ORDER BY  horaEntrada ASC;";
+			    WHERE idPersonalHor = $idPersonal AND idPeriodoSeccion = $idPeriodo ORDER BY  horaEntrada ASC;";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;
 		}

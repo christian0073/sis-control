@@ -36,9 +36,14 @@
 		$respuesta = ControladorPersonal::ctrRegistrarPersonal();
 		echo $respuesta;
 	}
-
+	/* Condición para mostrar los datos de los trabajadores */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarPersonales') {
 		$respuesta = ControladorPersonal::ctrMostrarPersonales();
+		echo $respuesta;
+	}
+	/* Condicional para mostrar datos de los docenetes */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarListaDocentes') {
+		$respuesta = ControladorPersonal::ctrMostrarListaDocentes();
 		echo $respuesta;
 	}
 	/* condición para mostrar datos de un personal*/
