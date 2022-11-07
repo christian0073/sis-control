@@ -234,53 +234,53 @@
 				$datoPersonal = $value['apellidoPaternoPersona'].' '.$value['apellidoMaternoPersona'].', '.$value['nombresPersona'];
 				$acciones = "";
 				$modeloCursoAula = new ModeloCursoAula;
-				$examenes = $modeloCursoAula->mdlCantidadExamenesRegistrados($value['idPersonal']);
-				$estilo = ["","","",""];
-				$editar = [0,0,0,0];
-				foreach ($examenes as $key1 => $valor) {
-					$porcentaje = round(($valor['entregado']*100)/$valor['cantidad'], 2);
-					if ($valor['idParcial'] == 1) {
-						$estilo[0] = "color: #FFF; background: linear-gradient(to top, #007bff $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
-						$editar[0] = 1;
-					}else if ($valor['idParcial'] ==2) {
-						$estilo[1] = "color: #FFF; background: linear-gradient(to top, #17a2b8 $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
-						$editar[1] = 1;
-					}else if ($valor['idParcial'] ==3) {
-						$estilo[2] = "color: #FFF; background: linear-gradient(to top, #6c757d $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
-						$editar[2] = 1;
-					}else if ($valor['idParcial'] ==4) {
-						$estilo[3] = "color: #FFF; background: linear-gradient(to top, #6c757d $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
-						$editar[3] = 1;
-					}					
-				}
-				if ($value['estadoPersonal'] == 1) {
-					$acciones .= "<div class='btn-group'><button class='btn btn-outline-primary btn-sm btnParcial1' style='".$estilo[0]."' editar='".$editar[0]."' idParcial='1' title='Registrar examenes del primer parcial' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P1</button><button class='btn btn-outline-info btn-sm btnParcial2' editar='".$editar[1]."' idParcial='2' title='Registrar examenes del segundo parcial' style='".$estilo[1]."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P2</button><button class='btn btn-outline-secondary btn-sm btnParcial3' style='".$estilo[2]."' editar='".$editar[2]."' idParcial='3' title='Registrar examenes del tercer parcial' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P3</button><button class='btn btn-outline-dark btn-sm btnParcial4' style='".$estilo[3]."' editar='".$editar[3]."' idParcial='4' title='Registrar examenes del cuarto parcial' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P4</button></div>"; 
-				}else{
-					$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
-				}
-				$celularPersonal = '';
-				$celulares = '';
-				$fechaCese = $value['fechaSalidaPersonal'];
-				if ($value['celularPersonal'] != '[]' ) {
-					$celularPersonal = json_decode($value['celularPersonal'], true);
-					for ($i=0; $i < count($celularPersonal) ; $i++) { 
-						$celulares .= $celularPersonal[$i].', ';
+				$examenes = $modeloCursoAula->mdlCantidadExamenesRegistrados($value['idPersonal']);					
+					$estilo = ["","","",""];
+					$editar = [0,0,0,0];
+					foreach ($examenes as $key1 => $valor) {
+						$porcentaje = round(($valor['entregado']*100)/$valor['cantidad'], 2);
+						if ($valor['idParcial'] == 1) {
+							$estilo[0] = "color: #FFF; background: linear-gradient(to top, #007bff $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
+							$editar[0] = 1;
+						}else if ($valor['idParcial'] ==2) {
+							$estilo[1] = "color: #FFF; background: linear-gradient(to top, #17a2b8 $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
+							$editar[1] = 1;
+						}else if ($valor['idParcial'] ==3) {
+							$estilo[2] = "color: #FFF; background: linear-gradient(to top, #6c757d $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
+							$editar[2] = 1;
+						}else if ($valor['idParcial'] ==4) {
+							$estilo[3] = "color: #FFF; background: linear-gradient(to top, #343a40 $porcentaje%, rgba(0, 0, 0,0.1) 30%);";
+							$editar[3] = 1;
+						}					
 					}
-					$celulares = substr($celulares, 0, -2);		
-				}
-				if (empty($fechaCese)) {
-					$fechaCese = "<h5><span class='badge badge-info'>Vigente</span></h5>";
-				}
-				$datosJson .='[
-						"'.($key+1).'",
-						"'.$datoPersonal.'",
-						"'.$value['dniPersona'].'",
-						"'.$value['profesionPersonal'].'",
-						"'.$value['correoPersonal'].'",
-						"'.$celulares.'",
-						"'.$fechaCese.'",
-						"'.$acciones.'"
-				],';
+					if ($value['estadoPersonal'] == 1) {
+						$acciones .= "<div class='btn-group'><button class='btn btn-outline-primary btn-sm btnParcial1' style='".$estilo[0]."' editar='".$editar[0]."' idParcial='1' title='Registrar examenes del primer parcial' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P1</button><button class='btn btn-outline-info btn-sm btnParcial2' editar='".$editar[1]."' idParcial='2' title='Registrar examenes del segundo parcial' style='".$estilo[1]."' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P2</button><button class='btn btn-outline-secondary btn-sm btnParcial3' style='".$estilo[2]."' editar='".$editar[2]."' idParcial='3' title='Registrar examenes del tercer parcial' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P3</button><button class='btn btn-outline-dark btn-sm btnParcial4' style='".$estilo[3]."' editar='".$editar[3]."' idParcial='4' title='Registrar examenes del cuarto parcial' idPersonal='".$value['idPersonal']."' data-toggle='modal' data-target='#modalParcial'>P4</button></div>"; 
+					}else{
+						$acciones .= "<h5><span class='badge badge-dark'>Sin acciones</span></h5></div>"; 
+					}
+					$celularPersonal = '';
+					$celulares = '';
+					$fechaCese = $value['fechaSalidaPersonal'];
+					if ($value['celularPersonal'] != '[]' ) {
+						$celularPersonal = json_decode($value['celularPersonal'], true);
+						for ($i=0; $i < count($celularPersonal) ; $i++) { 
+							$celulares .= $celularPersonal[$i].', ';
+						}
+						$celulares = substr($celulares, 0, -2);		
+					}
+					if (empty($fechaCese)) {
+						$fechaCese = "<h5><span class='badge badge-info'>Vigente</span></h5>";
+					}
+					$datosJson .='[
+							"'.($key+1).'",
+							"'.$datoPersonal.'",
+							"'.$value['dniPersona'].'",
+							"'.$value['profesionPersonal'].'",
+							"'.$value['correoPersonal'].'",
+							"'.$celulares.'",
+							"'.$fechaCese.'",
+							"'.$acciones.'"
+					],';
 			}
 			$datosJson = substr($datosJson, 0, -1);
 			$datosJson .= ']}';

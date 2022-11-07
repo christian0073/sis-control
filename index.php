@@ -30,7 +30,14 @@
 	require_once "modelo/local.modelo.php";	
 
 	require_once "controlador/alumno.controlador.php";
-	require_once "modelo/alumno.modelo.php";	
+	require_once "modelo/alumno.modelo.php";
+
+	require_once "controlador/datos.controlador.php";
+	require_once "modelo/datos.modelo.php";	
+
+	require_once "modelo/cursoaula.modelo.php";	
+
+	require_once "helpers/funciones.php";	
 	
 	$plantilla = new ControladorPlantilla();
 	$plantilla->ctrPlantilla();

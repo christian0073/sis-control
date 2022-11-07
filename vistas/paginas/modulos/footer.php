@@ -28,3 +28,6 @@
 <script src="vistas/js/funciones.js"></script>
 <!-- fontawesome -->
 <script src="vistas/js/plugins/all.min.js"></script>
+
+<!-- Charjs -->
+<script src="vistas/js/plugins/chart.min.js"></script>

@@ -155,7 +155,8 @@
                 </a>
               </li>
             </ul>
-          </li>  
+          </li> 
+          <?php endif ?> 
           <li class="nav-item">
             <a href="#" id="examenes" class="nav-link">
               <i class="nav-icon fa-solid fa-clipboard-list"></i>
@@ -174,7 +175,7 @@
                 </a>
               </li>     
               <li class="nav-item">
-                <a href="importar-asistencia" class="nav-link">
+                <a href="lista-examenes" class="nav-link">
                   <i class="nav-icon fa-solid fa-list-check"></i>
                   <p>
                     Examenes entregados
@@ -183,7 +184,6 @@
               </li>
             </ul>
           </li>  
-          <?php endif ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

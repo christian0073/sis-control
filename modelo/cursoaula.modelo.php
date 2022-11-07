@@ -104,4 +104,26 @@
 			$respuesta = $this->consulta->insertAll($sql, $arrExamenes, $filTit);
 			return $respuesta;			
 		}
+		public function mdlCantidadExamenes(){
+			$sql = "SELECT idParcial, COUNT(idExamen) AS cantidad FROM examen_docente WHERE estadoExamen = TRUE GROUP BY idParcial ORDER BY idParcial ASC;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
+		public function mdlMostrarListaExamenes($idParcial, $fecha){
+			$consulta = '';
+			if (!empty($fecha)) {
+				$consulta = "AND fechaExamen > '$fecha'";
+			}
+			$sql = "SELECT IF(idSedeLocal=5, 'HUÁNUCO', IF(idSedeLocal=6,'UCAYALI', 'TINGO MARIA')) AS sede, CONCAT(apellidoPaternoPersona, ' ', apellidoMaternoPersona, ' ', nombresPersona) AS docente , celularPersonal, nombreCurso, dniPersona, nombreSeccion, IF(estadoExamen=1,'ENTREGADO', 'PENDIENTE') as estado , fechaExamen from examen_docente
+				INNER JOIN personal ON idDocenteExamen = idPersonal
+			    INNER JOIN personas ON idPersonaPersonal = idPersona
+			    INNER JOIN horario_curso On idHorarioExamen = idHorarioCurso
+			    INNER JOIN cursos on idCursoHor = idCurso
+			    INNER JOIN seccion on idSeccionHor = idSeccion
+			    INNER JOIN local_carrera ON idSeccionLocal = idLocalCarrera
+				INNER JOIN locales ON local_carrera.idLocal = locales.idLocal WHERE idParcial = $idParcial $consulta
+			    ORDER BY sede, docente";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
 	}

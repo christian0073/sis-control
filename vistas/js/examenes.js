@@ -2,6 +2,7 @@ var icheck = 0;
 var icheckTotal = 0;
 $(document).ready(function(){
    //$('.select2').select2();
+   cantidadExamenes();
    activarLinkMenu("examenes", "#examenes");
    let mostrarPersonal = new FormData();
    mostrarPersonal.append("funcion", "mostrarListaDocentes")
@@ -113,6 +114,7 @@ $("#formRegistrarExamen").submit(event=>{
       success:function(response){
          if (response == 'ok') {
             $("#modalParcial").modal("hide");
+            cantidadExamenes();
             let mostrarPersonal = new FormData();
             mostrarPersonal.append("funcion", "mostrarListaDocentes")
             buscarEnTabla('tablaDocentes', 'personal.ajax.php', mostrarPersonal, 100);
@@ -128,3 +130,23 @@ $("#formRegistrarExamen").submit(event=>{
    });
    event.preventDefault();
 });
+
+function cantidadExamenes(){
+   let datos = new FormData();
+   datos.append("funcion", "cantidadExamenes");
+   $.ajax({
+      url:"ajax/examenes.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         let cant = response.length;
+         for (var i = 1; i < cant; i++) {
+            $("#parcial"+i).html(response[i]);
+         }
+      }
+   }); 
+}

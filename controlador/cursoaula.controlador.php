@@ -219,4 +219,61 @@
 			return 'error';
 		}
 	}
+	static public function ctrCantidadExamenes(){
+		$examenes = new ModeloCursoAula();
+		$parciales = $examenes->mdlCantidadExamenes();
+		$arrParciales = [];
+		$arrParciales[0] = 0;
+		foreach ($parciales as $key => $value) {
+			$arrParciales[($key+1)] = $value['cantidad'];
+			$arrParciales[0] = $arrParciales[0] + $value['cantidad'];
+		}
+		return $arrParciales;
+	}
+
+	static public function ctrMostrarListaExamenes($idParcial){
+		$modeloExamenes = new ModeloCursoAula();
+		$docentes = '';
+		$docentes = $modeloExamenes->mdlMostrarListaExamenes($idParcial, '');
+		if (count($docentes) == 0 || empty($idParcial)) {
+			$datosJson = '{"data":[]}';
+			echo $datosJson;
+			return;
+		}else{
+			$datosJson = '{
+			"data":[';
+			foreach ($docentes as $key => $value) {
+				$fecha = '';
+				if ($value['estado'] == 'ENTREGADO') {
+					$estado = "<div><h5><span class='badge badge-info'>".$value['estado']."</span></h5></div>";	
+					$fecha = $value['fechaExamen'];
+				}else{
+					$estado = "<div><h5><span class='badge badge-danger'>".$value['estado']."</span></h5></div>";
+				}
+				$celularPersonal = '';
+				$celulares = '';
+				if ($value['celularPersonal'] != '[]' ) {
+					$celularPersonal = json_decode($value['celularPersonal'], true);
+					for ($i=0; $i < count($celularPersonal) ; $i++) { 
+						$celulares .= $celularPersonal[$i].', ';
+					}
+					$celulares = substr($celulares, 0, -2);		
+				}
+					$datosJson .='[
+						"'.($key+1).'",
+						"'.$value['sede'].'",
+						"'.$value['docente'].'",
+						"'.$value['dniPersona'].'",
+						"'.$celulares.'",
+						"'.$value['nombreCurso'].'",
+						"'.$value['nombreSeccion'].'",
+						"'.$estado.'",
+						"'.$fecha.'"
+					],';
+				}
+				$datosJson = substr($datosJson, 0, -1);
+				$datosJson .= ']}';
+				return $datosJson;
+		}
+	}
 }

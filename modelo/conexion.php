@@ -4,7 +4,7 @@
 		private $host = 'localhost';
 		private $usuario = 'root';
 		private $contra = '';
-		private $db = 'bdcontrol';
+		private $db = 'bdcontrol2';
 		private $conect;
 		public function __construct(){
 			$conectionString = "mysql:host=".$this->host.";dbname=".$this->db.";charset=utf8";

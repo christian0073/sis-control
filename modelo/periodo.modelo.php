@@ -32,7 +32,7 @@
 		}
 		/* metodo que muestra los periodos existentes */
 		public function mdlMostrarPeriodos(){
-			$sql = "SELECT periodos.*, DATE_FORMAT(fechaInicio, '%m-%d-%y') AS fechaIn, DATE_FORMAT(fechaFin, '%m-%d-%y') AS fechaFi FROM periodos ORDER BY yearPeriodo, etapaPeriodo DESC";
+			$sql = "SELECT periodos.*, DATE_FORMAT(fechaInicio, '%d-%m-%y') AS fechaIn, DATE_FORMAT(fechaFin, '%d-%m-%y') AS fechaFi FROM periodos ORDER BY yearPeriodo, etapaPeriodo DESC";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;				
 		}

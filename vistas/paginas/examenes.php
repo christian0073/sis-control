@@ -26,9 +26,46 @@
       <div class="card card-danger card-outline">
         <div class="card-header pb-0">
           <div class="row">
-            <div class="form-group mr-1">
-              <h3 class="card-title">Registrar examenes</h3>
-            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+              <div class="info-box bg-light">
+                <span class="info-box-icon bg-primary">1</span>
+                <div class="info-box-content">
+                  <span class="info-box-text">1er Parcial</span>
+                  <span class="info-box-number" id="parcial1">0</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>              
+            </div> 
+            <div class="col-md-3 col-sm-6 col-12">
+              <div class="info-box bg-light">
+                <span class="info-box-icon bg-info">2</span>
+                <div class="info-box-content">
+                  <span class="info-box-text">2do Parcial</span>
+                  <span class="info-box-number" id="parcial2">0</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>              
+            </div> 
+            <div class="col-md-3 col-sm-6 col-12">
+              <div class="info-box bg-light">
+                <span class="info-box-icon bg-secondary">3</span>
+                <div class="info-box-content">
+                  <span class="info-box-text">3er Parcial</span>
+                  <span class="info-box-number" id="parcial3">0</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>              
+            </div> 
+            <div class="col-md-3 col-sm-6 col-12">
+              <div class="info-box bg-light">
+                <span class="info-box-icon bg-dark">4</span>
+                <div class="info-box-content">
+                  <span class="info-box-text">4to Parcial</span>
+                  <span class="info-box-number" id="parcial4">0</span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>              
+            </div>                                                            
           </div>
         </div>
         <div class="card-body">
@@ -86,7 +123,9 @@
         <input type="hidden" name="funcion" value="registrarParcial" required>
         <input type="hidden" name="idPersonal" required>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+          <?php if ($_SESSION['idUsuarioRol'] == 2): ?>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+          <?php endif ?>
           <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
         </div>
       </form>
