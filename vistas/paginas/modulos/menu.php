@@ -128,7 +128,7 @@
             </a>
           </li>          
           <?php endif ?>
-          <?php if ($idUsuarioRol != 4 && $idUsuarioRol != 5): ?>
+          <?php if ($idUsuarioRol != 5): ?>
           <li class="nav-item">
             <a href="#" id="control" class="nav-link">
               <i class="nav-icon fa-solid fa-person-circle-check"></i>

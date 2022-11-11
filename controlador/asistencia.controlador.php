@@ -62,6 +62,12 @@
 		static public function ctrMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso){
 			$modeloAsistencia = new ModeloAsistencia();
 			$asistencia = $modeloAsistencia->mdlMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso);
+			if (isset($asistencia['observacion'])) {
+				$existe = strpos($asistencia['observacion'], 'Clase reprogramada del día');
+				if($existe !== false){
+					$asistencia['observacion'] = substr_replace($asistencia['observacion'], '', 0, 40);
+				}
+			}
 			if (!empty($asistencia) && $asistencia['tipo'] == 3) {
 				$rep = $modeloAsistencia->mdlMostrarReprogramacion($fecha, $idHorarioCurso);
 				if (!empty($rep)) {
@@ -91,13 +97,21 @@
 					}
 				}
 				$estado = 1;
-				if ($tipoClase > 2) {
+				if ($tipoClase > 2 && $tipoClase < 5) {
 					$estado = 0;
 				}
 				$modeloAsistencia = new ModeloAsistencia();
+				$observacion = '';
+				if (isset($_POST['fechaReprogramacion']) && !empty($_POST['fechaReprogramacion'])) {
+					$fechaSet = date("d/m/Y", strtotime($_POST['fechaReprogramacion']));
+					$obsFecha = 'Clase reprogramada del día '.$fechaSet;
+					$observacion = $obsFecha.", ".$_POST['txtObservacion'];
+				}else{
+					$observacion = $_POST['txtObservacion'];
+				}
 				if ($tipoClase == 3) {
 					if ($_POST['editar'] == 'true') {
-						$respuesta = $modeloAsistencia->mdlEditarAsistencia($tipoClase, $_SESSION['idUsuarioSis'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $_POST['txtObservacion'], $estado, $_POST['idAsistenciaDocente']);
+						$respuesta = $modeloAsistencia->mdlEditarAsistencia($tipoClase, $_SESSION['idUsuarioSis'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $observacion, $estado, $_POST['idAsistenciaDocente']);
 						if ($respuesta) {
 							$respuesta1 = $modeloAsistencia->mdlReprogramarAsistencia($_POST['idCursoHorario'], $_POST['fechaAsistencia'], $_POST['txtFechaRep'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $_POST['idReprogramar']);
 							if ($respuesta1>0) {
@@ -106,7 +120,7 @@
 						}
 						return 'error';
 					}else{
-						$respuesta  = $modeloAsistencia->mdlRegistrarAsistencia($tipoClase, $_POST['idPersonalDocente'], $_POST['idCursoHorario'], $_SESSION['idUsuarioSis'], $_POST['fechaAsistencia'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $_POST['txtObservacion'], $estado);
+						$respuesta  = $modeloAsistencia->mdlRegistrarAsistencia($tipoClase, $_POST['idPersonalDocente'], $_POST['idCursoHorario'], $_SESSION['idUsuarioSis'], $_POST['fechaAsistencia'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $observacion, $estado);
 						if ($respuesta > 0) {
 							$respuesta1 = $modeloAsistencia->mdlReprogramarAsistencia($_POST['idCursoHorario'], $_POST['fechaAsistencia'], $_POST['txtFechaRep'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $_POST['idReprogramar']);
 							if ($respuesta1>0) {
@@ -117,12 +131,12 @@
 					}
 				}else{
 					if ($_POST['editar'] == 'true'){ 
-						$respuesta = $modeloAsistencia->mdlEditarAsistencia($tipoClase, $_SESSION['idUsuarioSis'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $_POST['txtObservacion'], $estado, $_POST['idAsistenciaDocente']);
+						$respuesta = $modeloAsistencia->mdlEditarAsistencia($tipoClase, $_SESSION['idUsuarioSis'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $observacion, $estado, $_POST['idAsistenciaDocente']);
 						if ($respuesta) {
 							return 'ok';
 						}
 					}else{
-						$respuesta  = $modeloAsistencia->mdlRegistrarAsistencia($tipoClase, $_POST['idPersonalDocente'], $_POST['idCursoHorario'], $_SESSION['idUsuarioSis'], $_POST['fechaAsistencia'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $_POST['txtObservacion'], $estado);
+						$respuesta  = $modeloAsistencia->mdlRegistrarAsistencia($tipoClase, $_POST['idPersonalDocente'], $_POST['idCursoHorario'], $_SESSION['idUsuarioSis'], $_POST['fechaAsistencia'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $observacion, $estado);
 						if ($respuesta > 0) {
 							return 'ok';
 						}
@@ -147,9 +161,9 @@
 				"data":[';
 				foreach ($reprogramar as $key => $value) {
 					if (!empty($value['linkCurso'])) {
-						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button><a class='btn btn-danger btn-sm' href='".$value['linkCurso']."' title='Ingresar a la clase' target='_blank'><i class='fa-solid fa-link'></i></a></div>"; 
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idReprogramar='".$value['idReprogramacion']."' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button><a class='btn btn-danger btn-sm' href='".$value['linkCurso']."' title='Ingresar a la clase' target='_blank'><i class='fa-solid fa-link'></i></a></div>"; 
 					}else{
-						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button></button><button class='btn btn-warning btn-sm agregarLink' idHorarioCurso='".$value['idHorCurso']."' title='Registrar link'><i class='fa-solid fa-link'></i></button></div>";
+						$acciones = "<div class='btn-group'><button class='btn btn-primary btn-sm mostrarAsistencia' data-toggle='modal' data-target='#modalAsistencia' title='Registrar asistencia' idReprogramar='".$value['idReprogramacion']."' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."'><i class='fa-solid fa-calendar-check'></i></button><button class='btn btn-dark btn-sm eliminarRep' title='Elimnar registro' idHorarioCurso='".$value['idHorCurso']."' idPersonal='".$value['idPersonal']."' idReprogramar='".$value['idReprogramacion']."' fechaRep='".$value['fechaReprogramacion']."'><i class='fa-solid fa-calendar-xmark'></i></button></button><button class='btn btn-warning btn-sm agregarLink' idHorarioCurso='".$value['idHorCurso']."' title='Registrar link'><i class='fa-solid fa-link'></i></button></div>";
 					}					
 					$ciclo = "<h5><span class='badge badge-warning'>".$value['cicloSeccion']."° Ciclo</span></h5></div>"; 
 					$turno = '';
@@ -230,11 +244,13 @@
 						$horaEntrada = strtotime($value['horaEntrada']);
 						$horaSalida = strtotime($value['horaSalida']);
 							$pagxhora = 0;
-						if (($value['tipo'] == 1 || $value['tipo'] == 2) && $value['estado'] == 1) {
+						if (($value['tipo'] == 1 || $value['tipo'] == 2 || $value['tipo'] == 5) && $value['estado'] == 1) {
 							if ($value['tipo'] == 1) {
 								$estado = "<h4 class='badge badge-info'>VIRTUAL OK</h4>";	
-							}else{
+							}else if ($value['tipo'] == 2) {
 								$estado = "<h4 class='badge badge-success'>PRESENCIAL OK</h4>";
+							}else{
+								$estado = "<h4 class='badge badge-warning'>REPROGRAMADO OK</h4>";
 							}
 							
 							if ($horaEntrada < $horatarde && $horaSalida <= $horatarde) {
@@ -261,8 +277,6 @@
 								$pagxhora = $personal['montoPago'];
 							}							
 							$pagoTotal = $pagoTotal + $montoPago;
-						}else if($value['tipo'] == 3){
-							$estado = "<h4 class='badge badge-warning'>REPROGRAMADO</h4>";
 						}else{
 							$estado = "<h4 class='badge badge-danger'>NO REALIZADO</h4>";
 						}
@@ -317,7 +331,13 @@
 					$horatarde = strtotime('18:30:00');
 					$horasTrab = 0;
 					if ($value['estado'] == 1) {
-						$estado = "<h6><span class='badge badge-info'>VIRTUAL OK</span></h6></div>"; 
+						if($value['tipo'] == 2){
+							$estado = "<h6><span class='badge badge-info'>VIRTUAL OK</span></h6></div>"; 
+						}else if($value['tipo'] == 2){
+							$estado = "<h6><span class='badge badge-success'>PRESENCIAL OK</span></h6></div>"; 
+						}else{
+							$estado = "<h6><span class='badge badge-warning'>REPROGRAMADO OK</span></h6></div>"; 
+						}
 						$horaEntrada = strtotime($value['horaEntrada']);
 						$horaSalida = strtotime($value['horaSalida']);
 						if ($horaEntrada < $horatarde && $horaSalida <= $horatarde) {
@@ -329,13 +349,13 @@
 						}else if ($horaEntrada >= $horatarde) {
 							$horasTrab = round(($horaSalida - $horaEntrada)/(50*60));
 						}						
-					}else if($value['tipo'] == 2){
-						$estado = "<h6><span class='badge badge-success'>PRESENCIAL</span></h6></div>"; 
-					}else if($value['tipo'] == 3){
-						$estado = "<h6><span class='badge badge-warning'>REPROGRAMADO</span></h6></div>"; 
-					}else if($value['tipo'] == 4){
-						$estado = "<h6><span class='badge badge-danger'>NO REALIZÓ</span></h6></div>"; 
-					}
+					}else{
+						if($value['tipo'] == 3){
+							$estado = "<h6><span class='badge badge-warning'>REPROGRAMADO</span></h6></div>"; 
+						}else if($value['tipo'] == 4){
+							$estado = "<h6><span class='badge badge-danger'>NO REALIZÓ</span></h6></div>"; 
+						}
+					} 
 					$turno = '';
 					if ($value['turno'] == 'M') {
 						$turno = 'MAÑANA';
@@ -371,7 +391,6 @@
 			}
 			return 'no';
 		}
-
 		static public function ctrEditarLink($link, $idHorarioCurso){
 			$modeloAsistencia = new ModeloAsistencia();
 			$respuesta = $modeloAsistencia->mdlEditarLink($link, $idHorarioCurso);
@@ -380,4 +399,9 @@
 			}
 			return 'error';	
 		}
+		static public function ctrCantidadHorasDia($idPersonal){
+			$modeloCurso = new ModeloAsistencia();
+			$respuesta = $modeloCurso->mdlCantidadHorasDia($idPersonal);
+			return $respuesta;	
+		}		
 	}

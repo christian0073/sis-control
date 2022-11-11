@@ -76,7 +76,7 @@
                 <div class="input-group input-group-sm">
                     <select class="form-control" name="cmbTipoClase" id="cmbTipoClase" required>
                       <option value="">Seleccione una opción</option>
-                      <option value="1">Virtual</option>
+                      <option value="5">Realizó</option>
                       <option value="4">No se realizó</option>
                     </select>
                 </div>
@@ -109,6 +109,7 @@
             <input type="hidden" name="idCursoHorario">
             <input type="hidden" name="fechaAsistencia">
             <input type="hidden" name="idAsistenciaDocente">
+            <input type="hidden" name="fechaReprogramacion">
             <input type="hidden" name="editar">
         </div>
         <div class="modal-footer">

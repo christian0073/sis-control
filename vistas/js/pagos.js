@@ -35,6 +35,7 @@ $(document).on("keypress", "input[name='textBuscarDocente']", function(e){
 });
 
 $('#formBuscarDocente').submit(event=>{
+   $('#cantHoras').html(0);
    let persona = $("input[name='textBuscarDocente']").val();
    let fecha = $("input[name='txtFechaBuscar']").val();
    let estado = $("#buscar").find("option[value='"+persona+"']");
@@ -47,13 +48,15 @@ $('#formBuscarDocente').submit(event=>{
          method: "POST",
          data: $("#formBuscarDocente").serialize(),
          cache: false,
+         dataType: "json",
          success:function(response){
             if (response =='') {
                alertaMensaje1('top-right', 'warning', '¡No se encontraron resultados!');
             }else if (response == 'no') {
                mensaje('¡ADVERTENCIA!', '¡El docente no tiene asigando el monto por hora! registre el monto correspondiente.' , 'warning');
             }else{
-               $("#tablaPagos").html(response); 
+               $("#tablaPagos").html(response.tabla); 
+               $('#cantHoras').html(response.cantidadHoras);
             }
          }
       });      

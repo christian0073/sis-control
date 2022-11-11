@@ -29,9 +29,10 @@
 					foreach ($horarioPersonal as $key => $value) {
 						$horaEntrada1 = strtotime($value['horaEntrada']);
 						$horaSalida1 = strtotime($value['horaSalida']);
-						if ($start == $horaEntrada1 && $end == $horaEntrada1 || ($horaEntrada1 > $start && $horaSalida > $start) || ($horaEntrada1 < $end && $horaSalida > $end) || 
+						if (($start == $horaEntrada1 && $end == $horaSalida1) || ($horaEntrada1 < $end && $horaSalida1 > $end) || 
 							($horaEntrada1 > $start && $horaEntrada1 < $end)
 						) {
+
 							$repetido = true;
 							break;
 						}
@@ -98,6 +99,9 @@
 			$modeloDocenteHorario = new ModeloCursoHorario();
 			$horario = $modeloDocenteHorario->mdlDocenteHorario($idPersonal, $idPeriodo);
 			$arrData = [];
+			if (empty($horario)) {
+				return 'no';
+			}
 			$horaInicio =	$horario[0]['horaEntrada'];
 			$horaTarde = strtotime('13:30');
 			$horaExtraordinario = strtotime('07:00');

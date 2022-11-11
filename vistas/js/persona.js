@@ -552,23 +552,25 @@ function mostrarHorarios(elemento, datos){
       dataType: "json",
       success:function(response){
          console.log("response", response);
-         let contador= 1;
-         let template = '';
-         response.forEach(valor => {
+         if(response != 'no'){
+            let contador= 1;
+            let template = '';
+            response.forEach(valor => {
 
-            template +=  `<tr>
-                              <td style="max-width:75px">${valor['rangoHora']}</td>
-                              <td style="max-width:30px">${contador}</td>
-                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia1']}</td>
-                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia2']}</td>
-                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia3']}</td>
-                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia4']}</td>
-                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia5']}</td>
-                              <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia6']}</td>
-                           </tr>`;
-            contador++;
-         });
-         $(elemento).html(template);
+               template +=  `<tr>
+                                 <td style="max-width:75px">${valor['rangoHora']}</td>
+                                 <td style="max-width:30px">${contador}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia1']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia2']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia3']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia4']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia5']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia6']}</td>
+                              </tr>`;
+               contador++;
+            });
+            $(elemento).html(template);
+         }
       }
    }); 
 }

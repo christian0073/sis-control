@@ -87,13 +87,15 @@ $(document).on("click", ".mostrarAsistencia", function(e){
       processData: false,
       dataType: "json",
       success:function(response){
+         console.log("response", response);
       	if (response != false) {
             $("#cmbTipoClase").val(response['tipo']);
+            console.log("response['tipo']", response['tipo']);
             $("input[name='editar']").val(true);
             ocultarSelectCmb("cmbTipoClase");
             if (response['tipo'] == 3) {
                $("#cmbTipoClase option:not(:selected)").prop("disabled", true);
-               $("input[name='txtFechaRep']").prop('disabled', false);
+               $("input[name='txtFechaRep']").prop('disabled', true);
                $("input[name='txtFechaRep']").val(response['fechaRep']);
                $("input[name='idReprogramar']").val(response['idReprogramar']);
             }else{

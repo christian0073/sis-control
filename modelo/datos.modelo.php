@@ -26,7 +26,7 @@
 			if (!empty($idPersonal)) {
 				$consulta = "idPersonaAsistencia = $idPersonal AND";
 			}
-			$sql = "SELECT COUNT(idAsistenciaDocente) cantidad, month(fechaAsis) AS mes FROM asistencia_docente
+			$sql = "SELECT COUNT(idAsistenciaDocente) AS cantidad, month(fechaAsis) AS mes, YEAR(fechaAsis) AS ye FROM asistencia_docente
 				WHERE $consulta fechaAsis BETWEEN '$fechaInicio' AND '$fechaFin'
 				group by month(fechaAsis), year(fechaAsis);";
 			$respuesta = $this->consulta->selectAll($sql);

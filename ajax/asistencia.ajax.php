@@ -4,10 +4,20 @@
 	require_once "../modelo/asistencia.modelo.php";
 
 	require_once "../modelo/personal.modelo.php";
+
+	require_once "../helpers/funciones.php";
+
 	/* condiciópn ajax para registrar nuevo carrera*/
-	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia') {
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia') {		
 		$respuesta = ControladorAsistencia::ctrMostrarAsistencias();
-		echo $respuesta;
+		if ($respuesta!='no' && !empty($respuesta)) {
+			$cantidadHoras = ControladorAsistencia::ctrCantidadHorasDia($_POST['idPersonal']);
+			$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $cantidadHoras);
+			$respuestaArr = ['cantidadHoras'=>$cantHoras, 'tabla'=>$respuesta];
+			echo json_encode($respuestaArr);
+		}else{
+			echo json_encode($respuesta);
+		}
 	}
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'registrarAsistencias') {
 		if (isset($_FILES['fileAsistencia']) && !empty($_FILES['fileAsistencia'])) {

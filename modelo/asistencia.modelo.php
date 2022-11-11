@@ -61,6 +61,12 @@
 		   	$respuesta = $this->consulta->select($sql);
 		   	return $respuesta;
 		}
+		public function mdlMostrarReprogramacionId($idReprogramacion){
+			$sql = "SELECT * FROM reprogramacion 
+				WHERE idReprogramacion = $idReprogramacion LIMIT 1;";
+		   	$respuesta = $this->consulta->select($sql);
+		   	return $respuesta;
+		}
 		public function mdlMostrarReprogramaciones($fecha){
 			$sql = "SELECT reprogramacion.*, personal.idPersonal, nombreCurso, nombreCarrera, nombreSeccion, turno, cicloSeccion, concat(nombresPersona, ' ', apellidoPaternoPersona,' ', apellidoMaternoPersona) AS datos, linkCurso FROM reprogramacion
 				INNER JOIN horario_curso ON reprogramacion.idHorCurso = horario_curso.idHorarioCurso
@@ -115,4 +121,11 @@
 				$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
 		}
+		public function mdlCantidadHorasDia($idPersonal){
+			$sql = "SELECT dia, SUM(horas) AS horasDia FROM detallehorario
+				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
+				WHERE idPersonalHor = $idPersonal GROUP BY dia;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;				
+		}		
 	}

@@ -21,6 +21,7 @@ $(document).on("click", "#btnBuscarSupervision", function(e){
 $(document).on("click", ".mostrarAsistencia", function(e){
    let idPersonal = $(this).attr('idPersonal');
    let idHorarioCurso = $(this).attr('idHorarioCurso');
+   let idReprogramar = $(this).attr('idReprogramar');
    $("input[name='idCursoHorario']").val(idHorarioCurso);
    $("input[name='idPersonalDocente']").val(idPersonal);
    $("input[name='fechaAsistencia']").val(fechaSuper);
@@ -31,6 +32,7 @@ $(document).on("click", ".mostrarAsistencia", function(e){
    datos.append('funcion', 'mostrarDatosAsis');
    datos.append('idPersonal', idPersonal);
    datos.append('idHorarioCurso', idHorarioCurso);
+   datos.append('idReprogramar', idReprogramar);
    let template = '';
    $("input[name='idAsistenciaDocente']").val('');
    $("input[name='txtFechaRep']").prop('min', fechaSuper);
@@ -44,6 +46,8 @@ $(document).on("click", ".mostrarAsistencia", function(e){
       dataType: "json",
       success:function(response){
          $('#personafecha').html(response['apellidoPaternoPersona']+' '+response['apellidoMaternoPersona']+', '+ response['nombresPersona']+' ('+fechaSup.toLocaleDateString()+')');
+         let fechaRep = new Date(response['fechaReprogramacion']+"T00:00:00");
+         console.log("fechaRep", fechaRep);
          template = `
             <li class="list-group-item d-flex justify-content-between">
                Carrera:
@@ -54,11 +58,16 @@ $(document).on("click", ".mostrarAsistencia", function(e){
                <span style="font-size: 13px;">${response['nombreCurso']}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-               Fecha:
+               Fecha actual:
                <span class="badge bg-primary">${fechaSup.toLocaleDateString('pe-ES', { weekday:"long", year:"numeric", month:"long", day:"numeric"})}</span>
-            </li>            
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+               Fecha que reprograma:
+               <span class="badge bg-info">${fechaRep.toLocaleDateString('pe-ES', { weekday:"long", year:"numeric", month:"long", day:"numeric"})}</span>
+            </li>
          `;         
          $("#listaAsistencia").html(template);
+         $("input[name='fechaReprogramacion']").val(response['fechaReprogramacion']);
       }
    });  
    let datos1 = new FormData();
@@ -88,7 +97,7 @@ $(document).on("click", ".mostrarAsistencia", function(e){
             $("input[name='editar']").val(false);
          }
       }
-   });      
+   });       
 });
 
 $('#formRegistrarAsistencia').submit(event=>{

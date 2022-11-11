@@ -21,8 +21,9 @@
 			$mesesNuevo = [];
 			$cantMeses = 0;
 			foreach ($asistencia as $key => $value) {
-				$cantidad[$key] = $value['cantidad'];
-				$mesesNuevo[$key] = $meses[$value['mes']];
+				$cantDias = cal_days_in_month(CAL_GREGORIAN, $value['mes'], $value['ye']);
+				$cantidad[$key] = round($value['cantidad'] / $cantDias);
+				$mesesNuevo[$key] = $meses[$value['mes']-1];
 				$cantMeses++;
 			}
 			$respuesta = array("datos"=>$cantidad, "label"=>$mesesNuevo, "cantidadMeses"=>$cantMeses);

@@ -42,4 +42,24 @@
 
 		return $respuesta;
 	}
+
+	function cuenta_dias($fecha, $cantidadHoras){
+		$dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+		$cantDias = [];
+	    $count=0;
+	    $dt = new DateTime($fecha);
+	    $dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));
+	    $totalHoras = 0;
+	    foreach ($cantidadHoras as $key => $value) {
+	    	for($i=1;$i<=$dias_mes;$i++){
+			    if(date('N',strtotime($fecha.'-'.$i))==$value['dia']){
+			    	$count++;
+			    }
+		    }
+		    $totalHoras += $count * $value['horasDia'];
+		    $count = 0;
+	    }
+	    return $totalHoras;
+	}
+
  ?>
