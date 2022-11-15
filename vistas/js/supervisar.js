@@ -46,6 +46,8 @@ $(document).on("click", ".mostrarAsistencia", function(e){
    $("input[name='txtFechaRep']").prop('disabled', true);
    $("input[name='idAsistenciaDocente']").val('');
    $("input[name='idReprogramar']").val('');
+   let horaIngreso = '';
+   let horaSalida = '';
    $.ajax({
       url:"ajax/cursohorario.ajax.php",
       method: "POST",
@@ -55,6 +57,8 @@ $(document).on("click", ".mostrarAsistencia", function(e){
       processData: false,
       dataType: "json",
       success:function(response){
+         horaIngreso = response['horaIngreso'];
+         horaSalida = response['horaSalida'];
       	$('#personafecha').html(response['apellidoPaternoPersona']+' '+response['apellidoMaternoPersona']+', '+ response['nombresPersona']+' ('+fechaSup.toLocaleDateString()+')');
          template = `
             <li class="list-group-item d-flex justify-content-between">
@@ -77,6 +81,8 @@ $(document).on("click", ".mostrarAsistencia", function(e){
    datos1.append('funcion', 'mostrarAsistencia');
    datos1.append('fecha', fechaSuper);
    datos1.append('idPersonal', idPersonal);
+   datos1.append('horaIngreso', horaIngreso);
+   datos1.append('horaSalida', horaSalida);
    datos1.append('idHorarioCurso', idHorarioCurso);
    $.ajax({
       url:"ajax/supervision.ajax.php",

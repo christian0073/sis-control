@@ -61,7 +61,11 @@
 
 		static public function ctrMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso){
 			$modeloAsistencia = new ModeloAsistencia();
-			$asistencia = $modeloAsistencia->mdlMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso);
+			if (!isset($_POST['horaIngreso'])) {
+				$asistencia = $modeloAsistencia->mdlMostrarAsistenciaRep($fecha, $idPersonal, $idHorarioCurso);	
+			}else{
+				$asistencia = $modeloAsistencia->mdlMostrarAsistencia($fecha, $idPersonal, $idHorarioCurso);
+			}
 			if (isset($asistencia['observacion'])) {
 				$existe = strpos($asistencia['observacion'], 'Clase reprogramada del día');
 				if($existe !== false){
@@ -331,7 +335,7 @@
 					$horatarde = strtotime('18:30:00');
 					$horasTrab = 0;
 					if ($value['estado'] == 1) {
-						if($value['tipo'] == 2){
+						if($value['tipo'] == 1){
 							$estado = "<h6><span class='badge badge-info'>VIRTUAL OK</span></h6></div>"; 
 						}else if($value['tipo'] == 2){
 							$estado = "<h6><span class='badge badge-success'>PRESENCIAL OK</span></h6></div>"; 

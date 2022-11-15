@@ -15,7 +15,7 @@
 		if (isset($_POST['idReprogramar']) && !empty($_POST['idReprogramar'])) {
 			$modeloCurso = new ModeloAsistencia();
 			$reprogramacion = $modeloCurso->mdlMostrarReprogramacionId($_POST['idReprogramar']);
-			$respuesta += ['fechaReprogramacion' => $reprogramacion['fecha']];
+			$respuesta += ['fechaReprogramacion' => $reprogramacion['fecha'], 'horaIngreso' => $reprogramacion['horaIngreso'], 'horaSalida' => $reprogramacion['horaSalida']];
 		}
 		echo json_encode($respuesta);
 	}
@@ -29,4 +29,4 @@
 	}
 
 		
-	
+	 

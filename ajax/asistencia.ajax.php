@@ -8,13 +8,41 @@
 	require_once "../helpers/funciones.php";
 
 	/* condiciópn ajax para registrar nuevo carrera*/
-	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia') {		
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia2') {		
 		$respuesta = ControladorAsistencia::ctrMostrarAsistencias();
 		if ($respuesta!='no' && !empty($respuesta)) {
 			$cantidadHoras = ControladorAsistencia::ctrCantidadHorasDia($_POST['idPersonal']);
-			$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $cantidadHoras);
-			$respuestaArr = ['cantidadHoras'=>$cantHoras, 'tabla'=>$respuesta];
-			echo json_encode($respuestaArr);
+			$horasDocentes = [];
+			$idPersonal = $cantidadHoras[0]['idPersonalHor'];
+			$arrTemp = [];
+			$totalCantidad = count($cantidadHoras);
+			$cont = 0;
+			do {
+				$fila = ['dia'=> $cantidadHoras[$cont]['dia'], 'horasDia'=>$cantidadHoras[$cont]['horasDia']];
+				array_push($arrTemp, $fila);
+				//echo '<pre>'; print_r($arrTemp); echo '</pre>';
+				if (isset($cantidadHoras[($cont+1)]['idPersonalHor'])) {
+					if ($idPersonal != $cantidadHoras[($cont+1)]['idPersonalHor']) {
+						$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $arrTemp);
+						$filas2 = [$idPersonal, ($_POST['txtFechaBuscar'].'-01'), $cantHoras];
+						array_push($horasDocentes, $filas2);
+						$arrTemp = [];
+						$idPersonal = $cantidadHoras[($cont+1)]['idPersonalHor'];
+					}
+				}else{
+					break;
+				}
+				$cont++;
+			} while ($cont < $totalCantidad);
+			$insert = new ModeloAsistencia();
+			$si = $insert->mdlRegistrarHorasDocente($horasDocentes);
+			if ($si) {
+				echo "ok";
+			}
+			
+			//$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $cantidadHoras);
+			//$respuestaArr = ['cantidadHoras'=>$cantHoras, 'tabla'=>$respuesta];
+			//echo json_encode($respuestaArr);
 		}else{
 			echo json_encode($respuesta);
 		}

@@ -19,17 +19,17 @@ $(document).ready(function(){
 $(document).on("keypress", "input[name='textBuscarDocente']", function(e){
    $("#buscar").html();
    let texto = $(this).val();
-   let = '';
+   let template = '';
     //console.log(texto)
     let er = new RegExp(texto, "i");
     docentes.forEach(valores => {
       let valor = valores['datos'];
       let idPersona = valores['idPersonal'];
          if(er.test(valor)){
-            let+='<option data-value="'+idPersona+'" value="'+valor+'">';
+            template +='<option data-value="'+idPersona+'" value="'+valor+'">';
            }
       });
-    $("#buscar").html(let);
+    $("#buscar").html(template);
 });
 /* Función para validar el tipo y tamaño de archivo que se sube */
 $(document).on("change", "#fileAsistencia", function(e){

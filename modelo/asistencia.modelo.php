@@ -29,6 +29,13 @@
 		   	$respuesta = $this->consulta->select($sql);
 		   	return $respuesta;				
 		}
+
+		public function mdlMostrarAsistenciaRep($fecha, $idPersonal, $idHorarioCurso){
+			$sql = "SELECT * FROM asistencia_docente
+				WHERE idPersonaAsistencia = $idPersonal AND idAsistenciaHor = $idHorarioCurso AND fechaAsis = '$fecha' AND tipo = 5 LIMIT 1;";
+		   	$respuesta = $this->consulta->select($sql);
+		   	return $respuesta;				
+		}
 		public function mdlRegistrarAsistencia($tipoClase, $idPersonal, $idHorarioCurso, $idUsuario, $fecha, $horaEntrada, $horaSalida, $observacion, $estado){
 			$sql = "INSERT INTO asistencia_docente (idPersonaAsistencia, idAsistenciaHor, idUsuarioAsistencia, fechaAsis, horaEntrada, horaSalida, tipo, observacion, estado) VALUES(?,?,?,?,?,?,?,?,?)";
 			$arrData = array($idPersonal, $idHorarioCurso, $idUsuario, $fecha, $horaEntrada, $horaSalida, $tipoClase, $observacion, $estado); 
@@ -125,7 +132,21 @@
 			$sql = "SELECT dia, SUM(horas) AS horasDia FROM detallehorario
 				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
 				WHERE idPersonalHor = $idPersonal GROUP BY dia;";
+				/* 
+					$sql = "SELECT dia, SUM(horas) AS horasDia , idPersonalHor  FROM detallehorario
+						INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
+						GROUP BY dia, idPersonalHor ORDER BY idPersonalHor;";
+				 */
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;				
 		}		
+		/* codigo para registrar las horas de los docentes */
+		public function mdlRegistrarHorasDocente($arrCantHoras){
+			$filTit = array(':idPersonalHoras', ':fechaHoras', ':cantidadHoras');
+			$sql = "INSERT INTO horas_mes (idPersonalHoras, fechaHoras, cantidadHoras) VALUES (:idPersonalHoras, :fechaHoras, :cantidadHoras)";
+			$respuesta = $this->consulta->insertAll($sql, $arrCantHoras, $filTit);
+			return $respuesta;
+		}
+		
+		
 	}
