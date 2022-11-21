@@ -491,6 +491,33 @@ $(document).on("click", ".btnEliminarCurso", function(e){
 
 });
 
+$(document).on("click", "#btnCalcularHoras", function(e){
+   let datos = new FormData();
+   datos.append('funcion', 'calcularHoras');
+   datos.append('idPersonal', idPersonalGlobal);
+   swal({
+      title: "¿Deseas calcular las horas actuales?",
+      showConfirmButton: true,
+      confirmButtonText: "Sí, calcular",
+      showLoaderOnConfirm: true,
+      preConfirm: (respuesta) => {
+         return fetch('ajax/cursohorario.ajax.php',{
+            method: 'POST',
+            body:   datos
+         })
+            .then(res => res.json());
+      }
+   }).then(function(result){
+      if (result.value.ok > 0) {
+         $('#horasMes').html(result.value.ok);
+         alertaMensaje1('top-right', 'success', 'Las horas se calcularon correctamente')
+      }else{
+         alertaMensaje1('top-right', 'error', '¡Ocurrio un error!')
+      }
+   });;
+
+});
+
 function mostrarDatosPersonal(datos){
    $.ajax({
       url:"ajax/personal.ajax.php",
@@ -570,6 +597,8 @@ function mostrarHorarios(elemento, datos){
                contador++;
             });
             $(elemento).html(template);
+         }else{
+            $(elemento).html('');
          }
       }
    }); 

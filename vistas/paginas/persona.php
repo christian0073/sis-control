@@ -19,6 +19,7 @@
         $tipoPago = 'HORAS';
       }
       $personalNombre = $personal['apellidoPaternoPersona'].' '.$personal['apellidoMaternoPersona'].', '.$personal['nombresPersona']; 
+      $horasMes = ControladorCursoHorario::contarHorasMes($personal['idPersonal']);
       echo '<script>
         var nombreCargo = "'.$personal['nombreCargo'].'"
       </script>';
@@ -156,7 +157,7 @@
                             <div class="row align-items-center">
                               <div class="mb-2">
                                 <?php if ($idUsuarioRol != 4): ?>
-                                <button type="button" class="btn btn-primary">Registrar</button>
+                                <button type="button" class="btn btn-primary" id="btnCalcularHoras">Calcular horas</button>
                                 <?php endif ?>
                               </div>
                               <div class="col-md-3 col-sm-4 col-12">
@@ -170,7 +171,17 @@
                                   <!-- /.info-box-content -->
                                 </div>
                               </div>
-                              
+                              <div class="col-md-3 col-sm-4 col-12">
+                                <div class="info-box">
+                                  <span class="info-box-icon bg-info"><i class="fa-solid fa-clock-rotate-left"></i></span>
+
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Horas al mes</span>
+                                    <span class="info-box-number" id="horasMes"><?php echo $horasMes; ?></span>
+                                  </div>
+                                  <!-- /.info-box-content -->
+                                </div>
+                              </div>
                             </div>
                             <div class="table-responsive">
                               <table class="table text-center table-bordered" style="height:300px; min-width: 900px;">

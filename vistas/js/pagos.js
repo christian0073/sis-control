@@ -35,6 +35,10 @@ $(document).on("keypress", "input[name='textBuscarDocente']", function(e){
 });
 
 $('#formBuscarDocente').submit(event=>{
+   $('#historialhoras').removeClass('aparecer');
+   if (!$("#card-historial").hasClass("collapsed-card")) {
+      $("[data-card-widget='collapse']").click()
+   }
    $('#cantHoras').html(0);
    let persona = $("input[name='textBuscarDocente']").val();
    let fecha = $("input[name='txtFechaBuscar']").val();
@@ -57,6 +61,9 @@ $('#formBuscarDocente').submit(event=>{
             }else{
                $("#tablaPagos").html(response.tabla); 
                $('#cantHoras').html(response.cantidadHoras);
+               $('#horasMes').html(response.historial);
+               $('#historialhoras').removeClass('ocultar');
+               $('#historialhoras').addClass('aparecer');
             }
          }
       });      

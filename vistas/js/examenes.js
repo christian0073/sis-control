@@ -54,11 +54,13 @@ $(document).on("click", ".btnParcial1, .btnParcial2, .btnParcial3, .btnParcial4"
       dataType: "json",
       success:function(response){
          let cont = 1;
+         let inactivo = 0;
          response.forEach(valor => {
             let valor1 = 0;
             let activo = "nochecked";
             if (editar == 0) {
                valor1 = valor['idHorarioCurso'];
+               inactivo++;
             }else{
                valor1 = valor['idExamen'];
                if (valor['estadoExamen'] == 1) {
@@ -75,7 +77,15 @@ $(document).on("click", ".btnParcial1, .btnParcial2, .btnParcial3, .btnParcial4"
             `;  
             cont++;
          });
+         if (response[0]['fechaExamen'] != undefined && (cont-1) != inactivo) {
+            $('input[name="txtFechaRegistro"]').val(response[0]['fechaExamen']);
+         }else{
+            let fecha = new Date()
+            let fechaActual = fecha.getFullYear()+'-'+(fecha.getMonth()+1)+'-'+fecha.getDate();
+            $('input[name="txtFechaRegistro"]').val(fechaActual);
+         }
          if (template == '') {
+         
             template = '<div class="w-100 text-center"><span class="badge badge-info">SIN RESULTADOS</span></div>';
          }
          $("#listaCursos").html(template);

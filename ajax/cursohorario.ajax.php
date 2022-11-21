@@ -1,8 +1,13 @@
 <?php 
+	date_default_timezone_set("America/Lima");
 	require_once "../controlador/cursohorario.controlador.php";
 	require_once "../modelo/cursohorario.modelo.php";
 
 	require_once "../modelo/asistencia.modelo.php";
+
+	require_once "../helpers/funciones.php";
+
+	session_start();
 	
 	/* condición para registar horario de un curso*/
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'registrarHorario') {
@@ -27,6 +32,11 @@
 	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia'){
 
 	}
-
-		
-	 
+	/* Codigo para hacerel calculo de horas mensuales y registrar el historial de horas */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'calcularHoras') {
+		$respuesta = ControladorCursoHorario::ctrCalcularHorasDocente($_POST['idPersonal']);
+		sleep(1);
+		$arrRespt = ['ok'=>$respuesta];
+		echo json_encode($arrRespt);
+	}
+	

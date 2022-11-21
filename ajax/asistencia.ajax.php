@@ -3,11 +3,43 @@
 	require_once "../controlador/asistencia.controlador.php";
 	require_once "../modelo/asistencia.modelo.php";
 
+	require_once "../modelo/cursohorario.modelo.php";
+
 	require_once "../modelo/personal.modelo.php";
 
 	require_once "../helpers/funciones.php";
 
 	/* condiciópn ajax para registrar nuevo carrera*/
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia') {		
+		session_start();
+		$idPeriodo = $_SESSION['idPeriodo'];
+		$respuesta = ControladorAsistencia::ctrMostrarAsistencias();
+		if ($respuesta!='no' && !empty($respuesta)) {
+			$dt = new DateTime();
+			$modeloCurso = new ModeloCursoHorario();
+			$horasMes = $modeloCurso->mdlHorasDocenetMes($_POST['idPersonal'], $_POST['txtFechaBuscar']);
+			setlocale(LC_TIME, "spanish");
+			if (!empty($horasMes)) {
+				$cantHoras = calcularHorasMes($horasMes, $_POST['txtFechaBuscar'], $dt);
+				
+				$template = historialHoras($dt, $horasMes, $_POST['txtFechaBuscar']);
+			}else{
+				$horasDias = $modeloCurso->mdlCantidadHorasDia($_POST['idPersonal'], $idPeriodo);
+				$registrarHistorial = $modeloCurso->mdlRegistrarHistorialHoras($_POST['idPersonal'], $_POST['txtFechaBuscar'].'-01', json_encode($horasDias));
+				if ($registrarHistorial) {
+					$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));
+					$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $horasDias, $dias_mes+1);
+				}
+				$fecha = $_POST['txtFechaBuscar'].'-01';
+				$template = crearTemplateHistorial($cantHoras, $horasDias, 'Las horas se mantenieron constante');
+			}
+			$respuestaArr = ['cantidadHoras'=>$cantHoras, 'tabla'=>$respuesta, 'historial' => $template];
+			echo json_encode($respuestaArr);
+		}else{
+			echo json_encode($respuesta);
+		}
+	}
+
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia2') {		
 		$respuesta = ControladorAsistencia::ctrMostrarAsistencias();
 		if ($respuesta!='no' && !empty($respuesta)) {
@@ -23,8 +55,7 @@
 				//echo '<pre>'; print_r($arrTemp); echo '</pre>';
 				if (isset($cantidadHoras[($cont+1)]['idPersonalHor'])) {
 					if ($idPersonal != $cantidadHoras[($cont+1)]['idPersonalHor']) {
-						$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $arrTemp);
-						$filas2 = [$idPersonal, ($_POST['txtFechaBuscar'].'-01'), $cantHoras];
+						$filas2 = [$idPersonal, ($_POST['txtFechaBuscar'].'-01'), json_encode($arrTemp)];
 						array_push($horasDocentes, $filas2);
 						$arrTemp = [];
 						$idPersonal = $cantidadHoras[($cont+1)]['idPersonalHor'];

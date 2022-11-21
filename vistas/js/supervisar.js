@@ -152,6 +152,8 @@ $('#formRegistrarAsistencia').submit(event=>{
             alertaMensaje1('top-right', 'warning', '¡La hora de salida no puede ser mayor a la hora de entrada!');
          }else if(response=='error'){
             mensaje('¡ADVERTENCIA!', '¡El tiempo de sessión ah expirado. Actualice la pagina' , 'warning');
+         }else if (response == 'nofecha') {
+            mensaje('¡ADVERTENCIA!', '¡La fecha reprogramación no fue ingresada' , 'warning');
          }else{
             mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
          }

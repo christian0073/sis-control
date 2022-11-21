@@ -113,6 +113,9 @@
 				}else{
 					$observacion = $_POST['txtObservacion'];
 				}
+				if (isset($_POST['txtFechaRep']) && empty($_POST['txtFechaRep'])) {
+					return 'nofecha';
+				}
 				if ($tipoClase == 3) {
 					if ($_POST['editar'] == 'true') {
 						$respuesta = $modeloAsistencia->mdlEditarAsistencia($tipoClase, $_SESSION['idUsuarioSis'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $observacion, $estado, $_POST['idAsistenciaDocente']);

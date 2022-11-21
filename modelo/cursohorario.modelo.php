@@ -52,13 +52,37 @@
 				INNER JOIN carreras ON cursos.idCarreraCurso = carreras.idCarrera
 				WHERE idHorarioCurso = $idHorarioCurso LIMIT 1;";
 		   	$respuesta = $this->consulta->select($sql);
-		   	return $respuesta;	
+		   	return $respuesta;
 		}
-		public function mdlMostrarHorasDocente($idPersonal){
+		public function mdlMostrarHorasDocente($idPersonal, $idPeriodo){
 			$sql = "SELECT SUM(horas) AS horas FROM detallehorario 
 				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso 
-				WHERE idPersonalHor = $idPersonal;";
+			    INNER JOIN seccion ON idSeccionHor = idSeccion
+				WHERE idPersonalHor = $idPersonal AND idPeriodoSeccion = $idPeriodo;";
 		   	$respuesta = $this->consulta->select($sql);
 		   	return $respuesta;				
 		}
+		/* metodo para buscar las horas mensuales de un docente */
+		public function mdlHorasDocenetMes($idPersonal, $fecha){
+			$sql = "SELECT * FROM horas_mes
+					WHERE idPersonalHoras = $idPersonal AND DATE_FORMAT(fechaHoras, '%Y-%m') = '$fecha';";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;
+		}
+		public function mdlCantidadHorasDia($idPersonal, $idPeriodo){
+			$sql = "SELECT dia, SUM(horas) AS horasDia FROM detallehorario
+				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
+                INNER JOIN seccion ON idSeccionHor = idSeccion
+				WHERE idPersonalHor = $idPersonal AND idPeriodoSeccion =$idPeriodo GROUP BY dia;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;				
+		}		
+		/* metodo para registrar las horas mes */
+		public function mdlRegistrarHistorialHoras($idPersonal, $fecha, $horasDias){
+			$sql = "INSERT INTO horas_mes (idPersonalHoras, fechaHoras, diasHoras) VALUES(?,?,?)";
+			$arrData = array($idPersonal, $fecha, $horasDias); 
+			$respuesta = $this->consulta->insert($sql, $arrData);
+			return $respuesta;
+		}
+		
 	}

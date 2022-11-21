@@ -135,15 +135,15 @@
 				/* 
 					$sql = "SELECT dia, SUM(horas) AS horasDia , idPersonalHor  FROM detallehorario
 						INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso
-						GROUP BY dia, idPersonalHor ORDER BY idPersonalHor;";
+						GROUP BY dia, idPersonalHor ORDER BY idPersonalHor,dia ASC;";
 				 */
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;				
 		}		
 		/* codigo para registrar las horas de los docentes */
 		public function mdlRegistrarHorasDocente($arrCantHoras){
-			$filTit = array(':idPersonalHoras', ':fechaHoras', ':cantidadHoras');
-			$sql = "INSERT INTO horas_mes (idPersonalHoras, fechaHoras, cantidadHoras) VALUES (:idPersonalHoras, :fechaHoras, :cantidadHoras)";
+			$filTit = array(':idPersonalHoras', ':fechaHoras', ':diasHoras');
+			$sql = "INSERT INTO horas_mes (idPersonalHoras, fechaHoras, diasHoras) VALUES (:idPersonalHoras, :fechaHoras, :diasHoras)";
 			$respuesta = $this->consulta->insertAll($sql, $arrCantHoras, $filTit);
 			return $respuesta;
 		}

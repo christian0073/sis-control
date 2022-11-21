@@ -191,8 +191,62 @@
 		}
 
 		static public function ctrMostrarHorasDocente($idPersonal){
+			$idPeriodo = $_SESSION['idPeriodo'];
 			$modeloCurso = new ModeloCursoHorario();
-			$respuesta = $modeloCurso->mdlMostrarHorasDocente($idPersonal);
+			$respuesta = $modeloCurso->mdlMostrarHorasDocente($idPersonal, $idPeriodo);
 			return $respuesta['horas'];	
 		}
+		/* Codigo para calcular la cantidad de horas al mes y registrar el historial de horas */
+		static public function ctrCalcularHorasDocente($idPersonal){
+			$idPeriodo = $_SESSION['idPeriodo'];
+			$dt = new DateTime();
+			$fecha =  $dt->format('Y').'-'.$dt->format('m');
+			$modeloCurso = new ModeloCursoHorario();
+			$horasMes = $modeloCurso->mdlHorasDocenetMes($idPersonal, $fecha);
+			$fechaRegistro = $dt->format('Y-m-d');
+			$count = count($horasMes);
+			$horasDias = $modeloCurso->mdlCantidadHorasDia($idPersonal, $idPeriodo);
+			if (!empty($horasMes)) {
+				$arrDias = json_decode($horasMes[$count-1]['diasHoras'],true);
+				$horaSemanaViejo =  contarHoras($arrDias);
+				$horaSemanaNuevo = contarHoras($horasDias);
+				if ($horaSemanaNuevo > $horaSemanaViejo) {
+					$diferencia = $horaSemanaNuevo - $horaSemanaViejo;
+				}else if($horaSemanaViejo > $horaSemanaNuevo){
+					$diferencia = $horaSemanaViejo - $horaSemanaNuevo;
+				}
+				$fila = ['fechaHoras'=>$fechaRegistro, 'diasHoras'=>json_encode($horasDias)];
+					array_push($horasMes, $fila);
+				$horasTotales = calcularHorasMes($horasMes, $fecha, $dt);
+				if ($diferencia > 0) {
+					$registrarHistorial = $modeloCurso->mdlRegistrarHistorialHoras($idPersonal, $fechaRegistro,  json_encode($horasDias));
+					if ($registrarHistorial) {
+						return $horasTotales;
+					}
+					return 'error';
+				}
+				return $horasTotales;
+			}else{
+				$fechaRegistro = $dt->format('Y-m').'-01';
+				$registrarHistorial = $modeloCurso->mdlRegistrarHistorialHoras($idPersonal, $fechaRegistro, json_encode($horasDias));
+				if ($registrarHistorial) {
+					$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));
+					return cuenta_dias($fecha, $horasDias, $dias_mes+1);
+				}
+				return "error";
+			}
+			return "error";
+		}
+		/* contar las horas mes */
+		static public function contarHorasMes($idPersonal){
+			$modeloCurso = new ModeloCursoHorario();
+			$dt = new DateTime();
+			$fecha =  $dt->format('Y').'-'.$dt->format('m');
+			$horasMes = $modeloCurso->mdlHorasDocenetMes($idPersonal, $fecha);
+			if (!empty($horasMes)) {
+				return calcularHorasMes($horasMes, $fecha, $dt);
+			}
+			return 0;
+		}
+		
 	}

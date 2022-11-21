@@ -1,0 +1,137 @@
+.pago-alerta .lista.timeline {
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+ /* Timeline vertical line */
+.pago-alerta .lista.timeline:before {
+    content: ' ';
+    background: #48a9c9;
+    display: inline-block;
+    position: absolute;
+    left: 16px;
+    width: 4px;
+    height: 100%;
+    z-index: 400;
+    border-radius: 1rem;
+}
+
+.pago-alerta .lista-anuncio.timeline-item {
+    margin: 20px 0;
+    font-size: 13px;
+}
+
+/* Timeline item arrow */
+.pago-alerta .timeline-arrow {
+    border-top: 0.5rem solid transparent;
+    border-right: 0.5rem solid #fff;
+    border-bottom: 0.5rem solid transparent;
+    display: block;
+    position: absolute;
+    left: 2rem;
+}
+
+/* Timeline item circle marker */
+.pago-alerta .lista-anuncio.timeline-item::before {
+    content: ' ';
+    background: #ddd;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #48a9c9;
+    left: 11px;
+    width: 14px;
+    height: 14px;
+    z-index: 400;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.pago-alerta .lista-anuncio{
+    box-shadow: 0 .5rem .6rem rgba(0,0,0,.15)!important;
+}
+
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSES
+* ==========================================
+*
+*/
+
+.text-gray {
+    color: #999;
+}
+/* codigo css para la pagina de pago */
+
+.pago-alerta{
+    position: absolute; 
+    width: 100%; 
+    display: flex; 
+    justify-content: end;
+}
+
+.pago-alert-not{
+    position: absolute;
+    z-index: 3;
+}
+
+.pago-alerta .card-header{
+    height: auto;
+    margin: 0;
+    padding: .5rem 1rem;
+    font-size: .5rem;
+}
+
+.pago-alerta .card-header h3{
+    font-size: 1rem;
+}
+
+.pago-alerta .card-body{
+    padding: .5rem;
+}
+
+.pago-alerta .list-group-item{
+    padding: .5rem 0;
+    font-size: 12px;
+}
+
+.scroll-s::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+.scroll-s::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiamos el fondo cuando esté en active */
+.scroll-s::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+}
+
+.scroll-s::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+}
+
+/* Cambiamos el fondo cuando esté en active o hover */
+.scroll-s::-webkit-scrollbar-track:hover,
+.scroll-s::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+
+.scroll-s::-webkit-scrollbar {
+    width: 4px;     /* Tamaño del scroll en vertical */
+    height: 4px;    /* Tamaño del scroll en horizontal */
+}
+
+
+.oculto{
+    display: none;
+}
+
+.aparecer{
+    display: block;
+}

@@ -1,6 +1,86 @@
 <?php 
     $fechaMin = Date("Y-m");
  ?>
+ <div class="pago-alerta">
+    <div class="col-8 col-sm-5 col-md-4 col-lg-3 pago-alert-not oculto" id="historialhoras">
+        <div class="card card-info collapsed-card" id="card-historial">
+          <div class="card-header">
+            <h3 class="card-title">Historial de horas</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="overflow-auto scroll-s" style="height: auto; max-height: 400px;">
+                <ul class="timeline mb-0 lista" id="horasMes">
+                    <li class="timeline-item bg-white rounded ml-3 p-4 lista-anuncio">
+                        <div class="timeline-arrow"></div>
+                        <h2 class="h6 mb-0">36 Horas</h2><span class="small text-gray"><i class="fa-regular fa-clock mr-1"></i>21 March, 2019</span>
+                        <p class="">No se registró aumento de horas</p>
+                        <ul class="list-group list-group-unbordered" >
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                        </ul>
+                    </li>
+                    <li class="timeline-item bg-white rounded ml-3 p-4 lista-anuncio">
+                        <div class="timeline-arrow"></div>
+                        <h2 class="h6 mb-0">36 Horas</h2><span class="small text-gray"><i class="fa-regular fa-clock mr-1"></i>21 March, 2019</span>
+                        <p class="">No se registró aumento de horas</p>
+                        <ul class="list-group list-group-unbordered" >
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                        </ul>
+                    </li>
+                    <li class="timeline-item bg-white rounded ml-3 p-4 lista-anuncio">
+                        <div class="timeline-arrow"></div>
+                        <h2 class="h6 mb-0">36 Horas</h2><span class="small text-gray"><i class="fa-regular fa-clock mr-1"></i>21 March, 2019</span>
+                        <p class="">No se registró aumento de horas</p>
+                        <ul class="list-group list-group-unbordered" >
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                          <li class="list-group-item">
+                            <span><i class="fas fa-inbox"></i> Followers</span> <a class="float-right">1,322</a>
+                          </li>
+                        </ul>
+                    </li>
+                </ul><!-- End -->              
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+ </div>
 <div class="content-wrapper">
    <!-- Main content -->
    <section class="content">

@@ -43,15 +43,13 @@
 		return $respuesta;
 	}
 
-	function cuenta_dias($fecha, $cantidadHoras){
+	function cuenta_dias($fecha, $cantidadHoras, $diaFin, $diaInicio = 1){
 		$dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
 		$cantDias = [];
 	    $count=0;
-	    $dt = new DateTime($fecha);
-	    $dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));
 	    $totalHoras = 0;
 	    foreach ($cantidadHoras as $key => $value) {
-	    	for($i=1;$i<=$dias_mes;$i++){
+	    	for($i = $diaInicio; $i < $diaFin; $i++){
 			    if(date('N',strtotime($fecha.'-'.$i))==$value['dia']){
 			    	$count++;
 			    }
@@ -61,5 +59,105 @@
 	    }
 	    return $totalHoras;
 	}
+	function contarHoras($arrDiasHoras){
+		$cont = 0;
+		foreach ($arrDiasHoras as $key => $value) {
+			$cont += $value['horasDia'];
+		}
+		return $cont;
+	}
+	/* funcion para contar las horas del mes */
+	function calcularHorasMes($arrHorasMes, $fecha, $dt){
+		$count = count($arrHorasMes);
+		$horasTotales = 0;
+		$i = 0;
+		do {
+			$cantHorasTemp = json_decode($arrHorasMes[$i]['diasHoras'], true);
+			if (isset($arrHorasMes[$i+1]['fechaHoras'])) {
+				$diaInicio = new DateTime($arrHorasMes[$i]['fechaHoras']);
+				$diaFin = new DateTime($arrHorasMes[$i+1]['fechaHoras']);
+				$horasTotales += cuenta_dias($fecha, $cantHorasTemp, $diaFin->format('d'), $diaInicio->format('d'));
+			}else{
+				$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));		
+				$diaInicio = new DateTime($arrHorasMes[$i]['fechaHoras']);
+				$horasTotales += cuenta_dias($fecha, $cantHorasTemp, $dias_mes+1, $diaInicio->format('d'));
+			}
+			$i++;			
+		} while ($i < $count);
+		return $horasTotales;
+	}
+	/* función para mostrar e historial de horas */
+	function historialHoras($dt, $arrHorasMes, $fechaCorta){
+		$template = '';
+		$diferencia = 0;
+		$i = 0;
+		$count = count($arrHorasMes);
+		$horasTotales = 0;
+		do {
+			$cantHorasTemp = json_decode($arrHorasMes[$i]['diasHoras'], true);
+			$fecha = $arrHorasMes[$i]['fechaHoras'];
+			if (isset($arrHorasMes[$i+1]['fechaHoras'])) {
+				$mensaje = "Las horas se mantuvieron constante";
+				$diaInicio = new DateTime($arrHorasMes[$i]['fechaHoras']);
+				$diaFin = new DateTime($arrHorasMes[$i+1]['fechaHoras']);
+				$horasTotales += cuenta_dias($fechaCorta, $cantHorasTemp, $diaFin->format('d'), $diaInicio->format('d'));
+				$cantHorasTemp2 = json_decode($arrHorasMes[$i+1]['diasHoras'],true);
+				if ($i > 0) {
+					$diferencia = contarHoras($cantHorasTemp) - contarHoras($cantHorasTemp2);
+					if ( $diferencia < 0) {
+						$mensaje = "Se incremento ".abs($diferencia)." horas semaneles";
+					}else if ($diferencia > 0) {
+						$mensaje = "Se redujo ".$diferencia." horas semaneles";
+					}					
+				}
+				$template .= crearTemplateHistorial($horasTotales, $cantHorasTemp, $fecha, $mensaje, $diaFin->format('Y-m-d'));
+			}else{
+				if (isset($arrHorasMes[$i-1]['fechaHoras'])) {
+					$cantHorasTemp2 = json_decode($arrHorasMes[$i-1]['diasHoras'],true);
+					$diferencia = contarHoras($cantHorasTemp) - contarHoras($cantHorasTemp2);					
+					if ( $diferencia > 0) {
+						$mensaje = "Se aumento ".$diferencia." horas semaneles";
+					}else if ($diferencia < 0) {
+						$mensaje = "Se redujo ".abs($diferencia)." horas semaneles";
+					}else{
+						$mensaje = "Las horas se mantuvieron constante";
+					}
+				}
+				$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));		
+				$diaInicio = new DateTime($arrHorasMes[$i]['fechaHoras']);
+				$horasTotales += cuenta_dias($fechaCorta, $cantHorasTemp, $dias_mes+1, $diaInicio->format('d'));
+				$template .= crearTemplateHistorial($horasTotales, $cantHorasTemp, $fecha, $mensaje, $dt->format('Y-m').'-'.$dias_mes);
+			}
+			$i++;
+		} while ($i < $count);
+	    return $template;                
+	}
 
+	function crearTemplateHistorial($cantHoras, $cantHorasTemp, $fecha, $mensaje, $fechaFin){
+		$fechaLarga = strftime("%d de %B de %Y", strtotime($fecha));
+		$fechaLarga2 = strftime("%d de %B de %Y", strtotime($fechaFin));
+		$dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+		$template = "<li class='timeline-item bg-white rounded ml-3 p-4 lista-anuncio'>
+	                <div class='timeline-arrow'></div>
+	                <h2 class='h6 mb-0'>$cantHoras Horas</h2><span class='small text-gray'><i class='fa-regular fa-clock mr-1'></i> $fechaLarga <strong>hasta</strong> $fechaLarga2</span>
+	                <p class=''>$mensaje</p>
+	                <ul class='list-group list-group-unbordered' >";
+        $totalHoras = 0;
+	                foreach ($cantHorasTemp as $key => $value) {
+	                	$totalHoras += $value['horasDia'];
+	                	$dia = $dias[$value['dia']-1];
+	                	$template .= "
+		                          <li class='list-group-item'>
+		                            <span><i class='fa-solid fa-calendar-day'></i> $dia</span> <a class='float-right'>".$value['horasDia']." horas</a>
+		                          </li>";
+	                }
+	                $template .=" 
+	                			<li class='list-group-item'>
+		                            <span><i class='fa-regular fa-hourglass-half'></i> Total de horas semanales</span> <a class='float-right'>".$totalHoras." horas</a>
+		                          </li>
+		                        </ul>
+		                    </li>";
+		return $template;
+	}
+	
  ?>
