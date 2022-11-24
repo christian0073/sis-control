@@ -29,8 +29,14 @@
 		$respuesta = ControladorCursoHorario::ctrMostrarHorasDocente($_POST['idPersonal']);
 		echo $respuesta;
 	}
-	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarAsistencia'){
-
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarHistorial'){
+		setlocale(LC_TIME, "spanish");
+		$dt = new DateTime();
+		if (isset($_POST['mes']) && !empty($_POST['mes'])) {
+			$dt = new DateTime($dt->format('Y').'-'.$_POST['mes'].'-01');
+		}
+		$respuesta = ControladorCursoHorario::ctrMostrarHistorial($_POST['idPersonal'], $dt);
+		echo json_encode($respuesta);
 	}
 	/* Codigo para hacerel calculo de horas mensuales y registrar el historial de horas */
 	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'calcularHoras') {

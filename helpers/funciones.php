@@ -112,6 +112,7 @@
 				}
 				$template .= crearTemplateHistorial($horasTotales, $cantHorasTemp, $fecha, $mensaje, $diaFin->format('Y-m-d'));
 			}else{
+				$mensaje = "Las horas se mantuvieron constante";
 				if (isset($arrHorasMes[$i-1]['fechaHoras'])) {
 					$cantHorasTemp2 = json_decode($arrHorasMes[$i-1]['diasHoras'],true);
 					$diferencia = contarHoras($cantHorasTemp) - contarHoras($cantHorasTemp2);					
@@ -119,8 +120,6 @@
 						$mensaje = "Se aumento ".$diferencia." horas semaneles";
 					}else if ($diferencia < 0) {
 						$mensaje = "Se redujo ".abs($diferencia)." horas semaneles";
-					}else{
-						$mensaje = "Las horas se mantuvieron constante";
 					}
 				}
 				$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));		

@@ -215,6 +215,7 @@
 				}else if($horaSemanaViejo > $horaSemanaNuevo){
 					$diferencia = $horaSemanaViejo - $horaSemanaNuevo;
 				}
+				$diferencia = 0;
 				$fila = ['fechaHoras'=>$fechaRegistro, 'diasHoras'=>json_encode($horasDias)];
 					array_push($horasMes, $fila);
 				$horasTotales = calcularHorasMes($horasMes, $fecha, $dt);
@@ -239,14 +240,43 @@
 		}
 		/* contar las horas mes */
 		static public function contarHorasMes($idPersonal){
+			$idPeriodo = $_SESSION['idPeriodo'];
 			$modeloCurso = new ModeloCursoHorario();
 			$dt = new DateTime();
 			$fecha =  $dt->format('Y').'-'.$dt->format('m');
 			$horasMes = $modeloCurso->mdlHorasDocenetMes($idPersonal, $fecha);
+			$horasTotales = 0;
 			if (!empty($horasMes)) {
-				return calcularHorasMes($horasMes, $fecha, $dt);
+				$horasTotales = calcularHorasMes($horasMes, $fecha, $dt);
+			}else{
+				$modeloCurso = new ModeloCursoHorario();
+				$horasDias = $modeloCurso->mdlCantidadHorasDia($idPersonal, $idPeriodo);
+				if (!empty($horasDias)) {
+					$registrarHistorial = $modeloCurso->mdlRegistrarHistorialHoras($idPersonal, $fecha.'-01', json_encode($horasDias));
+					if ($registrarHistorial) {
+						$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));		
+						$horasTotales = cuenta_dias($fecha, $horasDias, $dias_mes+1);	
+					}
+				}
+
 			}
-			return 0;
+			return $horasTotales;
+		}
+		/* mostrar el template para el historial de las horas */
+		static public function ctrMostrarHistorial($idPersonal, $dt){
+			$idPeriodo = $_SESSION['idPeriodo'];
+			$template = '';
+			$modeloCurso = new ModeloCursoHorario();
+			$fechaCorta = $dt->format('Y-m');
+			$horasMes = $modeloCurso->mdlHorasDocenetMes($idPersonal, $fechaCorta);
+			if (!empty($horasMes)) {
+				$template = historialHoras($dt, $horasMes, $fechaCorta);
+			}else{
+				$template = "<div class='w-100 text-center'><span class='badge badge-info'>No se registró historial</span></div>";
+			}
+			$respuesta = ["template" => $template, "mes" => $dt->format('m'), 'year' => $dt->format('Y')];
+			return $respuesta;			
 		}
 		
-	}
+		
+	} 

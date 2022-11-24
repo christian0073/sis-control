@@ -120,12 +120,12 @@
                     <div class="card">
                       <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#cursos" data-toggle="tab">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#cursos" id="verCursos" data-toggle="tab">Cursos</a></li>
                           <li class="nav-item"><a class="nav-link" href="#horario" id="verHorario" data-toggle="tab">Horario</a></li>
-                          <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#historial" id="verHistorial" data-toggle="tab">Historial</a></li>
                         </ul>
                       </div><!-- /.card-header -->
-                      <div class="card-body">
+                      <div class="card-body" id="body">
                         <div class="tab-content">
                           <div class="active tab-pane" id="cursos">
                             <div class="row">
@@ -203,7 +203,94 @@
                           </div>
                           <!-- /.tab-pane -->
 
-                          <div class="tab-pane" id="settings">
+                          <div class="tab-pane" id="historial">
+                            <div class="w-100 linea-titulo">
+                              <h3 class="text-center text-gray">Historial de horas mes de <span id="mesTitulo"></span></h3>
+                            </div>
+                            <div class="row historial">
+                              <div class="overflow-auto scroll-s col-12" style="height: auto; max-height: 620px; padding-top: 1rem;">
+                                  <ul class="timeline mb-0 lista" id="historialHoras">
+                                  </ul><!-- End -->              
+                              </div>                                                            
+                            </div>
+                            <div class="mt-3">
+                              <ul class="pagination pagination-month justify-content-center">
+                                <li class="page-item"></li>
+                                <li class="page-item" id="mes01" mes="1">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Ene</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes02" mes="2">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Feb</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes03" mes="3">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Mar</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes04" mes="4">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Abr</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes05" mes="5">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">May</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes06" mes="6">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Jun</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes07" mes="7">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Jul</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes08" mes="8">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Ago</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes09" mes="9">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Sep</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes10" mes="10">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Oct</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes11" mes="11">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Nov</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item" id="mes12" mes="12">
+                                    <a class="page-link" href="#">
+                                        <p class="page-month">Dic</p>
+                                        <p class="page-year"></p>
+                                    </a>
+                                </li>
+                                <li class="page-item"></li>
+                              </ul>                              
+                            </div>
                           </div>
                           <!-- /.tab-pane -->
                         </div>

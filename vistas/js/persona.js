@@ -2,6 +2,8 @@ var icheck = 0;
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var idPersonalGlobal = urlParams.get('idPersonal');
+var idActivo = '';
+const arrMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 $(document).ready(function(){
    $('.select2').select2();
    activarLinkMenu("persona", "#registrar");
@@ -11,8 +13,41 @@ $(document).ready(function(){
    buscarEnTabla('tablaCursos', 'cursoaula.ajax.php', mostrarCursos, 10);
 });
 
+   
+
+$(document).on("click", "#verCursos", function(e){
+   if ($("#body").hasClass("bg-light")) {
+      $('#body').removeClass('bg-light');
+   }
+});
+
+$(document).on("click", "#verHistorial", function(e){
+   if (!$("#body").hasClass("bg-light")) {
+      $('#body').addClass('bg-light');
+   }
+   let historial = new FormData();
+   historial.append("funcion", "mostrarHistorial");
+   historial.append("idPersonal", idPersonalGlobal);
+   mostrarHistorial(historial)
+});
+
+$(document).on("click", "#mes01, #mes02, #mes03, #mes04, #mes05, #mes06, #mes07, #mes08, #mes09, #mes10, #mes11, #mes12", function(e){
+   console.log("idActivo", idActivo);
+   let mes = $(this).attr('mes');
+   console.log("mes", mes);
+   let historial = new FormData();
+   historial.append("funcion", "mostrarHistorial");
+   historial.append("idPersonal", idPersonalGlobal);
+   mostrarHistorial(historial)
+   historial.append("mes", mes);
+   mostrarHistorial(historial);
+   $("#mesTitulo").html(arrMeses[mes-1]);
+});
 
 $(document).on("click", "#verHorario", function(e){
+   if ($("#body").hasClass("bg-light")) {
+      $('#body').removeClass('bg-light');
+   }
    let mostrarHorario = new FormData();
    mostrarHorario.append("funcion", "mostrarHorario");
    mostrarHorario.append("idPersonal", idPersonalGlobal);
@@ -578,7 +613,6 @@ function mostrarHorarios(elemento, datos){
       processData: false,
       dataType: "json",
       success:function(response){
-         console.log("response", response);
          if(response != 'no'){
             let contador= 1;
             let template = '';
@@ -602,4 +636,32 @@ function mostrarHorarios(elemento, datos){
          }
       }
    }); 
+}
+
+function mostrarHistorial(datos){
+   $.ajax({
+      url:"ajax/cursohorario.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         if (response.template == '') {
+            $("#historialHoras").html(0);
+         }else{
+            $("#historialHoras").html(response.template);
+         }
+         $('.page-year').html(response.year);
+         if (idActivo != '') {
+            $("#"+idActivo).removeClass('active');
+            idActivo = 'mes'+response.mes;
+            $("#"+idActivo).addClass('active');
+         }else{
+            idActivo = 'mes'+response.mes;
+            $("#"+idActivo).addClass('active');
+         }
+      }
+   });
 }

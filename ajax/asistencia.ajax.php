@@ -15,23 +15,23 @@
 		$idPeriodo = $_SESSION['idPeriodo'];
 		$respuesta = ControladorAsistencia::ctrMostrarAsistencias();
 		if ($respuesta!='no' && !empty($respuesta)) {
-			$dt = new DateTime();
+			$fechaBuscar = $_POST['txtFechaBuscar'].'-01';
+			$dt = new DateTime($fechaBuscar);
 			$modeloCurso = new ModeloCursoHorario();
 			$horasMes = $modeloCurso->mdlHorasDocenetMes($_POST['idPersonal'], $_POST['txtFechaBuscar']);
 			setlocale(LC_TIME, "spanish");
 			if (!empty($horasMes)) {
 				$cantHoras = calcularHorasMes($horasMes, $_POST['txtFechaBuscar'], $dt);
-				
 				$template = historialHoras($dt, $horasMes, $_POST['txtFechaBuscar']);
 			}else{
 				$horasDias = $modeloCurso->mdlCantidadHorasDia($_POST['idPersonal'], $idPeriodo);
-				$registrarHistorial = $modeloCurso->mdlRegistrarHistorialHoras($_POST['idPersonal'], $_POST['txtFechaBuscar'].'-01', json_encode($horasDias));
+				$registrarHistorial = $modeloCurso->mdlRegistrarHistorialHoras($_POST['idPersonal'], $fechaBuscar, json_encode($horasDias));
+				$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));
+				$fechaFin = $_POST['txtFechaBuscar'].'-'.$dias_mes;
 				if ($registrarHistorial) {
-					$dias_mes=cal_days_in_month(CAL_GREGORIAN, $dt->format('m'), $dt->format('Y'));
 					$cantHoras = cuenta_dias($_POST['txtFechaBuscar'], $horasDias, $dias_mes+1);
 				}
-				$fecha = $_POST['txtFechaBuscar'].'-01';
-				$template = crearTemplateHistorial($cantHoras, $horasDias, 'Las horas se mantenieron constante');
+				$template = crearTemplateHistorial($cantHoras, $horasDias, $fechaBuscar, 'Las horas se mantenieron constante', $fechaFin);
 			}
 			$respuestaArr = ['cantidadHoras'=>$cantHoras, 'tabla'=>$respuesta, 'historial' => $template];
 			echo json_encode($respuestaArr);
