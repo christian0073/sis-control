@@ -1,0 +1,97 @@
+body{
+	margin: 0mm 2mm 0mm 2mm;
+}
+
+.contenedor{
+	width: 98%;
+	margin: 0 auto;
+}
+
+.tabla-titulo{
+	width: 100%;
+}
+
+.imagen{
+	width: 100%;
+}
+.titulo{
+	width: 100%;
+	text-align: center;
+}
+
+.titulo h2{
+	font-family: sans-serif;
+	color: #696969;
+	font-size: 1.8rem;
+}
+
+.pagina-pdf{
+	width: 98%;
+	margin: .5rem auto;
+}
+
+.pagina-pdf table{
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #DCDCDC;
+	font-family: sans-serif;
+}
+
+.pagina-pdf table th, .pagina-pdf table td{
+	border: 1px solid #DCDCDC;
+}
+
+.pagina-pdf table th{
+	height:25px;
+	color: #696969;
+}
+
+.pagina-pdf table td{
+	text-align: center;
+	font-family: sans-serif;
+}
+
+.pagina-pdf table td div{
+	min-height: 22px;
+	min-width: 100px;
+}
+
+
+.pagina-pdf table td div p{
+	padding: 0;
+	margin: 0;
+}
+
+.practica{
+	background: #28a745!important;
+	color: #FFF;
+	font-size: 8px;
+}
+
+.teorica{
+	background: #17a2b8!important;
+	color: #FFF;
+	font-size: 8px;
+}
+
+.horas{
+	width: 90px;
+	font-size: 10px;
+	padding: 0;
+	color: #696969;
+}
+
+.numero{
+	width: 30px;
+	font-size: 10px;
+	padding: 0;
+	color: #696969;	
+}
+
+tfoot{
+	color: #696969;
+}
+
+tfoot tr td{
+	font-weight: bold;
+}

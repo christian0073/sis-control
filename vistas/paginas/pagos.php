@@ -75,12 +75,13 @@
    </section>
     <div class="content">
       <div class="card card-danger card-outline">
-        <div class="card-body">
+        <div class="card-body p-0">
           <div class="col-12 table-responsive">
-            <table class="table table-hover text-center " style="font-size: 13px;" id="tablaPagos">
+            <table class="table table-hover text-center" style="font-size: 13px;" id="tablaPagos">
             </table>
           </div>
         </div>
+        <div class="card-footer"></div>
       </div>
     </div>    
 </div>

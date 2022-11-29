@@ -6,6 +6,10 @@
 		include "paginas/excel.php";
 		return;
 	}
+	if (isset($_GET['pagina']) && $_GET['pagina']=='reporte-pdf') {
+		include "paginas/reporte-pdf.php";
+		return;
+	}
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -152,7 +152,6 @@
 				array_push($arrHoras, $rangoHora);
 				$horasAc++;
 			}
-			$arrHorasNuevo = [];
 			$tipoCurso = '';
 			$color = '';
 			foreach ($horario as $key => $value) {

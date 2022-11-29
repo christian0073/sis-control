@@ -304,7 +304,9 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                Footer
+                <?php if ($horasMes > 0): ?>
+                  <a href="reporte-pdf?idPersonal=<?php echo $personal['idPersonal']; ?>" class="btn btn-danger float-right" target="_blank"><i class="fas fa-file-pdf"></i> Horario</a>
+                <?php endif ?>
               </div>
               <!-- /.card-footer-->
             </div>

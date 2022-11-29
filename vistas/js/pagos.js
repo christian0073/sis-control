@@ -35,6 +35,7 @@ $(document).on("keypress", "input[name='textBuscarDocente']", function(e){
 });
 
 $('#formBuscarDocente').submit(event=>{
+   $('.card-footer').html('');
    $('#historialhoras').removeClass('aparecer');
    if (!$("#card-historial").hasClass("collapsed-card")) {
       $("[data-card-widget='collapse']").click()
@@ -61,6 +62,9 @@ $('#formBuscarDocente').submit(event=>{
             }else{
                $("#tablaPagos").html(response.tabla); 
                $('#cantHoras').html(response.cantidadHoras);
+               if (response.cantidadHoras > 0) {
+                  $('.card-footer').html('<a href="reporte-pdf?idPersonal='+idPersonal+'" class="btn btn-danger float-right" target="_blank"><i class="fas fa-file-pdf"></i> Horario</a>')
+               }
                $('#horasMes').html(response.historial);
                $('#historialhoras').removeClass('ocultar');
                $('#historialhoras').addClass('aparecer');
