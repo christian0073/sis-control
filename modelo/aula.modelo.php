@@ -109,10 +109,11 @@
 		   	return $respuesta;					
 		}
 		public function mdlDetallesSeccion($idSeccion){
-			$sql = "SELECT seccion.*, sedes.nombreSede, locales.direccion, periodos.nombrePeriodo FROM seccion 
+			$sql = "SELECT seccion.*, sedes.nombreSede, locales.direccion, periodos.nombrePeriodo, nombreCarrera FROM seccion 
 				INNER JOIN periodos ON idPeriodoSeccion = idPeriodo
 				INNER JOIN local_carrera ON seccion.idSeccionLocal = local_carrera.idLocalCarrera
 				INNER JOIN locales ON local_carrera.idLocal = locales.idLocal
+				INNER JOIN carreras ON local_carrera.idCarrera = carreras.idCarrera
 				INNER JOIN sedes ON locales.idsedeLocal = sedes.idSede WHERE idSeccion = $idSeccion LIMIT 1;";
 			$respuesta = $this->consulta->select($sql);
 			return $respuesta;

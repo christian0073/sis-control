@@ -46,4 +46,9 @@
 		$respuesta = ControladorUsuario::ctrMostrarUsuarioId($_POST['idUsuario']);
 		echo json_encode($respuesta);
 	}
+
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'desactivarUsuario') {
+		$respuesta = ControladorUsuario::ctrEditarUsuarioCampo('estadoUsuario', 0, $_POST['idUsuario']);
+		echo $respuesta;
+	}
  ?>

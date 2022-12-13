@@ -105,7 +105,6 @@
 							"'.($key+1).'",
 							"'.$datosUsuario.'",
 							"'.$value['nombreUsuario'].'",
-							"'.$value['contraUsuario'].'",
 							"'.$value['nombreRol'].'",
 							"'.$acciones.'"
 					],';
@@ -113,6 +112,15 @@
 			$datosJson = substr($datosJson, 0, -1);
 			$datosJson .= ']}';
 			return $datosJson;
+			}
 		}
-	}
+
+		static public function ctrEditarUsuarioCampo($item, $valor, $idUsuario){
+			$modeloUsuario = new ModeloUsuario();
+			$respuesta = $modeloUsuario->mdEditarUsuarioCampo($item, $valor, $idUsuario);
+			if ($respuesta > 0) {
+				return 'ok';
+			}
+			return $respuesta;
+		}
 	}

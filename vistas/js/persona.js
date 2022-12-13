@@ -34,7 +34,6 @@ $(document).on("click", "#verHistorial", function(e){
 $(document).on("click", "#mes01, #mes02, #mes03, #mes04, #mes05, #mes06, #mes07, #mes08, #mes09, #mes10, #mes11, #mes12", function(e){
    console.log("idActivo", idActivo);
    let mes = $(this).attr('mes');
-   console.log("mes", mes);
    let historial = new FormData();
    historial.append("funcion", "mostrarHistorial");
    historial.append("idPersonal", idPersonalGlobal);
@@ -523,7 +522,6 @@ $(document).on("click", ".btnEliminarCurso", function(e){
          });
       }
    });
-
 });
 
 $(document).on("click", "#btnCalcularHoras", function(e){

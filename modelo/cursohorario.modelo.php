@@ -84,5 +84,17 @@
 			$respuesta = $this->consulta->insert($sql, $arrData);
 			return $respuesta;
 		}
-		
+		public function mdlSeccionHorario($idSeccion, $idPeriodo){
+			$sql = "SELECT detallehorario.*, horario_curso.linkCurso, cursos.nombreCurso, periodo, cursos.periodo, seccion.nombreSeccion, carreras.nombreCarrera, sedes.nombreSede FROM detallehorario 
+				INNER JOIN horario_curso ON detallehorario.idHorarioCurso = horario_curso.idHorarioCurso 
+                INNER JOIN cursos ON horario_curso.idCursoHor = cursos.idCurso
+                INNER JOIN carreras ON cursos.idCarreraCurso = carreras.idCarrera
+			    INNER JOIN seccion ON idSeccionHor = idSeccion
+				INNER JOIN local_carrera ON seccion.idSeccionLocal = local_carrera.idLocalCarrera
+                INNER JOIN locales ON local_carrera.idLocal = locales.idLocal
+                INNER JOIN sedes ON locales.idSedeLocal = sedes.idSede
+			    WHERE idSeccionHor = $idSeccion AND idPeriodoSeccion = $idPeriodo ORDER BY  horaEntrada ASC;";
+		   	$respuesta = $this->consulta->selectAll($sql);
+		   	return $respuesta;
+		}	
 	}

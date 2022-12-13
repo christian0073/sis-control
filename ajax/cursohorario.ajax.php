@@ -45,4 +45,8 @@
 		$arrRespt = ['ok'=>$respuesta];
 		echo json_encode($arrRespt);
 	}
-	
+	/* condición para mostrar horarios */
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarHorario') {
+		$respuesta = ControladorCursoHorario::ctrDocenteHorario(null, $_POST['idSeccion']);
+		echo json_encode($respuesta);
+	}

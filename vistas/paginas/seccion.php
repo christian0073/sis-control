@@ -20,7 +20,8 @@
         mensaje("¡ERROR!", "¡Ah ocurrido un  error al ingresar a la pagina! Comuniquese con el administrador de inmediato." , "error");
         window.location = "'.$rutaSistema.'secciones";
       </script>';
-      exit;    }
+      exit;   
+    }
   }else{
       echo '<script>
         window.location = "'.$rutaSistema.'error";
@@ -85,7 +86,7 @@
             <!-- /.tab-pane -->
             <div class="tab-pane" id="horario">
               <div class="mb-2">
-                <button type="button" class="btn btn-primary">Registrar</button>
+                <a href="reporte-pdf?idSeccion=<?php echo $seccion['idSeccion']; ?>" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i> Horario</a>
               </div>
               <div class="table-responsive">
                 <table class="table text-center table-bordered" style="height:300px; min-width: 900px;">

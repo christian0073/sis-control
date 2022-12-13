@@ -87,6 +87,45 @@ $(document).on("click", ".btnEditarUsuario", function(){
    }); 
 });
 
+$(document).on("click", ".btnEliminarUsuario", function(e){
+   let idUsuario = $(this).attr('idUsuario');
+   swal({
+      title: "¿Está seguro de desactivar el usuario?",
+      text: "¡Sí no lo está, puede cancelar la acción!",
+      type: "warning",
+      showCancelButton: true,
+      cancelButtonText: "¡Cancelar!",
+      focusCancel: true,
+      confirmButtonText: "Sí, Eliminar",
+   }).then(function(result){
+      if (result.value) {
+         let datos = new FormData();
+         datos.append('funcion', 'desactivarUsuario');
+         datos.append('idUsuario', idUsuario);
+         $.ajax({
+            url:"ajax/usuario.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(response){
+               if (response == 'ok') {
+                  let mostrarUsuarios = new FormData();
+                  mostrarUsuarios.append("funcion", "mostrarUsuarios")
+                  buscarEnTabla('tablaUsuarios', 'usuario.ajax.php', mostrarUsuarios, 50);
+                  alertaMensaje1('top-right', 'success', '¡Se desctivó el usuario con exitó!');
+               }else if (response == 'no') {
+                  alertaMensaje1('top-right', 'warning', '¡No se realizó la acción!');
+               }else{
+                  mensaje('¡ERROR!', '¡Ah ocurrido un error al realizar la acción! Comuniquese con el administrador de inmediato.' , 'error');
+               }
+            }
+         });
+      }
+   });
+});
+
 function buscarDniUsuario(datos, dni, dato){
    if(dni.length == 8 && dato){
       $.ajax({

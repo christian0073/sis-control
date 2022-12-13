@@ -1,7 +1,6 @@
 <?php
 	session_start();
-	$rutaSistema= ControladorRuta::ctrRuta();
-	
+	$rutaSistema= ControladorRuta::ctrRuta();	
 	if (isset($_GET['pagina']) && $_GET['pagina']=='excel') {
 		include "paginas/excel.php";
 		return;
@@ -31,7 +30,6 @@
 					include "paginas/modulos/footer.php";
 					echo '<script type="text/javascript" src="vistas/js/'.$_GET['pagina'].'.js"></script>';
 				}else{
-					include "paginas/modulos/menu.php";
 					include "paginas/error.php";
 					include "paginas/modulos/footer.php";
 				}

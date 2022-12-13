@@ -40,7 +40,6 @@
                   <th style="width: 40px;">N°</th>
                   <th>Apellidos y Nombres</th>
                   <th>Usuario</th>
-                  <th>Contraseña</th>
                   <th>Rol</th>
                   <th>Acciones</th>
                 </tr>

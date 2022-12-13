@@ -8,6 +8,7 @@
 		private $idTipoUsuario;
 		private $idSedeUsuario;
 		private $idRolUsuario;
+		private $idUsuario;
 		// constructor para usar las consultas SQL
 		public function __construct(){
 			$this->consulta = new Consultas();
@@ -51,6 +52,14 @@
 				INNER JOIN personas ON idPersonaUsuario = idPersona
 				INNER JOIN roles ON usuarios.idRol = roles.idRol ORDER BY estadoUsuario, apellidoPaternoPersona ASC;";
 			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
+		public function mdEditarUsuarioCampo($item, $valor, $idUsuario){
+			$this->idUsuario = $idUsuario;
+			$sql = "UPDATE usuarios  SET  estadoUsuario = ?
+					WHERE idUsuario = $this->idUsuario";
+			$arrData = array($item); 
+			$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
 		}
 	}

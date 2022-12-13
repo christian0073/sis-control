@@ -94,11 +94,16 @@
 			}
 		}
 
-		static public function ctrDocenteHorario($idPersonal){
+		static public function ctrDocenteHorario($idPersonal, $idSeccion = null){
 			$idPeriodo = $_SESSION['idPeriodo'];
-			$modeloDocenteHorario = new ModeloCursoHorario();
-			$horario = $modeloDocenteHorario->mdlDocenteHorario($idPersonal, $idPeriodo);
-			$arrData = [];
+			$horario = '';
+			if ($idPersonal != null) {
+				$modeloDocenteHorario = new ModeloCursoHorario();
+				$horario = $modeloDocenteHorario->mdlDocenteHorario($idPersonal, $idPeriodo);
+			}else if ($idSeccion != null) {
+				$modeloDocenteHorario = new ModeloCursoHorario();
+				$horario = $modeloDocenteHorario->mdlSeccionHorario($idSeccion, $idPeriodo);
+			}
 			if (empty($horario)) {
 				return 'no';
 			}

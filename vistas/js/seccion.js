@@ -245,6 +245,83 @@ $(document).on("click", ".btnVerDetalles", function(e){
    }); 
 });
 
+$(document).on('click','.btnAgregarLink', function(e){
+   let idHorarioCurso = $(this).attr('idHorarioCurso');
+   swal({
+      title: 'Ingrese link de la clase',
+      input: 'url',
+      inputPlaceholder: 'Link de la clase',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar'
+   }).then(function(result){
+      if (result.value) {
+         let datos = new FormData();
+         datos.append('funcion', 'editarLink');
+         datos.append('link', result.value);
+         datos.append('idHorarioCurso', idHorarioCurso);
+         $.ajax({
+            url:"ajax/supervision.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(response){
+               if (response == 'ok') {
+                  alertaMensaje1('top-right', 'success', '¡El link fue registrado con exito!');
+                  let mostrarCursos = new FormData();
+                  mostrarCursos.append("funcion", "mostrarCursosSeccion");
+                  mostrarCursos.append("idSeccion", idSeccionGlobal);
+                  buscarEnTabla('tablaCursos', 'cursoaula.ajax.php', mostrarCursos, 10);
+               }else{
+                  alertaMensaje1('top-right', 'warning', '¡Ocurrió un error al registrar el link!');
+               }
+            }
+         });
+      }
+   });
+});
+
+$(document).on('click', '#verHorario', function(e){
+   let mostrarHorario = new FormData();
+   mostrarHorario.append("funcion", "mostrarHorario");
+   mostrarHorario.append("idSeccion", idSeccionGlobal);
+   let template = '';
+   $.ajax({
+      url:"ajax/cursohorario.ajax.php",
+      method: "POST",
+      data: mostrarHorario,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success:function(response){
+         if(response != 'no'){
+            let contador= 1;
+            let template = '';
+            response.forEach(valor => {
+
+               template +=  `<tr>
+                                 <td style="max-width:75px">${valor['rangoHora']}</td>
+                                 <td style="max-width:30px">${contador}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia1']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia2']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia3']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia4']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia5']}</td>
+                                 <td style="margin: 0px; padding:0px; max-width:140px;">${valor['dia6']}</td>
+                              </tr>`;
+               contador++;
+            });
+            $('#tableHorario').html(template);
+         }else{
+            $('#tableHorario').html('');
+         }
+
+      }
+   }); 
+});
+
 function buscarDniPersonal(datos, dniUsuario, dato){
 	if(dniUsuario.length == 8 && dato){
      	$.ajax({
@@ -265,7 +342,7 @@ function buscarDniPersonal(datos, dniUsuario, dato){
 	            }else{
 	               alertaMensaje1('top-right', 'error', '¡Hubó un error al realizar la busqueda!');
 	            }
-			}
+			   }
       	});   
 	}else{
 	  alertaMensaje1('top-right', 'warning', '¡Dato invalido!');
