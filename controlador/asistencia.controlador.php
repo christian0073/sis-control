@@ -213,7 +213,7 @@
 			}
 			return ' error';
 		}
-		static public function ctrMostrarAsistencias(){
+		static public function ctrMostrarAsistencias($tipo = null){
 			if (isset($_POST['idPersonal']) && !empty($_POST['idPersonal'])) {
 				$modeloAsistencia = new ModeloAsistencia();
 				$asistencias = $modeloAsistencia->mdlMostrarAsistencias($_POST['idPersonal'], $_POST['txtFechaBuscar']);
@@ -287,7 +287,7 @@
 						}else{
 							$estado = "<h4 class='badge badge-danger'>NO REALIZADO</h4>";
 						}
-						array_push($asistencias[$key], array("minutos"=>$minutos, "pago"=>$montoPago));
+						array_push($asistencias[$key], array("minutos"=>$minutos, "pago"=>$montoPago, "horasTrab"=>$horasTrab, "estadoLet"=>$estado, "pagoHora"=>$montoPago));
 						$template .= "<tr>
 				                        <td>".($key+1)."</td>
 				                        <td>".$value['datosUsuario']."</td>
@@ -313,7 +313,11 @@
 				                        <td colspan='2'>S/. $pagoTotal</td>
 				                    </tr>
 								</tfoot>";
-					return $template;
+				if ($tipo!=null) {
+					$asistencias['total'] = [$totalMin, $totalHoras, $pagoTotal];
+					return $asistencias;
+				}
+				return $template;
 				}else{
 					return 'no';
 				}

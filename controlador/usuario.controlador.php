@@ -68,8 +68,9 @@
 					$modeloPersona = new ModeloPersona();
 					$idPersona = $modeloPersona->mdlRegistrarPersona($dniUsuario, $nombresPersona, $apellidoPaterno, $apellidoMaterno);
 					if ($idPersona > 0) {
+						$contraEncriptado = crypt($usuarioContra, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 						$modeloUsuario = new ModeloUsuario();
-						$respuesta = $modeloUsuario->mdlRegistrarUsuario($idPersona, $idRolUsuario, $usuarioNombre, $usuarioContra);
+						$respuesta = $modeloUsuario->mdlRegistrarUsuario($idPersona, $idRolUsuario, $usuarioNombre, $contraEncriptado);
 						if ($respuesta > 0) {
 							return 'ok';
 						}

@@ -95,3 +95,11 @@ tfoot{
 tfoot tr td{
 	font-weight: bold;
 }
+
+.tabla-reporte thead, .tabla-reporte tfoot{
+	font-size: 12px;
+}
+
+.tabla-reporte tbody{
+	font-size: 10px;
+}

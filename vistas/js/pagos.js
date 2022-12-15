@@ -63,7 +63,9 @@ $('#formBuscarDocente').submit(event=>{
                $("#tablaPagos").html(response.tabla); 
                $('#cantHoras').html(response.cantidadHoras);
                if (response.cantidadHoras > 0) {
-                  $('.card-footer').html('<a href="reporte-pdf?idPersonal='+idPersonal+'" class="btn btn-danger float-right" target="_blank"><i class="fas fa-file-pdf"></i> Horario</a>')
+                  let template = '<a href="reporte-pdf?idPersonal='+idPersonal+'" class="btn btn-danger float-right" target="_blank"><i class="fas fa-file-pdf"></i> Horario</a>';
+                  template += '<a href="reporte-docente?idPersonal='+idPersonal+'&txtFechaBuscar='+fecha+'" class="btn btn-danger float-right mr-2" target="_blank"><i class="fas fa-file-pdf"></i> Reporte</a>';
+                  $('.card-footer').html(template);
                }
                $('#horasMes').html(response.historial);
                $('#historialhoras').removeClass('ocultar');

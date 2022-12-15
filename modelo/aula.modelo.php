@@ -102,9 +102,11 @@
 		   	return $respuesta;				
 		}
 		public function mdlMostrarSecciones($idLocalAula, $idCiclo){
+			session_start();
+			$idPeriodo = $_SESSION['idPeriodo'];
 			$sql = "SELECT * FROM seccion
 				INNER JOIN local_carrera ON idSeccionLocal = idLocalCarrera
-				WHERE idSeccionLocal = $idLocalAula AND cicloSeccion = $idCiclo AND seccion.estado = TRUE ORDER BY nombreSeccion ASC";
+				WHERE idSeccionLocal = $idLocalAula AND cicloSeccion = $idCiclo AND seccion.estado = TRUE AND idPeriodoSeccion = $idPeriodo ORDER BY nombreSeccion ASC";
 		   	$respuesta = $this->consulta->selectAll($sql);
 		   	return $respuesta;					
 		}

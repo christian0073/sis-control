@@ -36,7 +36,10 @@
 	require_once "modelo/datos.modelo.php";	
 
 	require_once "controlador/cursohorario.controlador.php";
-	require_once "modelo/cursohorario.modelo.php";	
+	require_once "modelo/cursohorario.modelo.php";
+
+	require_once "controlador/asistencia.controlador.php";
+	require_once "modelo/asistencia.modelo.php";
 
 	require_once "modelo/cursoaula.modelo.php";	
 
