@@ -38,4 +38,10 @@
 		$respuesta = ControladorAula::ctrDetallesSeccion($_POST['idSeccion']);
 		echo json_encode($respuesta);
 	}
-	
+
+	if (isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == "mostrarSeccionesDatos") {
+		session_start();
+		$idPeriodo = $_SESSION['idPeriodo'];
+		$respuesta = ControladorAula::ctrSeccionesDatos($_POST['idSede'], $_POST['idCarrera'], $idPeriodo);
+		echo json_encode($respuesta);
+	}

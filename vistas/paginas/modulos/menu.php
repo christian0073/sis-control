@@ -138,6 +138,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <?php if ($idUsuarioRol == 2): ?>
+              <li class="nav-item">
+                <a href="corregir" class="nav-link">
+                  <i class="nav-icon fa-solid fa-user-check"></i>
+                  <p>
+                    corregir asistencia
+                  </p>
+                </a>
+              </li>
+              <?php endif ?>
               <li class="nav-item">
                 <a href="pagos" class="nav-link">
                   <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
@@ -145,7 +155,7 @@
                     Pagos
                   </p>
                 </a>
-              </li>     
+              </li>
               <li class="nav-item">
                 <a href="importar-asistencia" class="nav-link">
                   <i class="nav-icon fa-solid fa-upload"></i>

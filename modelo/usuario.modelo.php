@@ -62,4 +62,13 @@
 			$respuesta = $this->consulta->update($sql, $arrData);
 			return $respuesta;
 		}
+		public function mdlMostrarUsariosRol($idRolUsuario){
+			$this->idRolUsuario = $idRolUsuario;
+			$sql = "SELECT idUsuario, CONCAT(apellidoPaternoPersona, ' ',apellidoMaternoPersona, ' ', nombresPersona) AS datos FROM usuarios 
+				INNER JOIN personas ON idPersonaUsuario = idPersona
+				INNER JOIN roles ON usuarios.idRol = roles.idRol 
+				WHERE usuarios.idRol = $this->idRolUsuario AND estadoUsuario = TRUE;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;
+		}
 	}

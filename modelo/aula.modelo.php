@@ -120,4 +120,15 @@
 			$respuesta = $this->consulta->select($sql);
 			return $respuesta;
 		}
+		public function mdlSeccionesDatos($idSede, $idCarrera, $idPeriodo){
+			$sql = "SELECT idHorarioCurso, nombreCurso, nombreSeccion, IF(turno='N', 'NOCHE', IF('M', 'MAÑANA', 'TARDE')) AS nombreTurno, nombreSede FROM horario_curso
+				INNER JOIN seccion ON idSeccionHor = idSeccion
+				INNER JOIN local_carrera ON idSeccionLocal = idLocalCarrera
+				INNER JOIN locales ON local_carrera.idLocal = locales.idLocal
+				INNER JOIN sedes ON idSedeLocal = idSede
+				INNER JOIN cursos ON idCursoHor = idCurso
+				WHERE idSede = $idSede AND idCarrera = $idCarrera AND idPeriodoSeccion = $idPeriodo AND estadoCursoSeccion = TRUE;";
+			$respuesta = $this->consulta->selectAll($sql);
+			return $respuesta;	
+		}
 	}

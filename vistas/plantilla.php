@@ -27,7 +27,7 @@
 				if ($_GET['pagina'] == 'inicio' || $_GET['pagina'] == 'sedes' || $_GET['pagina'] == 'carreras' || $_GET['pagina'] == 'periodos' || $_GET['pagina'] == 'secciones' || $_GET['pagina'] == 'usuarios' ||
 					$_GET['pagina'] == 'salir' || $_GET['pagina'] == 'registrar' || $_GET['pagina'] == 'persona' || $_GET['pagina'] == 'supervisar' || $_GET['pagina'] == 'cambios' || $_GET['pagina'] == 'reprogramar'
 					|| $_GET['pagina'] == 'seccion' || $_GET['pagina'] == 'usuarios' || $_GET['pagina'] == 'pagos' || $_GET['pagina'] == 'subsanaciones' || $_GET['pagina'] == 'importar-asistencia' || 
-					$_GET['pagina'] == 'procesado'|| $_GET['pagina'] == 'examenes' || $_GET['pagina'] == 'lista-examenes' || $_GET['pagina'] == 'error'
+					$_GET['pagina'] == 'procesado'|| $_GET['pagina'] == 'examenes' || $_GET['pagina'] == 'lista-examenes' || $_GET['pagina'] == 'error' || $_GET['pagina'] == 'corregir'
 				){
 					$pagina = $_GET['pagina'];
 				}else{

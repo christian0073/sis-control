@@ -1,8 +1,3 @@
-<?php 
-
-   ?>
-
-
 <div class="content-wrapper" style="min-height: 1604.44px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">

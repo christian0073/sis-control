@@ -105,4 +105,9 @@
 			$respuesta = $modeloAula->mdlDetallesSeccion($idSeccion);
 			return $respuesta;
 		}
+		static public function ctrSeccionesDatos($idSede, $idCarrera, $idPeriodo){
+			$modeloAula = new ModeloAula();
+			$respuesta = $modeloAula->mdlSeccionesDatos($idSede, $idCarrera, $idPeriodo);
+			return $respuesta;	
+		}
 	}

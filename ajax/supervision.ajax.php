@@ -14,7 +14,7 @@
 	}
 	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'registrarAsistencia'){
 		$respuesta = ControladorAsistencia::ctrRegistrarAsistencia();
-		echo $respuesta;		
+		echo $respuesta;		 
 	}
 	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'mostrarReprogramacion'){
 		$respuesta = ControladorAsistencia::ctrMostrarReprogramaciones();
@@ -38,5 +38,10 @@
 			$respuesta = ControladorAsistencia::ctrEditarLink($_POST['link'], $_POST['idHorarioCurso']);	
 		}
 		echo $respuesta;
+	}
+
+	if(isset($_POST['funcion']) && !empty($_POST['funcion']) && $_POST['funcion'] == 'registrarAsistenciaExep'){
+		$respuesta = ControladorAsistencia::ctrRegistrarAsistenciaExcep();
+		echo $respuesta;		 
 	}
  ?>

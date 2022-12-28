@@ -92,7 +92,6 @@
 			}
 			if (isset($_POST['cmbTipoClase']) && !empty($_POST['cmbTipoClase'])) {
 				$tipoClase = $_POST['cmbTipoClase'];
-
 				if (!empty($_POST['txtHoraEntrada']) && !empty($_POST['txtHoraSalida'])) {
 					$horaEntrada = strtotime($_POST['txtHoraEntrada']);
 					$horaSalida = strtotime($_POST['txtHoraSalida']);
@@ -154,6 +153,40 @@
 				return 'no';
 			}
 		}
+
+		static public function ctrRegistrarAsistenciaExcep(){
+			if (isset($_POST['cmbTipoClase']) && !empty($_POST['cmbTipoClase']) && isset($_POST['cmbSupervisar']) && !empty($_POST['cmbSupervisar']) &&
+				isset($_POST['cmbDocentes']) && !empty($_POST['cmbDocentes']) && isset($_POST['cmbCursoHorario']) && !empty($_POST['cmbCursoHorario'])
+			) {
+				$tipoClase = $_POST['cmbTipoClase'];
+				$idPersonalDocente = $_POST['cmbDocentes'];
+				$idCursoHorario = $_POST['cmbCursoHorario'];
+				$idUsuario = $_POST['cmbSupervisar'];
+				if (!empty($_POST['txtHoraEntrada']) && !empty($_POST['txtHoraSalida'])) {
+					$horaEntrada = strtotime($_POST['txtHoraEntrada']);
+					$horaSalida = strtotime($_POST['txtHoraSalida']);
+					if ($horaSalida < $horaEntrada || $horaSalida == $horaEntrada) {
+						return 'noval';
+					}
+				}
+				$estado = 1;
+				if ($tipoClase > 2 && $tipoClase < 5) {
+					$estado = 0;
+				}
+				$modeloAsistencia = new ModeloAsistencia();
+				$observacion = '';				
+				if (isset($_POST['txtFechaRegistro']) && empty($_POST['txtFechaRegistro'])) {
+					return 'nofecha';
+				}
+				$respuesta  = $modeloAsistencia->mdlRegistrarAsistencia($tipoClase, $idPersonalDocente, $idCursoHorario, $idUsuario, $_POST['txtFechaRegistro'], $_POST['txtHoraEntrada'], $_POST['txtHoraSalida'], $observacion, $estado);
+				if ($respuesta > 0) {
+					return 'ok';
+				}	
+				return 'no';
+			}		
+			return 'no';
+		}
+
 		static public function ctrMostrarReprogramaciones(){
 			$fecha = $_POST['fecha'];
 			$reprogramar = '';

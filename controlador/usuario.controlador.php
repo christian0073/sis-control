@@ -124,4 +124,9 @@
 			}
 			return $respuesta;
 		}
+		static public function ctrMostrarUsariosRol($idRol){
+			$roles = new ModeloUsuario();
+			$respuesta  = $roles->mdlMostrarUsariosRol($idRol);
+			return $respuesta;
+		}
 	}
